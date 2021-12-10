@@ -12,7 +12,7 @@ export default class RegistrationBotUserCallBack extends React.Component {
         document.title = `Bot User Registration`;
         let queryParam = new URLSearchParams(window.location.search);
         try {
-            await ApiHelper.registerBotUser(queryParam.get("code"));
+            await ApiHelper.registerBotUser(parseInt(window.localStorage.getItem("channel")), queryParam.get("code"));
             this.setState({ready: true});
             window.location = "https://deusprogrammer.com/util/twitch/config/bot";
         } catch (error) {
