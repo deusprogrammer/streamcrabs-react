@@ -68,10 +68,10 @@ class App extends React.Component {
         if (this.state.isAdmin) {
             menu = (
                 <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link>
-                    <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link>
-                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Commands</Link>
-                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Alert Config</Link>
+                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> |
+                    <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> |
+                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Commands</Link> |
+                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Alert Config</Link> |
                     <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
                 </React.Fragment>
             );
