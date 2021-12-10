@@ -1,0 +1,186 @@
+strong {
+  display: inline;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+body {
+  background-color: dimgray;
+  color: white;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+ul {
+  list-style-type: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: black;
+  background-color: white;
+}
+
+.item {
+  max-width: 800px;
+  box-sizing: border-box;
+  margin: 10px;
+  background-color: black;
+  color: white;
+}
+
+.item-inner {
+  display: table-row;
+}
+
+.item-inner > div {
+  display: table-cell;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 480px) {
+  .item-image {
+    width: 200px;
+    vertical-align: middle;
+  }
+
+  .battler {
+    width: 80%;
+    margin: auto;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .item-details {
+    padding: 10px;
+  }
+
+  .item-image {
+    display: none !important;
+  }
+
+  .item-header {
+    text-align: center;
+  }
+
+  .item-description {
+    text-align: center;
+    padding: 5px 0px 5px 0px;
+  }
+
+  h1, h2, h3 {
+    text-align: center;
+  }
+
+  .battler-section {
+    margin-left: 10px;
+  }
+
+  button {
+    width: 200px;
+    height: 50px;
+  }
+}
+
+.item-count {
+  width: 20px;
+  color: white;
+  font-weight: bolder;
+  vertical-align: middle;
+}
+
+.item-use {
+  overflow-wrap: normal;
+}
+
+.item-stat {
+  margin: 5px;
+  width: 75px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  color: black;
+  border: 1px solid black;
+  background-color: white;
+}
+
+.item-stat-highlight {
+  margin: 5px;
+  width: 75px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  color: white;
+  background-color: greenyellow;
+}
+
+.item-name {
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.item-type {
+  margin-left: 5px;
+  font-size: smaller;
+  font-style: italic;
+}
+
+.item-rarity > span {
+  font-size: x-large;
+}
+
+.action-trigger {
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.action-ability {
+  color: white;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.selected {
+  background-color: blue;
+  color: white;
+}
