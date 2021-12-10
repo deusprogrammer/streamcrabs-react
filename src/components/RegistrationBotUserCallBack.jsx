@@ -14,7 +14,6 @@ export default class RegistrationBotUserCallBack extends React.Component {
         try {
             await ApiHelper.registerBotUser(parseInt(window.localStorage.getItem("channel")), queryParam.get("code"));
             this.setState({ready: true});
-            window.location = "https://deusprogrammer.com/util/twitch/config/bot";
         } catch (error) {
             this.setState({error: true});
         }
@@ -30,10 +29,16 @@ export default class RegistrationBotUserCallBack extends React.Component {
             )
         }
 
-        return (
-            <div>
-                <h1>Hold on...we are registering your bot right now.</h1>
-            </div>
-        )
+        if (!this.state.ready) {
+            return (
+                <div>
+                    <h1>Hold on...we are registering your bot right now.</h1>
+                </div>
+            )
+        } else {
+            return (
+                <div>Registered bot user!  Go back to bot config.</div>
+            )
+        }
     }
 }
