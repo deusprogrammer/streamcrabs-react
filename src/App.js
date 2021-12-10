@@ -24,6 +24,7 @@ import RegistrationBotUserCallBack from './components/RegistrationBotUserCallBac
 class App extends React.Component {
     state = {
         isAdmin: false,
+        profile: {},
         channel: window.localStorage.getItem("channel")
     }
 
@@ -85,7 +86,7 @@ class App extends React.Component {
                 <Router>
                     <div style={{textAlign: "right"}}>
                         {!this.state.isLoggedIn ? 
-                            <button onClick={this.login}>Login</button> : <button onClick={() => {alert("This is not currently implemented")}}>My Profile</button>
+                            <button onClick={this.login}>Login</button> : <span>Logged in as {this.state.profile.name}</span>
                         }
                     </div>
                     <div style={{textAlign: "center"}}>
