@@ -93,7 +93,7 @@ class App extends React.Component {
                         }
                     </div>
                     <div style={{textAlign: "center"}}>
-                        {this.state.isAdmin ? }
+                        {menu}
                     </div>
                     {this.state.isAdmin ?
                         <div style={{textAlign: "center"}}>
