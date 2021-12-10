@@ -27,6 +27,10 @@ const registerBotUser = async (channel, twitchAuthCode) => {
 
     let res = await axios.post(url, {
         twitchAuthCode
+    }, {
+        headers: {
+            "X-Access-Token": localStorage.getItem("accessToken")
+        }
     })
 
     return res.data;
