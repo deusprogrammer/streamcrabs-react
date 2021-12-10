@@ -86,7 +86,7 @@ class App extends React.Component {
                 <Router>
                     <div style={{textAlign: "right"}}>
                         {!this.state.isLoggedIn ? 
-                            <button onClick={this.login}>Login</button> : <span>Logged in as {this.state.profile.name}</span>
+                            <button onClick={this.login}>Login</button> : <span>Logged in as {this.state.profile.username}</span>
                         }
                     </div>
                     <div style={{textAlign: "center"}}>
