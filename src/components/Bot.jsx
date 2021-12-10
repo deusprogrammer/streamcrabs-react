@@ -120,19 +120,6 @@ export default class Bot extends React.Component {
                         </div>
                     </div>
                 </div>
-                <h3>Twitch Account Link</h3>
-                <p>If you haven't run your bot in a while, you might need to reauthorize access for the bot.  If you are encountering issues with the bot starting, just click the below button.</p>
-                <div style={{marginLeft: "10px"}}>
-                    <div style={{display: "table"}}>
-                        <div style={{display: "table-row"}}>
-                            <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Valid:</div>
-                            <div style={{display: "table-cell", padding: "10px"}}>{this.state.tokenState.valid ? "Yes" : "No"}</div>
-                        </div>
-                    </div>
-                    <a href={twitchAuthUrl}>
-                        <button>Refresh Authentication</button>
-                    </a>
-                </div>
                 <h3>Twitch Bot User Link</h3>
                 <p>If you wish to register a user other than your Twitch channel's user as your bot account, you can click below to register that user.</p>
                 <div style={{marginLeft: "10px"}}>
@@ -143,23 +130,8 @@ export default class Bot extends React.Component {
                         </div>
                     </div>
                     <a href={twitchBotAddUrl}>
-                        <button>Register Twitch Bot User</button>
+                        <button>Change Twitch Bot User</button>
                     </a>
-                </div>
-                <h3>Bot Configuration</h3>
-                <div>
-                    <p>Set the below checkboxes to enable or disable certain aspects of the bot.  You cannot change these settings while the bot is running.</p>
-                    <div style={{marginLeft: "10px"}}>
-                    { Object.keys(this.state.config).map((configElement) => {
-                        let configElementValue = this.state.config[configElement];
-                        let configElementDescription = configElementDescriptions[configElement];
-                        return (
-                            <React.Fragment>
-                                <input type="checkbox" onChange={(e) => {this.onConfigChange(e, configElement)}} checked={configElementValue} disabled={this.state.botState.running} />&nbsp;<label>{configElementDescription}</label><br/>
-                            </React.Fragment>
-                        )
-                    })}
-                    </div>
                 </div>
                 <h3>Panel URLs</h3>
                 <p>Bring the below into your XSplit or OBS presentation layouts to show monsters and battle notifications.  It is recommended to place the encounter panel on either side of the screen, and the notification panel on the top or bottom of the screen.</p>
