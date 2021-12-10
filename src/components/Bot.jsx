@@ -26,7 +26,8 @@ export default class Bot extends React.Component {
             valid: false
         },
         botConfig: {
-            raidTheme: "ZELDA"
+            raidTheme: "ZELDA",
+            botUser: {}
         },
         config: {
             cbd: true,
@@ -137,8 +138,8 @@ export default class Bot extends React.Component {
                 <div style={{marginLeft: "10px"}}>
                     <div style={{display: "table"}}>
                         <div style={{display: "table-row"}}>
-                            <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Valid:</div>
-                            <div style={{display: "table-cell", padding: "10px"}}>{this.state.tokenState.valid ? "Yes" : "No"}</div>
+                            <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Bot User:</div>
+                            <div style={{display: "table-cell", padding: "10px"}}>{this.state.botConfig.botUser.twitchUser}</div>
                         </div>
                     </div>
                     <a href={twitchBotAddUrl}>
