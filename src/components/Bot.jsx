@@ -107,19 +107,6 @@ export default class Bot extends React.Component {
         return (
             <div>
                 <h1>Your Bot</h1>
-                <h3>Current State</h3>
-                <div style={{marginLeft: "10px"}}>
-                    <div style={{display: "table"}}>
-                        <div style={{display: "table-row"}}>
-                            <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Created:</div>
-                            <div style={{display: "table-cell", padding: "10px"}}>{this.state.botState.created ? "Yes" : "No"}</div>
-                        </div>
-                        <div style={{display: "table-row"}}>
-                            <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Running:</div>
-                            <div style={{display: "table-cell", padding: "10px"}}>{this.state.botState.running ? "Yes" : "No"}</div>
-                        </div>
-                    </div>
-                </div>
                 <h3>Twitch Bot User Link</h3>
                 <p>If you wish to register a user other than your Twitch channel's user as your bot account, you can click below to register that user.</p>
                 <div style={{marginLeft: "10px"}}>
