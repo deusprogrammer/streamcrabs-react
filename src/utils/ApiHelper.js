@@ -13,7 +13,7 @@ const indexArrayToMap = (array) => {
 }
 
 const createBot = async (twitchAuthCode) => {
-    let url = `${config.EXT_BASE_URL}/bots`;
+    let url = `${config.BASE_URL}/bots`;
 
     let res = await axios.post(url, {
         twitchAuthCode
@@ -23,7 +23,7 @@ const createBot = async (twitchAuthCode) => {
 }
 
 const registerBotUser = async (channel, twitchAuthCode) => {
-    let url = `${config.EXT_BASE_URL}/bots/${channel}/bot-user`;
+    let url = `${config.BASE_URL}/bots/${channel}/bot-user`;
 
     let res = await axios.post(url, {
         twitchAuthCode
