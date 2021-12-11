@@ -3,14 +3,6 @@ import ApiHelper from '../utils/ApiHelper';
 import {toast} from 'react-toastify';
 
 const twitchAuthUrl = "https://id.twitch.tv/oauth2/authorize?client_id=uczfktv6o7vvdeqxnafizuq672r5od&redirect_uri=https://deusprogrammer.com/streamcrabs/registration/refresh&response_type=code&scope=chat:read%20chat:edit%20channel:read:redemptions%20channel:read:subscriptions%20bits:read";
-const twitchBotAddUrl = "https://id.twitch.tv/oauth2/authorize?client_id=uczfktv6o7vvdeqxnafizuq672r5od&redirect_uri=https://deusprogrammer.com/streamcrabs/registration/registerBotUser&response_type=code&scope=chat:read%20chat:edit%20channel:read:redemptions%20channel:read:subscriptions%20bits:read&force_verify=true";
-
-const configElementDescriptions = {
-    cbd: "Chat Battle Dungeon",
-    requests: "Request Queue",
-    rewards: "Rewards",
-    raid: "Raid Alerts"
-}
 
 export default class Bot extends React.Component {
     state = {
@@ -107,37 +99,12 @@ export default class Bot extends React.Component {
         return (
             <div>
                 <h1>Your Bot</h1>
-                <h3>Twitch Bot User Link</h3>
-                <p>If you wish to register a user other than your Twitch channel's user as your bot account, you can click below to register that user.</p>
-                <div style={{marginLeft: "10px"}}>
-                    <div style={{display: "table"}}>
-                        <div style={{display: "table-row"}}>
-                            <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Bot User:</div>
-                            <div style={{display: "table-cell", padding: "10px"}}>{this.state.botConfig.botUser.twitchUser}</div>
-                        </div>
-                    </div>
-                    <a href={twitchBotAddUrl}>
-                        <button>Change Twitch Bot User</button>
-                    </a>
-                </div>
                 <h3>Panel URLs</h3>
                 <p>Bring the below into your XSplit or OBS presentation layouts to show monsters and battle notifications.  It is recommended to place the encounter panel on either side of the screen, and the notification panel on the top or bottom of the screen.</p>
                 <div style={{display: "table"}}>
                     <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Encounters Panel:</div>
+                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>CBD Encounters Panel:</div>
                         <div style={{display: "table-cell", padding: "10px"}}><input type="text" value={`https://deusprogrammer.com/util/battle-panel/encounters?channelId=${this.state.channelId}`} style={{width: "700px"}} /></div>
-                    </div>
-                    <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Notifications Panel:</div>
-                        <div style={{display: "table-cell", padding: "10px"}}><input type="text" value={`https://deusprogrammer.com/util/battle-panel/notifications?channelId=${this.state.channelId}`} style={{width: "700px"}} /></div>
-                    </div>
-                    <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Death Counter Panel:</div>
-                        <div style={{display: "table-cell", padding: "10px"}}><input type="text" value={`https://deusprogrammer.com/util/twitch-tools/death-counter?channelId=${this.state.channelId}`} style={{width: "700px"}} /></div>
-                    </div>
-                    <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Request Panel:</div>
-                        <div style={{display: "table-cell", padding: "10px"}}><input type="text" value={`https://deusprogrammer.com/util/twitch-tools/requests?channelId=${this.state.channelId}`} style={{width: "700px"}} /></div>
                     </div>
                     <div style={{display: "table-row"}}>
                         <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Soundboard:</div>

@@ -109,7 +109,6 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/start`} component={RegistrationStart} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/callback`} component={RegistrationCallBack} />
-                        <Route exact path={`${process.env.PUBLIC_URL}/registration/registerBotUser`} component={RegistrationBotUserCallBack} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/refresh`} component={RegistrationRefresh} />
                         
                         <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/bot`} component={Bot} />
