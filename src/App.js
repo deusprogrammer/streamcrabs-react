@@ -18,7 +18,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RegistrationBotUserCallBack from './components/RegistrationBotUserCallBack';
 
 
 class App extends React.Component {
