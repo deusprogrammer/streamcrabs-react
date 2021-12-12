@@ -183,7 +183,7 @@ const storeRaidAlert = async (raidAlert) => {
 }
 
 const updateRaidAlert = async (id, raidAlert) => {
-    let updated = await axios.put(`${config.BASE_URL}/raid-configs/${id}`, raidAlert, {
+    let updated = await axios.put(`${config.BASE_URL}/dynamic-alerts/${id}`, raidAlert, {
         headers: {
             "X-Access-Token": localStorage.getItem("accessToken")
         }
@@ -193,7 +193,7 @@ const updateRaidAlert = async (id, raidAlert) => {
 }
 
 const getRaidAlert = async (id) => {
-    let found = await axios.get(`${config.BASE_URL}/raid-configs/${id}`, {
+    let found = await axios.get(`${config.BASE_URL}/dynamic-alerts/${id}`, {
         headers: {
             "X-Access-Token": localStorage.getItem("accessToken")
         }
@@ -203,7 +203,7 @@ const getRaidAlert = async (id) => {
 }
 
 const getRaidAlerts = async (channel) => {
-    let found = await axios.get(`${config.BASE_URL}/raid-configs?twitchChannel=${channel}`, {
+    let found = await axios.get(`${config.BASE_URL}/dynamic-alerts?twitchChannel=${channel}`, {
         headers: {
             "X-Access-Token": localStorage.getItem("accessToken")
         }
