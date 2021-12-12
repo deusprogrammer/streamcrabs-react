@@ -53,8 +53,8 @@ const AlertConfigElement = (props) => {
                         }
                     }>
                         <option value="null">Choose Dynamic...</option>
-                        {props.botConfig.dynamicAlerts.map((raidAlert) => {
-                            return <option value={raidAlert.id}>{raidAlert.name}</option>
+                        {props.dynamicAlerts.map((alert) => {
+                            return <option value={alert.id}>{alert.name}</option>
                         })}
                     </select>
                 </td>
@@ -110,10 +110,13 @@ const AlertConfigElement = (props) => {
 
 const AlertConfig = (props) => {
     const [botConfig, setBotConfig] = useState({alertConfigs: {cheerAlert: {}, subAlert: {}, raidAlert: {}, followAlert:{}}});
+    const [dynamicAlerts, setDynamicAlerts] = useState([]);
     const [channelId, setChannelId] = useState(parseInt(window.localStorage.getItem("channel")));
     useEffect(async () => {
         let botConfig = await ApiHelper.getBot(channelId);
+        let dynamicAlerts = await ApiHelper.getRaidAlerts(channelId);
         setBotConfig(botConfig);
+        setDynamicAlerts(dynamicAlerts);
     }, []);
 
     return (
@@ -124,6 +127,7 @@ const AlertConfig = (props) => {
                 type="cheer"
                 alertConfig={botConfig.alertConfigs.cheerAlert}
                 botConfig={botConfig}
+                dynamicAlerts={dynamicAlerts}
                 onChange={
                     async (config) => {
                         let updatedAlertConfig = {...botConfig.alertConfigs, cheerAlert: config};
@@ -135,6 +139,7 @@ const AlertConfig = (props) => {
                 type="subscription"
                 alertConfig={botConfig.alertConfigs.subAlert}
                 botConfig={botConfig}
+                dynamicAlerts={dynamicAlerts}
                 onChange={
                     async (config) => {
                         let updatedAlertConfig = {...botConfig.alertConfigs, subAlert: config};
@@ -146,6 +151,7 @@ const AlertConfig = (props) => {
                 type="follow"
                 alertConfig={botConfig.alertConfigs.followAlert}
                 botConfig={botConfig}
+                dynamicAlerts={dynamicAlerts}
                 onChange={
                     async (config) => {
                         let updatedAlertConfig = {...botConfig.alertConfigs, followAlert: config};
@@ -157,6 +163,7 @@ const AlertConfig = (props) => {
                 type="raid"
                 alertConfig={botConfig.alertConfigs.raidAlert}
                 botConfig={botConfig}
+                dynamicAlerts={dynamicAlerts}
                 onChange={
                     async (config) => {
                         let updatedAlertConfig = {...botConfig.alertConfigs, raidAlert: config};

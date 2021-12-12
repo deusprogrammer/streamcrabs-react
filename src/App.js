@@ -9,8 +9,8 @@ import RegistrationCallBack from './components/RegistrationCallBack';
 import RegistrationRefresh from './components/RegistrationRefresh';
 import AdminConfigs from './components/AdminConfigs';
 import MediaPoolConfig from './components/MediaPoolConfig';
-import RaidAlertCustomizer from './components/RaidAlertCustomizer';
-import RaidAlertManager from './components/RaidAlertManager';
+import DynamicAlertCustomizer from './components/DynamicAlertCustomizer';
+import DynamicAlertManager from './components/DynamicAlertManager';
 import AlertConfig from './components/AlertConfig';
 import CommandConfig from './components/CommandConfig';
 
@@ -115,9 +115,9 @@ class App extends React.Component {
                         <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/alerts`} component={AlertConfig} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/commands`} component={CommandConfig} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/media`} component={MediaPoolConfig} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert`} component={RaidAlertCustomizer} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} component={RaidAlertCustomizer} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} component={RaidAlertManager} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert`} component={DynamicAlertCustomizer} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} component={DynamicAlertCustomizer} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} component={DynamicAlertManager} />
                         <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/configs`} component={AdminConfigs} />
                     </Switch>
                 </Router>

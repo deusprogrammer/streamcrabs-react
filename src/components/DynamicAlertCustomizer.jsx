@@ -34,22 +34,22 @@ const RaidAlertCustomizer = (props) => {
 
     useEffect(async () => {
         if (props.match && props.match.params && props.match.params.id) {
-            let raidAlert = await ApiHelper.getRaidAlert(props.match.params.id);
+            let dynamicAlert = await ApiHelper.getDynamicAlert(props.match.params.id);
 
-            raidAlert.sprites.forEach((sprite) => {
+            dynamicAlert.sprites.forEach((sprite) => {
                 sprite.isStored = true;
                 sprite.frames = sprite.cellCount;
                 sprite.endFrame -= 1;
             });
 
-            raidAlert.music.isStored = true;
-            raidAlert.leavingSound.isStored = true;
+            dynamicAlert.music.isStored = true;
+            dynamicAlert.leavingSound.isStored = true;
 
-            setName(raidAlert.name);
-            setMessage(raidAlert.message);
-            setSprites(raidAlert.sprites);
-            setBGM(raidAlert.music);
-            setSFX(raidAlert.leavingSound);
+            setName(dynamicAlert.name);
+            setMessage(dynamicAlert.message);
+            setSprites(dynamicAlert.sprites);
+            setBGM(dynamicAlert.music);
+            setSFX(dynamicAlert.leavingSound);
             setIsEdit(true);
         }
     }, []);
@@ -82,7 +82,7 @@ const RaidAlertCustomizer = (props) => {
         return `${config.MEDIA_SERVER_URL}/media/${_id}/file.png`;
     };
 
-    const storeRaidAlert = async () => {
+    const storeDynamicAlert = async () => {
         for (let sprite of sprites) {
             if (!sprite.isStored) {
                 sprite.file = await storeImage(sprite.file.substring(sprite.file.indexOf(',') + 1), "Raid-Sprite");
@@ -125,10 +125,10 @@ const RaidAlertCustomizer = (props) => {
         };
 
         if (isEdit) {
-            await ApiHelper.updateRaidAlert(props.match.params.id, config);
+            await ApiHelper.updateDynamicAlert(props.match.params.id, config);
             return props.match.params.id;
         } else {
-            let {_id} = await ApiHelper.storeRaidAlert(config);
+            let {_id} = await ApiHelper.storeDynamicAlert(config);
             return _id;
         }
     };
@@ -357,7 +357,7 @@ const RaidAlertCustomizer = (props) => {
                 disabled={!name || !message || !sfx.file || !bgm.file || sprites.length <= 0 || saving}
                 onClick={async () => {
                     setSaving(true);
-                    let id = await storeRaidAlert();
+                    let id = await storeDynamicAlert();
                     setSaving(false);
                     window.location = `https://deusprogrammer.com/util/twitch-tools/raid-test?raider=wagnus&raidSize=1000&theme=STORED&key=${id}`;
             }}>
