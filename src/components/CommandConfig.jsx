@@ -70,7 +70,7 @@ const CommandConfig = (props) => {
                 <React.Fragment>
                     <option value={null}>Choose a Video...</option>
                     {botConfig.videoPool.map((video) => {
-                        return <option value={video.id}>{video.name}</option>
+                        return <option value={video._id}>{video.name}</option>
                     })}
                 </React.Fragment>
             );
@@ -80,7 +80,7 @@ const CommandConfig = (props) => {
                 <React.Fragment>
                     <option value={null}>Choose a Sound...</option>
                     {botConfig.audioPool.map((audio) => {
-                        return <option value={audio.id}>{audio.name}</option>
+                        return <option value={audio._id}>{audio.name}</option>
                     })}
                 </React.Fragment>
             );
@@ -101,7 +101,7 @@ const CommandConfig = (props) => {
                                     <React.Fragment>
                                         <option value={null}>Choose a Video...</option>
                                         {botConfig.videoPool.map((video) => {
-                                            return <option value={video.id}>{video.name}</option>
+                                            return <option value={video._id}>{video.name}</option>
                                         })}
                                     </React.Fragment>
                                 );
@@ -111,7 +111,7 @@ const CommandConfig = (props) => {
                                     <React.Fragment>
                                         <option value={null}>Choose a Sound...</option>
                                         {botConfig.audioPool.map((audio) => {
-                                            return <option value={audio.id}>{audio.name}</option>
+                                            return <option value={audio._id}>{audio.name}</option>
                                         })}
                                     </React.Fragment>
                                 );
@@ -155,7 +155,7 @@ const CommandConfig = (props) => {
                     </tr>
                 </tbody>
             </table>
-            <button onClick={updateCommand}>Save</button>
+            <button onClick={saveCommands}>Save</button>
         </div>
     );
 }

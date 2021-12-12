@@ -1,17 +1,6 @@
 import axios from 'axios';
 import config from '../config/config';
 
-// Just for initial testing
-
-const indexArrayToMap = (array) => {
-    let table = {};
-    array.forEach((element) => {
-        table[element.id] = element;
-    });
-
-    return table;
-}
-
 const createBot = async (twitchAuthCode) => {
     let url = `${config.BASE_URL}/bots`;
 
@@ -173,7 +162,7 @@ const updateBotMediaPool = async (channelId, poolType, pool) => {
 }
 
 const storeDynamicAlert = async (raidAlert) => {
-    let created = await axios.post(`${config.BASE_URL}/raid-configs/`, raidAlert, {
+    let created = await axios.post(`${config.BASE_URL}/dynamic-alerts/`, raidAlert, {
         headers: {
             "X-Access-Token": localStorage.getItem("accessToken")
         }
