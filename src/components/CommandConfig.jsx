@@ -8,7 +8,7 @@ const CommandConfig = (props) => {
     const [channelId, setChannelId] = useState(parseInt(window.localStorage.getItem("channel")));
 
     useEffect(async () => {
-        let botConfig = await ApiHelper.getBotConfig(channelId);
+        let botConfig = await ApiHelper.getBot(channelId);
         setBotConfig(botConfig);
         setCommands(botConfig.commands);
     }, []);
