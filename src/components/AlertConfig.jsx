@@ -114,7 +114,7 @@ const AlertConfig = (props) => {
     const [channelId, setChannelId] = useState(parseInt(window.localStorage.getItem("channel")));
     useEffect(async () => {
         let botConfig = await ApiHelper.getBot(channelId);
-        let dynamicAlerts = await ApiHelper.getRaidAlerts(channelId);
+        let dynamicAlerts = await ApiHelper.getDynamicAlerts(channelId);
         setBotConfig(botConfig);
         setDynamicAlerts(dynamicAlerts);
     }, []);
