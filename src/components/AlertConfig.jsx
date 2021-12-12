@@ -18,7 +18,7 @@ const AlertConfigElement = (props) => {
                         }>
                             <option value="null">Choose Video...</option>
                             {props.botConfig.videoPool.map((video) => {
-                                return <option value={video.id}>{video.name}</option>
+                                return <option value={video._id}>{video.name}</option>
                             })}
                         </select>
                     </td>
@@ -36,7 +36,7 @@ const AlertConfigElement = (props) => {
                     }>
                         <option value="null">Choose Audio...</option>
                         {props.botConfig.audioPool.map((audio) => {
-                            return <option value={audio.id}>{audio.name}</option>
+                            return <option value={audio._id}>{audio.name}</option>
                         })}
                     </select>
                 </td>
@@ -54,7 +54,7 @@ const AlertConfigElement = (props) => {
                     }>
                         <option value="null">Choose Dynamic...</option>
                         {props.dynamicAlerts.map((alert) => {
-                            return <option value={alert.id}>{alert.name}</option>
+                            return <option value={alert._id}>{alert.name}</option>
                         })}
                     </select>
                 </td>
