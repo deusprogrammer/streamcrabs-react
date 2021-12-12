@@ -8,8 +8,6 @@ export default class Bot extends React.Component {
     state = {
         channelId: parseInt(window.localStorage.getItem("channel")),
         buttonDisable: false,
-        customRaidConfigs: [],
-        selectedRaidConfig: "",
         botState: {
             running: false,
             created: false
@@ -17,10 +15,7 @@ export default class Bot extends React.Component {
         tokenState: {
             valid: false
         },
-        botConfig: {
-            raidTheme: "ZELDA",
-            botUser: {}
-        },
+        botConfig: {},
         config: {
             cbd: true,
             requests: true,
@@ -47,9 +42,7 @@ export default class Bot extends React.Component {
         let tokenState = await ApiHelper.checkToken(this.state.channelId);
         let botState = await ApiHelper.getBotState(this.state.channelId);
         let botConfig = await ApiHelper.getBot(this.state.channelId);
-        let customRaidConfigs = await ApiHelper.getRaidAlerts(this.state.channelId);
-        customRaidConfigs = [...customRaidConfigs, {name: "Yoshi [Built In]", theme: "YOSHI", _id: null}, {name: "Zelda 2 [Built In]", theme: "ZELDA2", _id: null}];
-        this.setState({botState, tokenState, config, botConfig, customRaidConfigs, selectedRaidConfig: `${botConfig.raidConfig.theme}:${botConfig.raidConfig.customId}`});
+        this.setState({botState, tokenState, config, botConfig});
 
         if (!tokenState.valid) {
             window.location.replace(twitchAuthUrl);
@@ -64,17 +57,6 @@ export default class Bot extends React.Component {
                 window.location.replace(twitchAuthUrl);
             }
         }, 5000);
-    }
-
-    updateRaidConfig = async (event) => {
-        let key = event.target.value;
-        let [theme, customId] = key.split(":");
-        this.setState({selectedRaidConfig: key});
-        if (customId === "null") {
-            customId = null;
-        }
-        await ApiHelper.updateRaidAlertConfig(this.state.channelId, {theme, customId});
-        toast(`Raid config saved`, {type: "info"});
     }
 
     changeBotState = async (state) => {
