@@ -40,7 +40,7 @@ export default class MediaPoolConfig extends React.Component {
     }
 
     loadMediaData = async () => {
-        let {videoPool, audioPool} = await ApiHelper.getBot(this.this.props.channel);
+        let {videoPool, audioPool} = await ApiHelper.getBot(this.props.channel);
         this.setState({videoPool, audioPool});
     }
 
