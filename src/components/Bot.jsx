@@ -25,7 +25,6 @@ export default class Bot extends React.Component {
 
     async componentDidMount() {
         document.title = "Bot Control Panel";
-        console.log("CHANNEL: " + this.props.channel);
         if (!this.props.channel) {
             this.props.history.push(`${process.env.PUBLIC_URL}/registration/start`);
         }
