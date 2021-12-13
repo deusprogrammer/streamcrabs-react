@@ -5,11 +5,15 @@ const CommandConfig = (props) => {
     const [botConfig, setBotConfig] = useState({videoPool: [], audioPool: []});
     const [commands, setCommands] = useState({});
     const [newCommand, setNewCommand] = useState({key: "", coolDown: "", type: "VIDEO", target: ""});
-    
-    useEffect(async () => {
+
+    let getConfigs = async () => {
         let botConfig = await ApiHelper.getBot(props.channel);
         setBotConfig(botConfig);
         setCommands(botConfig.commands);
+    }
+    
+    useEffect(() => {
+        getConfigs();
     }, []);
 
     const updateCommand = (key, field, value) => {

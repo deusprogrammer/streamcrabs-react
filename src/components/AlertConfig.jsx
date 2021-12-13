@@ -111,12 +111,16 @@ const AlertConfigElement = (props) => {
 const AlertConfig = (props) => {
     const [botConfig, setBotConfig] = useState({alertConfigs: {cheerAlert: {}, subAlert: {}, raidAlert: {}, followAlert:{}}});
     const [dynamicAlerts, setDynamicAlerts] = useState([]);
-    
-    useEffect(async () => {
+
+    let getConfigs = async () => {
         let botConfig = await ApiHelper.getBot(props.channel);
         let dynamicAlerts = await ApiHelper.getDynamicAlerts(props.channel);
         setBotConfig(botConfig);
         setDynamicAlerts(dynamicAlerts);
+    }
+    
+    useEffect(() => {
+        getConfigs();
     }, []);
 
     return (
