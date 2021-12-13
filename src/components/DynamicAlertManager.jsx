@@ -5,8 +5,7 @@ import ApiHelper from '../utils/ApiHelper';
 const RaidAlertManager = (props) => {
     let [dynamicAlerts, setDynamicAlerts] = useState([]);
     useEffect(async () => {
-        let channel = parseInt(window.localStorage.getItem("channel"));
-        let configs = await ApiHelper.getDynamicAlerts(channel);
+        let configs = await ApiHelper.getDynamicAlerts(props.channel);
         setDynamicAlerts(configs);
     }, []);
 

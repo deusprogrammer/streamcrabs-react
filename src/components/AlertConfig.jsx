@@ -111,10 +111,10 @@ const AlertConfigElement = (props) => {
 const AlertConfig = (props) => {
     const [botConfig, setBotConfig] = useState({alertConfigs: {cheerAlert: {}, subAlert: {}, raidAlert: {}, followAlert:{}}});
     const [dynamicAlerts, setDynamicAlerts] = useState([]);
-    const [channelId, setChannelId] = useState(parseInt(window.localStorage.getItem("channel")));
+    
     useEffect(async () => {
-        let botConfig = await ApiHelper.getBot(channelId);
-        let dynamicAlerts = await ApiHelper.getDynamicAlerts(channelId);
+        let botConfig = await ApiHelper.getBot(props.channel);
+        let dynamicAlerts = await ApiHelper.getDynamicAlerts(props.channel);
         setBotConfig(botConfig);
         setDynamicAlerts(dynamicAlerts);
     }, []);
@@ -171,7 +171,7 @@ const AlertConfig = (props) => {
                     }
                 } />
             <button onClick={async () => {
-                await ApiHelper.updateAlertConfig(channelId, botConfig.alertConfigs);
+                await ApiHelper.updateAlertConfig(props.channel, botConfig.alertConfigs);
             }}>Save</button>
         </div>
     )

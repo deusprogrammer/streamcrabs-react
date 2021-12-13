@@ -13,7 +13,6 @@ export default class MediaPoolConfig extends React.Component {
         this.videoDataRef = React.createRef();
 
         this.state = {
-            channelId: parseInt(window.localStorage.getItem("channel")),
             videoPool: [],
             audioPool: [],
             uploadVideoData: "",
@@ -41,7 +40,7 @@ export default class MediaPoolConfig extends React.Component {
     }
 
     loadMediaData = async () => {
-        let {videoPool, audioPool} = await ApiHelper.getBot(this.state.channelId);
+        let {videoPool, audioPool} = await ApiHelper.getBot(this.this.props.channel);
         this.setState({videoPool, audioPool});
     }
 
@@ -89,10 +88,10 @@ export default class MediaPoolConfig extends React.Component {
         try {
             if (type === "audio") {
                 this.setState({audioPool: mediaPool, saving: true});
-                await ApiHelper.updateBotMediaPool(this.state.channelId, "audio", mediaPool);
+                await ApiHelper.updateBotMediaPool(this.props.channel, "audio", mediaPool);
             } else if (type === "video") {
                 this.setState({videoPool: mediaPool, saving: true});
-                await ApiHelper.updateBotMediaPool(this.state.channelId, "video", mediaPool);
+                await ApiHelper.updateBotMediaPool(this.props.channel, "video", mediaPool);
             } else {
                 return;
             }
@@ -120,10 +119,10 @@ export default class MediaPoolConfig extends React.Component {
         try {
             if (type === "audio") {
                 this.setState({audioPool: mediaPool, saving: true});
-                await ApiHelper.updateBotMediaPool(this.state.channelId, "audio", mediaPool);
+                await ApiHelper.updateBotMediaPool(this.props.channel, "audio", mediaPool);
             } else if (type === "video") {
                 this.setState({videoPool: mediaPool, saving: true});
-                await ApiHelper.updateBotMediaPool(this.state.channelId, "video", mediaPool);
+                await ApiHelper.updateBotMediaPool(this.props.channel, "video", mediaPool);
             } else {
                 return;
             }
@@ -177,7 +176,7 @@ export default class MediaPoolConfig extends React.Component {
         }
 
         try {
-            await ApiHelper.updateBotMediaPool(this.state.channelId, type, mediaPool);
+            await ApiHelper.updateBotMediaPool(this.props.channel, type, mediaPool);
         } catch (e) {
             console.error(e);
             toast("Failed to update media pool!")
@@ -296,7 +295,7 @@ export default class MediaPoolConfig extends React.Component {
 
         try {
             this.setState({saving: true});
-            await ApiHelper.updateBotMediaPool(this.state.channelId, type, mediaPool);
+            await ApiHelper.updateBotMediaPool(this.props.channel, type, mediaPool);
             this.setState({saving: false});
             toast(`Media config save successful`, {type: "info"});
         } catch (e) {

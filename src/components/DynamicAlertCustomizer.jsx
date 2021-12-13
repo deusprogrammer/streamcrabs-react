@@ -100,7 +100,7 @@ const RaidAlertCustomizer = (props) => {
         }
 
         let config = {
-            twitchChannel: parseInt(window.localStorage.getItem("channel")),
+            twitchChannel: props.channel,
             name,
             message,
             sprites: sprites.map((sprite) => {
