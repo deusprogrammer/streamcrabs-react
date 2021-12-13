@@ -4,9 +4,14 @@ import ApiHelper from '../utils/ApiHelper';
 
 const RaidAlertManager = (props) => {
     let [dynamicAlerts, setDynamicAlerts] = useState([]);
-    useEffect(async () => {
+
+    let getConfigs = async () => {
         let configs = await ApiHelper.getDynamicAlerts(props.channel);
         setDynamicAlerts(configs);
+    }
+
+    useEffect(() => {
+        getConfigs();
     }, []);
 
     return (

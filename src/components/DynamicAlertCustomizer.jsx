@@ -32,7 +32,7 @@ const RaidAlertCustomizer = (props) => {
     const bgmFileInput = useRef();
     const sfxFileInput = useRef();
 
-    useEffect(async () => {
+    let getAlert = async () => {
         if (props.match && props.match.params && props.match.params.id) {
             let dynamicAlert = await ApiHelper.getDynamicAlert(props.match.params.id);
 
@@ -52,6 +52,10 @@ const RaidAlertCustomizer = (props) => {
             setSFX(dynamicAlert.leavingSound);
             setIsEdit(true);
         }
+    }
+
+    useEffect(() => {
+        getAlert();
     }, []);
 
     const removeSprite = async (index) => {
