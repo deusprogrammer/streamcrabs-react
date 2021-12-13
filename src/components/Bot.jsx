@@ -6,7 +6,6 @@ const twitchAuthUrl = "https://id.twitch.tv/oauth2/authorize?client_id=uczfktv6o
 
 export default class Bot extends React.Component {
     state = {
-        channelId: parseInt(window.localStorage.getItem("channel")),
         buttonDisable: false,
         botState: {
             running: false,
@@ -26,6 +25,7 @@ export default class Bot extends React.Component {
 
     async componentDidMount() {
         document.title = "Bot Control Panel";
+        console.log("CHANNEL: " + this.props.channel);
         if (!this.props.channel) {
             this.props.history.push(`${process.env.PUBLIC_URL}/registration/start`);
         }
