@@ -97,7 +97,10 @@ class App extends React.Component {
                             <label>Channel:</label>
                             <select 
                                 value={this.state.channel}
-                                onChange={(evt) => {window.localStorage.setItem("channel", evt.target.value); window.location.reload();}}>
+                                onChange={(evt) => {
+                                    this.setState({channel: evt.target.value});
+                                    window.localStorage.setItem("channel", evt.target.value);
+                                }}>
                                 { this.state.profile.connected.twitch.channels.map((channel) => {
                                     return (
                                         <option value={channel}>{channel}</option>
