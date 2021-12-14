@@ -75,23 +75,24 @@ export default (props) => {
         let updatedList = [...whitelistedUsers, newUser];
         setWhitelistedUsers(updatedList);
         setSearchUser(null);
-        // await ApiHelper.updateAdminConfigs({
-        //     name: "allowedBots",
-        //     values: updatedList.map((user) => {
-        //         return user.id;
-        //     })
-        // });
+        setSearchUserString("");
+        await ApiHelper.updateAdminConfigs({
+            name: "allowedBots",
+            values: updatedList.map((user) => {
+                return user.id;
+            })
+        });
     }
 
     const removeUserFromWhitelist = async (removeUser) => {
         let updatedList = whitelistedUsers.filter(user => user.id !== removeUser.id);
         setWhitelistedUsers(updatedList);
-        // await ApiHelper.updateAdminConfigs({
-        //     name: "allowedBots",
-        //     values: updatedList.map((user) => {
-        //         return user.id;
-        //     })
-        // });
+        await ApiHelper.updateAdminConfigs({
+            name: "allowedBots",
+            values: updatedList.map((user) => {
+                return user.id;
+            })
+        });
     }
 
     return (
