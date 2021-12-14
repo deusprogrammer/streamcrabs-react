@@ -3,11 +3,11 @@ import {ToastContainer} from 'react-toastify';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import axios from 'axios';
 
+import Home from './components/Home';
 import Bot from './components/Bot';
 import RegistrationStart from './components/RegistrationStart';
 import RegistrationCallBack from './components/RegistrationCallBack';
 import RegistrationRefresh from './components/RegistrationRefresh';
-import AdminConfigs from './components/AdminConfigs';
 import MediaPoolConfig from './components/MediaPoolConfig';
 import DynamicAlertCustomizer from './components/DynamicAlertCustomizer';
 import DynamicAlertManager from './components/DynamicAlertManager';
@@ -118,6 +118,8 @@ class App extends React.Component {
                         </div> : null
                     }
                     <Switch>
+                        <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home} />
+                        
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/start`} component={RegistrationStart} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/callback`} component={RegistrationCallBack} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/refresh`} component={RegistrationRefresh} />
