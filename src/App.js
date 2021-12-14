@@ -13,6 +13,7 @@ import DynamicAlertCustomizer from './components/DynamicAlertCustomizer';
 import DynamicAlertManager from './components/DynamicAlertManager';
 import AlertConfig from './components/AlertConfig';
 import CommandConfig from './components/CommandConfig';
+import Whitelist from './components/Whitelist';
 
 import SecureRoute from './elements/SecureRoute';
 
@@ -121,7 +122,9 @@ class App extends React.Component {
                         <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} render={() => {return <DynamicAlertManager channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/configs`} component={AdminConfigs} />
+                        
+                        {/* <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/configs`} component={AdminConfigs} /> */}
+                        <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/whitelist`} render={() => {return <Whitelist channel={this.state.channel} />}} />
                     </Switch>
                 </Router>
             </div>
