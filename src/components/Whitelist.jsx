@@ -17,8 +17,8 @@ const getTwitchUserDetails = async (userIds, clientId, accessToken) => {
 
     let {data} = await axios.get(`${TWITCH_GET_USERS_URI}${queryParams}`, {
         headers: {
-            'authentication': `Bearer ${accessToken}`,
-            'client-id': clientId
+            'Authentication': `Bearer ${accessToken}`,
+            'Client-Id': clientId
         }});
 
     return data;
