@@ -74,7 +74,7 @@ export default (props) => {
     const addUserToWhitelist = async (newUser) => {
         let updatedList = [...whitelistedUsers, newUser];
         setWhitelistedUsers(updatedList);
-        console.log("New list: " + JSON.stringify(updatedList));
+        setSearchUser(null);
         // await ApiHelper.updateAdminConfigs({
         //     name: "allowedBots",
         //     values: updatedList.map((user) => {
@@ -84,9 +84,8 @@ export default (props) => {
     }
 
     const removeUserFromWhitelist = async (removeUser) => {
-        let updatedList = whitelistedUsers.filter(user => user.id === removeUser.id);
+        let updatedList = whitelistedUsers.filter(user => user.id !== removeUser.id);
         setWhitelistedUsers(updatedList);
-        console.log("New list: " + JSON.stringify(updatedList));
         // await ApiHelper.updateAdminConfigs({
         //     name: "allowedBots",
         //     values: updatedList.map((user) => {
