@@ -33,7 +33,7 @@ export default (props) => {
             let configs = await ApiHelper.getAdminConfigs();
             let allowedUsers = configs.find(config => config.name === "allowedBots");
             let twitchUsers = await getTwitchUserDetails(allowedUsers.values, TWITCH_CLIENT_ID, botConfig.accessToken);
-            setWhitelistedUsers(twitchUsers);
+            setWhitelistedUsers(twitchUsers.data);
         })();
     }, []);
 
