@@ -10,7 +10,7 @@ const TWITCH_CLIENT_ID = 'uczfktv6o7vvdeqxnafizuq672r5od';
 const getTwitchUserDetails = async (userIds, clientId, accessToken) => {
     let sep = '?';
     let queryParams = '';
-    for (let userId in userIds) {
+    for (let userId of userIds) {
         queryParams += sep + `id=${userId}`;
         sep = '&';
     }
