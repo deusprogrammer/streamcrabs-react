@@ -187,6 +187,7 @@ a:hover {
 
 .whitelist-entry {
   display: table;
+  margin-left: 5px;
 }
 
 .whitelist-entry img {
