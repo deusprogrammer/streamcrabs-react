@@ -53,7 +53,7 @@ class App extends React.Component {
         let isLoggedIn = true;
         let isAdmin = false;
         let isBroadcaster = false;
-        if (profile.roles.includes("TWITCH_BROADCASTER")) {
+        if (profile.roles.includes("TWITCH_ADMIN")) {
             isAdmin = true;
         }
 
@@ -67,10 +67,17 @@ class App extends React.Component {
     render() {
         let menu;
 
-        if (this.state.isAdmin) {
+        if (this.state.isBroadcaster) {
             menu = (
                 <React.Fragment>
                     <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
+                </React.Fragment>
+            );
+        } else if (this.state.isAdmin) {
+            menu = (
+                <React.Fragment>
+                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/admin/whitelist`}>Whitelist</Link>
                 </React.Fragment>
             );
         } else {
@@ -93,7 +100,7 @@ class App extends React.Component {
                     <div style={{textAlign: "center"}}>
                         {menu}
                     </div>
-                    {this.state.isAdmin ?
+                    {this.state.isBroadcaster ?
                         <div style={{textAlign: "center"}}>
                             <label>Channel:</label>
                             <select 
@@ -115,13 +122,13 @@ class App extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/callback`} component={RegistrationCallBack} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/refresh`} component={RegistrationRefresh} />
                         
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/bot`} render={() => {return <Bot channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/alerts`} render={() => {return <AlertConfig channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/commands`} render={() => {return <CommandConfig channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/media`} render={() => {return <MediaPoolConfig channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster || this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} render={() => {return <DynamicAlertManager channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/bot`} render={() => {return <Bot channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/alerts`} render={() => {return <AlertConfig channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/commands`} render={() => {return <CommandConfig channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/media`} render={() => {return <MediaPoolConfig channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} render={() => {return <DynamicAlertManager channel={this.state.channel} />}} />
                         
                         {/* <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/configs`} component={AdminConfigs} /> */}
                         <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/whitelist`} render={() => {return <Whitelist channel={this.state.channel} />}} />
