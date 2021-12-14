@@ -159,19 +159,6 @@ const RaidAlertCustomizer = (props) => {
                                     }} />
                             </td>
                         </tr>
-                        <tr>
-                            <td>Message Template:</td>
-                            <td>
-                                <input 
-                                    type="text" 
-                                    style={{width: "400px"}}
-                                    value={message}
-                                    disabled={saving}
-                                    onChange={(e) => {
-                                        setMessage(e.target.value);
-                                    }} />
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
