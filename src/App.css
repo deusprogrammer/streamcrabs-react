@@ -184,3 +184,16 @@ a:hover {
   background-color: blue;
   color: white;
 }
+
+.whitelist-entry {
+  display: table;
+}
+
+.whitelist-entry img {
+  width: 50px;
+}
+
+.whitelist-entry div {
+  display: table-cell;
+  vertical-align: middle;
+}

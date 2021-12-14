@@ -39,6 +39,7 @@ export default (props) => {
 
     return (
         <div>
+            <h1>User Whitelist</h1>
             <div>
                 <label>Search</label>
                 <input type="text" />
@@ -47,7 +48,7 @@ export default (props) => {
             <div>
                 {whitelistedUsers.map((whitelistedUser) => {
                     return (
-                        <div>
+                        <div className="whitelist-entry">
                             <div><img src={whitelistedUser.profile_image_url} /></div>
                             <div>{whitelistedUser.login}</div>
                         </div>);
