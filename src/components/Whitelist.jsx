@@ -31,7 +31,7 @@ export default (props) => {
         (async () => {
             let botConfig = await ApiHelper.getBot(props.channel);
             let configs = await ApiHelper.getAdminConfigs();
-            let allowedUsers = configs.findOne(config => config.name === "allowedUsers");
+            let allowedUsers = configs.find(config => config.name === "allowedUsers");
             let twitchUsers = await getTwitchUserDetails(allowedUsers, TWITCH_CLIENT_ID, botConfig.accessToken);
             setWhitelistedUsers(twitchUsers);
         })();
