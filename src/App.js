@@ -128,13 +128,13 @@ class App extends React.Component {
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/callback`} component={RegistrationCallBack} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/refresh`} component={RegistrationRefresh} />
                         
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/bot`} render={() => {return <Bot channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/alerts`} render={() => {return <AlertConfig channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/commands`} render={() => {return <CommandConfig channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/media`} render={() => {return <MediaPoolConfig channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} render={() => {return <DynamicAlertCustomizer channel={this.state.channel} />}} />
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} render={() => {return <DynamicAlertManager channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/bot`} render={(props) => {return <Bot {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/alerts`} render={(props) => {return <AlertConfig {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/commands`} render={(props) => {return <CommandConfig {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/media`} render={(props) => {return <MediaPoolConfig {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert`} render={(props) => {return <DynamicAlertCustomizer {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} render={(props) => {return <DynamicAlertCustomizer {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} render={(props) => {return <DynamicAlertManager {...props} channel={this.state.channel} />}} />
                         
                         {/* <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/configs`} component={AdminConfigs} /> */}
                         <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/whitelist`} render={() => {return <Whitelist channel={this.state.channel} />}} />
