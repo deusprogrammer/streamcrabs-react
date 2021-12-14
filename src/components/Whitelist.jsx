@@ -111,6 +111,7 @@ export default (props) => {
                     </div> : null
                 }
             </div>
+            <hr />
             <div>
                 {whitelistedUsers.map((whitelistedUser) => {
                     return (
