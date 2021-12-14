@@ -67,17 +67,17 @@ class App extends React.Component {
     render() {
         let menu;
 
-        if (this.state.isBroadcaster) {
-            menu = (
-                <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
-                </React.Fragment>
-            );
-        } else if (this.state.isAdmin) {
+        if (this.state.isAdmin) {
             menu = (
                 <React.Fragment>
                     <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link><br/>
                     <Link to={`${process.env.PUBLIC_URL}/admin/whitelist`}>Whitelist</Link>
+                </React.Fragment>
+            );
+        } else if (this.state.isBroadcaster) {
+            menu = (
+                <React.Fragment>
+                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
                 </React.Fragment>
             );
         } else {
