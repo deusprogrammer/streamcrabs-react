@@ -25,7 +25,7 @@ const RaidAlertManager = (props) => {
                                 <td>{dynamicAlert.name}</td>
                                 <td>
                                     <button onClick={() => {window.location = `https://deusprogrammer.com/util/twitch-tools/raid-test?raider=wagnus&raidSize=1000&theme=STORED&key=${dynamicAlert._id}`}}>Preview</button>
-                                    <Link to={`${process.env.PUBLIC_URL}/configs/raid-alert/${dynamicAlert._id}`}><button type="button">Edit</button></Link>
+                                    <Link to={`${process.env.PUBLIC_URL}/configs/raid-alert/${dynamicAlert._id}`} target="_blank"><button type="button">Edit</button></Link>
                                     <button onClick={() => {alert("This doesn't function yet")}}>Delete</button>
                                 </td>
                             </tr>
