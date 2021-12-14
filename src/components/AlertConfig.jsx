@@ -125,58 +125,68 @@ const AlertConfig = (props) => {
 
     return (
         <div>
-            <h1>Alert Config</h1>
-            <h3>Cheer Alert</h3>
-            <AlertConfigElement 
-                type="cheer"
-                alertConfig={botConfig.alertConfigs.cheerAlert}
-                botConfig={botConfig}
-                dynamicAlerts={dynamicAlerts}
-                onChange={
-                    async (config) => {
-                        let updatedAlertConfig = {...botConfig.alertConfigs, cheerAlert: config};
-                        setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
-                    }
-                } />
-            <h3>Subscription Alert</h3>
-            <AlertConfigElement 
-                type="subscription"
-                alertConfig={botConfig.alertConfigs.subAlert}
-                botConfig={botConfig}
-                dynamicAlerts={dynamicAlerts}
-                onChange={
-                    async (config) => {
-                        let updatedAlertConfig = {...botConfig.alertConfigs, subAlert: config};
-                        setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
-                    }
-                } />
-            <h3>Follow Alert</h3>
-            <AlertConfigElement 
-                type="follow"
-                alertConfig={botConfig.alertConfigs.followAlert}
-                botConfig={botConfig}
-                dynamicAlerts={dynamicAlerts}
-                onChange={
-                    async (config) => {
-                        let updatedAlertConfig = {...botConfig.alertConfigs, followAlert: config};
-                        setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
-                    }
-                } />
-            <h3>Raid Alert</h3>
-            <AlertConfigElement 
-                type="raid"
-                alertConfig={botConfig.alertConfigs.raidAlert}
-                botConfig={botConfig}
-                dynamicAlerts={dynamicAlerts}
-                onChange={
-                    async (config) => {
-                        let updatedAlertConfig = {...botConfig.alertConfigs, raidAlert: config};
-                        setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
-                    }
-                } />
-            <button onClick={async () => {
-                await ApiHelper.updateAlertConfig(props.channel, botConfig.alertConfigs);
-            }}>Save</button>
+            <div>
+                <h1>Alert Config</h1>
+                <h3>Cheer Alert</h3>
+                <AlertConfigElement 
+                    type="cheer"
+                    alertConfig={botConfig.alertConfigs.cheerAlert}
+                    botConfig={botConfig}
+                    dynamicAlerts={dynamicAlerts}
+                    onChange={
+                        async (config) => {
+                            let updatedAlertConfig = {...botConfig.alertConfigs, cheerAlert: config};
+                            setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
+                        }
+                    } />
+                <h3>Subscription Alert</h3>
+                <AlertConfigElement 
+                    type="subscription"
+                    alertConfig={botConfig.alertConfigs.subAlert}
+                    botConfig={botConfig}
+                    dynamicAlerts={dynamicAlerts}
+                    onChange={
+                        async (config) => {
+                            let updatedAlertConfig = {...botConfig.alertConfigs, subAlert: config};
+                            setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
+                        }
+                    } />
+                <h3>Follow Alert</h3>
+                <AlertConfigElement 
+                    type="follow"
+                    alertConfig={botConfig.alertConfigs.followAlert}
+                    botConfig={botConfig}
+                    dynamicAlerts={dynamicAlerts}
+                    onChange={
+                        async (config) => {
+                            let updatedAlertConfig = {...botConfig.alertConfigs, followAlert: config};
+                            setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
+                        }
+                    } />
+                <h3>Raid Alert</h3>
+                <AlertConfigElement 
+                    type="raid"
+                    alertConfig={botConfig.alertConfigs.raidAlert}
+                    botConfig={botConfig}
+                    dynamicAlerts={dynamicAlerts}
+                    onChange={
+                        async (config) => {
+                            let updatedAlertConfig = {...botConfig.alertConfigs, raidAlert: config};
+                            setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
+                        }
+                    } />
+                <button onClick={async () => {
+                    await ApiHelper.updateAlertConfig(props.channel, botConfig.alertConfigs);
+                }}>Save</button>
+            </div>
+            <div>
+                <h2>Message Format Values</h2>
+                <div>{"${username} will be replaced with the Twitch username that caused the event."}</div>
+                <div>{"${bits} will be replaced with the number of bits cheered."}</div>
+                <div>{"${subTier} will be replaced with the tier that was subscribed at."}</div>
+                <div>{"${raider} will be replaced with who raided your channel."}</div>
+                <div>{"${viewers} will be replaced with the number of people who raided with the raider."}</div>
+            </div>
         </div>
     )
 };

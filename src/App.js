@@ -14,6 +14,7 @@ import DynamicAlertManager from './components/DynamicAlertManager';
 import AlertConfig from './components/AlertConfig';
 import CommandConfig from './components/CommandConfig';
 import Whitelist from './components/Whitelist';
+import GettingStarted from './components/GettingStarted';
 
 import SecureRoute from './elements/SecureRoute';
 
@@ -70,14 +71,16 @@ class App extends React.Component {
         if (this.state.isAdmin) {
             menu = (
                 <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link><br/>
                     <Link to={`${process.env.PUBLIC_URL}/admin/whitelist`}>Whitelist</Link>
                 </React.Fragment>
             );
         } else if (this.state.isBroadcaster) {
             menu = (
                 <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
+                    <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
                 </React.Fragment>
             );
         } else {
@@ -119,6 +122,7 @@ class App extends React.Component {
                     }
                     <Switch>
                         <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home} />
+                        <Route exact path={`${process.env.PUBLIC_URL}/guide`} component={GettingStarted} />
                         
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/start`} component={RegistrationStart} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/callback`} component={RegistrationCallBack} />
