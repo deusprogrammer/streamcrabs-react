@@ -198,3 +198,8 @@ a:hover {
   display: table-cell;
   vertical-align: middle;
 }
+
+.whitelist-entry div {
+  display: table-cell;
+  vertical-align: middle;
+}

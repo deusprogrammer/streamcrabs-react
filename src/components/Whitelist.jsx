@@ -53,7 +53,7 @@ export default (props) => {
     const [whitelistedUsers, setWhitelistedUsers] = useState([]);
     const [searchUserString, setSearchUserString] = useState("");
     const [botConfig, setBotConfig] = useState({});
-    const [searchUser, setSearchUser] = useState({});
+    const [searchUser, setSearchUser] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -71,6 +71,30 @@ export default (props) => {
         setSearchUser(searchUser.data[0]);
     }
 
+    const addUserToWhitelist = async (newUser) => {
+        let updatedList = [...whitelistedUsers, newUser];
+        setWhitelistedUsers(updatedList);
+        console.log("New list: " + JSON.stringify(updatedList));
+        // await ApiHelper.updateAdminConfigs({
+        //     name: "allowedBots",
+        //     values: updatedList.map((user) => {
+        //         return user.id;
+        //     })
+        // });
+    }
+
+    const removeUserFromWhitelist = async (removeUser) => {
+        let updatedList = whitelistedUsers.filter(user => user.id === removeUser.id);
+        setWhitelistedUsers(updatedList);
+        console.log("New list: " + JSON.stringify(updatedList));
+        // await ApiHelper.updateAdminConfigs({
+        //     name: "allowedBots",
+        //     values: updatedList.map((user) => {
+        //         return user.id;
+        //     })
+        // });
+    }
+
     return (
         <div>
             <h1>User Whitelist</h1>
@@ -81,9 +105,9 @@ export default (props) => {
             <div>
                 {searchUser ? 
                     <div className="whitelist-entry">
-                        <div><img src={searchUser.profile_image_url} /></div>
-                        <div>{searchUser.login}</div>
-                        <div><button>Add</button></div>
+                        <div style={{width: "100px"}}><img src={searchUser.profile_image_url} /></div>
+                        <div style={{width: "200px"}}>{searchUser.login}</div>
+                        <div><button onClick={() => {addUserToWhitelist(searchUser)}}>Add</button></div>
                     </div> : null
                 }
             </div>
@@ -91,9 +115,9 @@ export default (props) => {
                 {whitelistedUsers.map((whitelistedUser) => {
                     return (
                         <div className="whitelist-entry">
-                            <div><img src={whitelistedUser.profile_image_url} /></div>
-                            <div>{whitelistedUser.login}</div>
-                            <div><button>Delete</button></div>
+                            <div style={{width: "100px"}}><img src={whitelistedUser.profile_image_url} /></div>
+                            <div style={{width: "200px"}}>{whitelistedUser.login}</div>
+                            <div><button onClick={() => {removeUserFromWhitelist(whitelistedUser)}}>Delete</button></div>
                         </div>);
                 })}
             </div>
