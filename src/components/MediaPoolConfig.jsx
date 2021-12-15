@@ -7,9 +7,7 @@ export default class MediaPoolConfig extends React.Component {
     constructor(props) {
         super(props);
 
-        this.audioUrlRef = React.createRef();
         this.audioDataRef = React.createRef();
-        this.videoUrlRef = React.createRef();
         this.videoDataRef = React.createRef();
 
         this.state = {
@@ -185,9 +183,7 @@ export default class MediaPoolConfig extends React.Component {
         toast(`Media stored successfully`, {type: "info"});
         this.setState({saving: false});
 
-        this.audioUrlRef.current.value = null;
         this.audioDataRef.current.value = null;
-        this.videoUrlRef.current.value = null;
         this.videoDataRef.current.value = null;
 
         this.setState({uploadAudioData: "", uploadAudioDataUrl: "", uploadAudioFileName: "", uploadVideoData: "", uploadVideoDataUrl: "", uploadVideoFileName: ""});
