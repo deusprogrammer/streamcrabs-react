@@ -49,7 +49,7 @@ class App extends React.Component {
 
         let profile = res.data;
 
-        window.localStorage.setItem("channel", profile.connected.twitch.channels.length > 0 ? profile.connected.twitch.channels[0] : null);
+        //window.localStorage.setItem("channel", profile.connected.twitch.channels.length > 0 ? profile.connected.twitch.channels[0] : null);
 
         let isLoggedIn = true;
         let isAdmin = false;
