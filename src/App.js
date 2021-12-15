@@ -49,7 +49,12 @@ class App extends React.Component {
 
         let profile = res.data;
 
-        //window.localStorage.setItem("channel", profile.connected.twitch.channels.length > 0 ? profile.connected.twitch.channels[0] : null);
+        let channel = this.state.channel;
+        if (!profile.connected.twitch.channels.includes(this.state.channel)) {
+            console.log("Selected channel wasn't in list of connected channels");
+            window.localStorage.setItem("channel", profile.connected.twitch.channels.length > 0 ? profile.connected.twitch.channels[0] : null);
+            channel = window.localStorage.getItem("channel");
+        }
 
         let isLoggedIn = true;
         let isAdmin = false;
@@ -62,7 +67,7 @@ class App extends React.Component {
             isBroadcaster = true;
         }
 
-        this.setState({isLoggedIn, isAdmin, isBroadcaster, profile});
+        this.setState({isLoggedIn, isAdmin, isBroadcaster, profile, channel});
     }
     
     render() {
