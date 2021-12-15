@@ -181,11 +181,11 @@ const AlertConfig = (props) => {
             </div>
             <div>
                 <h2>Message Format Values</h2>
-                <div>{"${username} will be replaced with the Twitch username that caused the event."}</div>
-                <div>{"${bits} will be replaced with the number of bits cheered."}</div>
-                <div>{"${subTier} will be replaced with the tier that was subscribed at."}</div>
-                <div>{"${raider} will be replaced with who raided your channel."}</div>
-                <div>{"${viewers} will be replaced with the number of people who raided with the raider."}</div>
+                <div><b>{"${username}"}</b> will be replaced with the Twitch username that caused the event.</div>
+                <div><b>{"${bits}"}</b> will be replaced with the number of bits cheered.</div>
+                <div><b>{"${subTier}"}</b> will be replaced with the tier that was subscribed at.</div>
+                <div><b>{"${raider}"}</b> will be replaced with who raided your channel.</div>
+                <div><b>{"${viewers}"}</b> will be replaced with the number of people who raided with the raider.</div>
             </div>
         </div>
     )
