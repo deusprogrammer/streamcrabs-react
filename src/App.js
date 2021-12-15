@@ -111,6 +111,7 @@ class App extends React.Component {
                                 onChange={(evt) => {
                                     this.setState({channel: evt.target.value});
                                     window.localStorage.setItem("channel", evt.target.value);
+                                    window.location.reload();
                                 }}>
                                 { this.state.profile.connected.twitch.channels.map((channel) => {
                                     return (
