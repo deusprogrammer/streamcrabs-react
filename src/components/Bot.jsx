@@ -38,13 +38,14 @@ export default class Bot extends React.Component {
 
         // Check token state
         let tokenState = await ApiHelper.checkToken(this.props.channel);
+        if (!tokenState.valid) {
+            window.location.replace(twitchAuthUrl);
+            return;
+        }
+
         let botState = await ApiHelper.getBotState(this.props.channel);
         let botConfig = await ApiHelper.getBot(this.props.channel);
         this.setState({botState, tokenState, config, botConfig});
-
-        if (!tokenState.valid) {
-            window.location.replace(twitchAuthUrl);
-        }
 
         setInterval(async () => {
             tokenState = await ApiHelper.checkToken(this.props.channel);
