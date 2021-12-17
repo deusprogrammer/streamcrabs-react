@@ -33,7 +33,7 @@ class App extends React.Component {
 
     login = () => {
         if (process.env.NODE_ENV === "development") {
-            window.location = `https://deusprogrammer.com/util/auth/dev?redirect=${window.location.protocol}//${window.location.hostname}:${window.location.port}${process.env.PUBLIC_URL}/dev`
+            window.location = `https://deusprogrammer.com/util/auth/dev?redirect=${window.location.protocol}//${window.location.hostname}:${window.location.port}${process.env.PUBLIC_URL}/dev`;
             return;
         }
         window.localStorage.setItem("twitchRedirect", "https://deusprogrammer.com/streamcrabs");
