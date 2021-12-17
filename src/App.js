@@ -22,6 +22,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Dev from './devComponents/Dev';
 
 class App extends React.Component {
     state = {
@@ -31,6 +32,10 @@ class App extends React.Component {
     }
 
     login = () => {
+        if (process.env.NODE_ENV === "development") {
+            window.location = `https://deusprogrammer.com/util/auth/dev?redirect=${window.location.protocol}//${window.location.hostname}:${window.location.port}${process.env.PUBLIC_URL}/dev`
+            return;
+        }
         window.localStorage.setItem("twitchRedirect", "https://deusprogrammer.com/streamcrabs");
         window.location.replace("https://deusprogrammer.com/api/auth-svc/auth/twitch");
     }
@@ -146,8 +151,11 @@ class App extends React.Component {
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alert/:id`} render={(props) => {return <DynamicAlertCustomizer {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/raid-alerts`} render={(props) => {return <DynamicAlertManager {...props} channel={this.state.channel} />}} />
                         
-                        {/* <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/configs`} component={AdminConfigs} /> */}
                         <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/whitelist`} render={() => {return <Whitelist channel={this.state.channel} />}} />
+                    
+                        { process.env.NODE_ENV === 'development' ?
+                            <Route exact path={`${process.env.PUBLIC_URL}/dev`} component={Dev} /> : null
+                        }
                     </Switch>
                 </Router>
             </div>

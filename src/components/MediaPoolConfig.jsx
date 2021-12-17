@@ -63,14 +63,6 @@ export default class MediaPoolConfig extends React.Component {
         fr.readAsDataURL(file);
     }
 
-    onChangeUrl = (e, type) => {
-        if (type === "video") {
-            this.setState({addVideoUrl: e.target.value});
-        } else if (type ==="audio") {
-            this.setState({addAudioUrl: e.target.value});
-        }
-    }
-
     onDisableMedia = async (e, type, index) => {
         let mediaPool = {};
         if (type === "audio") {
