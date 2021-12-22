@@ -361,6 +361,7 @@ export default class MediaPoolConfig extends React.Component {
                                                     <option value="red">Red</option>
                                                     <option value="green">Green</option>
                                                     <option value="blue">Blue</option>
+                                                    <option value="black">Black</option>
                                                     <option value="none">No Chroma</option>
                                             </select>
                                             <span className={this.state.videoPreview === element.url  ? "selected" : ""} style={{cursor: "pointer"}}>
