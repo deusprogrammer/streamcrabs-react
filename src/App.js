@@ -129,7 +129,7 @@ class App extends React.Component {
                                 }}>
                                 { this.state.profile.connected.twitch.channels.map((channel) => {
                                     return (
-                                        <option value={channel}>{channel}</option>
+                                        <option key={channel} value={channel}>{channel}</option>
                                     );
                                 })}
                             </select>
