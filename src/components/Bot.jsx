@@ -80,6 +80,13 @@ export default class Bot extends React.Component {
         return (
             <div>
                 <h1>Your Bot</h1>
+                <h3>Bot Information</h3>
+                <div style={{display: "table"}}>
+                    <div style={{display: "table-row"}}>
+                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Twitch Channel Id:</div>
+                        <div style={{display: "table-cell", padding: "10px"}}>{this.props.channel}</div>
+                    </div>
+                </div>
                 <h3>Panel URLs</h3>
                 <p>Bring the below into your XSplit or OBS presentation layouts to show monsters and battle notifications.  It is recommended to place the encounter panel on either side of the screen, and the notification panel on the top or bottom of the screen.</p>
                 <div style={{display: "table"}}>
