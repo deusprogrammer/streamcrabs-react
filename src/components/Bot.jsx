@@ -108,15 +108,15 @@ export default class Bot extends React.Component {
                 <div style={{display: "table"}}>
                     <div style={{display: "table-row"}}>
                         <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>CBD Encounters Panel:</div>
-                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white"}}>{`https://deusprogrammer.com/util/battle-panel/encounters?channelId=${this.props.channel}`}</div>
+                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/battle-panel/encounters?channelId=${this.props.channel}`}</div>
                     </div>
                     <div style={{display: "table-row"}}>
                         <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Soundboard:</div>
-                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white"}}>{`https://deusprogrammer.com/util/twitch-tools/sound-player?channelId=${this.props.channel}`}</div>
+                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/twitch-tools/sound-player?channelId=${this.props.channel}`}</div>
                     </div>
                     <div style={{display: "table-row"}}>
                         <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Animation Overlay:</div>
-                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white"}}>{`https://deusprogrammer.com/util/twitch-tools/multi?channelId=${this.props.channel}`}</div>
+                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/twitch-tools/multi?channelId=${this.props.channel}`}</div>
                     </div>
                 </div>
                 <h3>Stand Alone Panels</h3>
