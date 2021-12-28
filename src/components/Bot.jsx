@@ -1,82 +1,131 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import ApiHelper from '../utils/ApiHelper';
-import {toast} from 'react-toastify';
+
+import axios from 'axios';
 
 const twitchAuthUrl = "https://id.twitch.tv/oauth2/authorize?client_id=uczfktv6o7vvdeqxnafizuq672r5od&redirect_uri=https://deusprogrammer.com/streamcrabs/registration/refresh&response_type=code&scope=chat:read%20chat:edit%20channel:read:redemptions%20channel:read:subscriptions%20bits:read";
 
-export default class Bot extends React.Component {
-    state = {
-        buttonDisable: false,
-        botState: {
-            running: false,
-            created: false
-        },
-        tokenState: {
-            valid: false
-        },
-        botConfig: {},
-        config: {
-            cbd: true,
-            requests: true,
-            rewards: true,
-            raid: true
-        }
+const configElementDescriptions = {
+    cbd: "Chat Battle Dungeon",
+    requests: "Request Queue",
+    rewards: "Rewards"
+}
+
+const Bot = (props) => {
+    const [botStarted, setBotStarted] = useState(false);
+    const [featureConfig, setFeatureConfig] = useState({
+        cbd: false,
+        requests: false,
+        rewards: false
+    });
+    const [configLoaded, setConfigLoaded] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            let botState = await ApiHelper.getBotState(props.channel);
+            let config = await ApiHelper.getBotConfig(props.channel);
+
+            Object.keys(featureConfig).forEach((key) => {
+                if (!config[key]) {
+                    config[key] = false;
+                }
+            });
+        
+            // Get profile
+            let {data: profile} = await axios.get(`https://deusprogrammer.com/api/profile-svc/users/~self`, {
+                headers: {
+                    "X-Access-Token": localStorage.getItem("accessToken")
+                }
+            });
+
+            const isChannelOwner = profile.connected && profile.connected.twitch && profile.connected.twitch.userId === props.channel;
+
+            // Check token state and update it if you are the channel owner and the token is invalid.
+            let tokenState = await ApiHelper.checkToken(props.channel);
+            if (!tokenState.valid && isChannelOwner) {
+                window.location.replace(twitchAuthUrl);
+                return;
+            }
+
+            setBotStarted(botState.running);
+            setFeatureConfig(config);
+            setConfigLoaded(true);
+
+            const interval = setInterval(async () => {
+                tokenState = await ApiHelper.checkToken(props.channel);
+                botState = await ApiHelper.getBotState(props.channel);
+                
+                setBotStarted(botState.running);
+    
+                if (!tokenState.valid && isChannelOwner) {
+                    window.location.replace(twitchAuthUrl);
+                    return;
+                }
+            }, 5000);
+
+            return () => {
+                clearInterval(interval);
+            }
+        })();
+    }, []);
+
+    const startBot = async () => {
+        await ApiHelper.changeBotState(props.channel, "start");
+        setBotStarted(true);
     }
 
-    async componentDidMount() {
+    const stopBot = async () => {
+        await ApiHelper.changeBotState(props.channel, "stop");
+        setBotStarted(false);
     }
 
-    changeBotState = async (state) => {
-        this.setState({buttonDisable: true});
-        await ApiHelper.changeBotState(this.props.channel, state);
-        toast(`Bot ${state} successful`, {type: "info"});
-    }
-
-    onConfigChange = async (event, configItem) => {
-        let config = {...this.state.config};
+    const updateConfig = async (event, configItem) => {
+        let config = {...featureConfig};
         config[configItem] = event.target.checked;
-        await ApiHelper.updateBotConfig(this.props.channel, config);
-        toast(`Bot config saved`, {type: "info"});
-        this.setState({config});
+        await ApiHelper.updateBotConfig(props.channel, config);
+        setFeatureConfig(config);
     }
 
-    refreshAccessToken = () => {
-        window.location.replace(twitchAuthUrl);
-    }
-
-    render() {
+    if (!configLoaded) {
         return (
-            <div>
-                <h1>Your Bot</h1>
-                <h3>Bot Information</h3>
-                <div style={{display: "table"}}>
-                    <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Twitch Channel Id:</div>
-                        <div style={{display: "table-cell", padding: "10px"}}>{this.props.channel}</div>
-                    </div>
-                </div>
-                <h3>Panel URLs</h3>
-                <p>Bring the below into your XSplit or OBS presentation layouts to show monsters and battle notifications.  It is recommended to place the encounter panel on either side of the screen, and the notification panel on the top or bottom of the screen.</p>
-                <div style={{display: "table"}}>
-                    <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>CBD Encounters Panel:</div>
-                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/battle-panel/encounters?channelId=${this.props.channel}`}</div>
-                    </div>
-                    <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Soundboard:</div>
-                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/twitch-tools/overlays/sound-player?channelId=${this.props.channel}`}</div>
-                    </div>
-                    <div style={{display: "table-row"}}>
-                        <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Animation Overlay:</div>
-                        <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/twitch-tools/overlays/multi?channelId=${this.props.channel}`}</div>
-                    </div>
-                </div>
-                <h3>Stand Alone Panels</h3>
-                <div style={{marginLeft: "10px"}}>
-                    <a target="_blank" href={`https://deusprogrammer.com/util/twitch-tools/wtd?channelId=${this.props.channel}`}><button type="button">What the Dub</button></a><br />
-                    <a target="_blank" href={`https://deusprogrammer.com/util/twitch-tools/tts?channelId=${this.props.channel}`}><button type="button">Text to Speech</button></a>
-                </div>
+            <div style={{position: "absolute", width: "100vw", top: "50%", left: "0px", transform: "translateY(-50%)", textAlign: "center"}}>
+                Loading Bot Config
             </div>
         )
     }
-}
+
+    return (
+        <div style={{width: "80%", margin: "auto"}}>
+            <div style={{textAlign: "center"}}>
+                <img style={{width: "300px"}} src={`${process.env.PUBLIC_URL}/streamcrab.png`} />
+            </div>
+            <h2>Bot Configuration</h2>
+            <div>
+                <b>Twitch Channel Id:</b>{props.channel}
+            </div>
+            <div>
+                <b>Config:</b>
+                <div style={{marginLeft: "10px"}}>
+                { Object.keys(configElementDescriptions).map((configElement) => {
+                    let configElementValue = featureConfig[configElement];
+                    let configElementDescription = configElementDescriptions[configElement];
+                    return (
+                        <React.Fragment key={configElement}>
+                            <input type="checkbox" onChange={(e) => {updateConfig(e, configElement)}} checked={configElementValue} disabled={botStarted} />&nbsp;<label>{configElementDescription}</label><br/>
+                        </React.Fragment>
+                    )
+                })}
+                </div>
+            </div>
+            <div style={{textAlign: "center"}}>
+                {!botStarted ? 
+                    <button style={{width: "200px", height: "100px", fontSize: "20pt", background: "green", color: "white"}} onClick={startBot}>Start Bot</button> 
+                    :
+                    <button style={{width: "200px", height: "100px", fontSize: "20pt", background: "red", color: "white"}} onClick={stopBot}>Stop Bot</button>
+                }
+            </div>
+        </div>
+    )
+};
+
+export default Bot;

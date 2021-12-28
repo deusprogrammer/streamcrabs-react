@@ -3,9 +3,9 @@ import {ToastContainer} from 'react-toastify';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import axios from 'axios';
 
-import Home from './components/Home';
+import Home from './components/Bot';
 import About from './components/About';
-import Bot from './components/Bot';
+import Bot from './components/Overlays';
 import RegistrationStart from './components/RegistrationStart';
 import RegistrationCallBack from './components/RegistrationCallBack';
 import RegistrationRefresh from './components/RegistrationRefresh';
