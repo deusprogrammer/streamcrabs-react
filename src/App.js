@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import axios from 'axios';
 
 import Home from './components/Home';
+import About from './components/About';
 import Bot from './components/Bot';
 import RegistrationStart from './components/RegistrationStart';
 import RegistrationCallBack from './components/RegistrationCallBack';
@@ -26,6 +27,7 @@ import Dev from './devComponents/Dev';
 
 class App extends React.Component {
     state = {
+        isLoggedIn: false,
         isAdmin: false,
         profile: {},
         channel: window.localStorage.getItem("channel")
@@ -85,22 +87,22 @@ class App extends React.Component {
         if (this.state.isAdmin) {
             menu = (
                 <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link><br/>
-                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link><br/>
                     <Link to={`${process.env.PUBLIC_URL}/admin/whitelist`}>Whitelist</Link>
                 </React.Fragment>
             );
         } else if (this.state.isBroadcaster) {
             menu = (
                 <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link><br/>
-                    <Link to={`${process.env.PUBLIC_URL}/configs/bot`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
+                    <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link> | <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/raid-alerts`}>Dynamic Alerts</Link>
                 </React.Fragment>
             );
         } else {
             menu = (
                 <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/registration/start`}>Get a Bot</Link>
+                    <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/registration/start`}>Get a Bot</Link>
                 </React.Fragment>
             );
         }
@@ -136,14 +138,18 @@ class App extends React.Component {
                         </div> : null
                     }
                     <Switch>
-                        <Route exact path={`${process.env.PUBLIC_URL}/`} component={Home} />
+                        { this.state.isLoggedIn ?
+                            <Route exact path={`${process.env.PUBLIC_URL}/`} render={(props) => {return <Home {...props} channel={this.state.channel} />}} /> :
+                            <Route exact path={`${process.env.PUBLIC_URL}/`} component={About} />
+                        }
+                        <Route exact path={`${process.env.PUBLIC_URL}/about`} component={About} />
                         <Route exact path={`${process.env.PUBLIC_URL}/guide`} component={GettingStarted} />
                         
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/start`} component={RegistrationStart} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/callback`} component={RegistrationCallBack} />
                         <Route exact path={`${process.env.PUBLIC_URL}/registration/refresh`} component={RegistrationRefresh} />
                         
-                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/bot`} render={(props) => {return <Bot {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/overlays`} render={(props) => {return <Bot {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/alerts`} render={(props) => {return <AlertConfig {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/commands`} render={(props) => {return <CommandConfig {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/media`} render={(props) => {return <MediaPoolConfig {...props} channel={this.state.channel} />}} />

@@ -1,19 +1,73 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import ApiHelper from '../utils/ApiHelper';
 
-export default class Home extends React.Component {
-    render() {
-        return (
-            <div style={{textAlign: "center"}}>
-                <img style={{width: "300px"}} src={`${process.env.PUBLIC_URL}/streamcrab.png`} />
-                <h1>Welcome to Streamcrabs</h1>
-                <h2>What is Streamcrabs?</h2>
-                <p>Streamcrabs is an open source Twitch bot and tool for setting up custom alerts and tools.</p>
-                <h2>What does Streamcrabs Currently Support?</h2>
-                <p>Streamcrabs currently supports many alerts (with the exception of follows), as well as some unique concepts like dynamic alerts where the alert changes based on the size of whatever happened (i.e. the number of raiders in a raid).</p>
-                <p>Streamcrabs is also home to Chat Battle Dungeon, which is a full fledged dungeon battler game played in chat.  More details about that can be found on <a href="https://deusprogrammer.com/cbd">https://deusprogrammer.com/cbd</a></p>
-                <h2>How do I use Streamcrabs?</h2>
-                <p>Streamcrabs currently runs out of my home server lab.  Until I have hosting for the app, I will be accepting users on a limited basis.  To request access please join our <a href="https://discord.gg/t4Yr5WpmB7">Discord</a> and put your request on the access request board with your Twitch username.</p>
-            </div>
-        );
+import axios from 'axios';
+
+const twitchAuthUrl = "https://id.twitch.tv/oauth2/authorize?client_id=uczfktv6o7vvdeqxnafizuq672r5od&redirect_uri=https://deusprogrammer.com/streamcrabs/registration/refresh&response_type=code&scope=chat:read%20chat:edit%20channel:read:redemptions%20channel:read:subscriptions%20bits:read";
+
+const Home = (props) => {
+    const [botStarted, setBotStarted] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            let botState = await ApiHelper.getBotState(props.channel);
+        
+            // Get profile
+            let {data: profile} = await axios.get(`https://deusprogrammer.com/api/profile-svc/users/~self`, {
+                headers: {
+                    "X-Access-Token": localStorage.getItem("accessToken")
+                }
+            });
+
+            const isChannelOwner = profile.connected && profile.connected.twitch && profile.connected.twitch.userId === props.channel;
+
+            // Check token state and update it if you are the channel owner and the token is invalid.
+            let tokenState = await ApiHelper.checkToken(props.channel);
+            if (!tokenState.valid && isChannelOwner) {
+                window.location.replace(twitchAuthUrl);
+                return;
+            }
+
+            setBotStarted(botState.running);
+
+            const interval = setInterval(async () => {
+                tokenState = await ApiHelper.checkToken(props.channel);
+                botState = await ApiHelper.getBotState(props.channel);
+                
+                setBotStarted(botState.running);
+    
+                if (!tokenState.valid && isChannelOwner) {
+                    window.location.replace(twitchAuthUrl);
+                    return;
+                }
+            }, 5000);
+
+            return () => {
+                clearInterval(interval);
+            }
+        })();
+    }, []);
+
+    const startBot = async () => {
+        await ApiHelper.changeBotState(props.channel, "start");
+        setBotStarted(true);
     }
-}
+
+    const stopBot = async () => {
+        await ApiHelper.changeBotState(props.channel, "stop");
+        setBotStarted(false);
+    }
+
+    return (
+        <div className="splash-screen">
+            <img style={{width: "300px"}} src={`${process.env.PUBLIC_URL}/streamcrab.png`} /><br />
+            {!botStarted ? 
+                <button style={{width: "200px", height: "100px", fontSize: "20pt", background: "green", color: "white"}} onClick={startBot}>Start Bot</button> 
+                :
+                <button style={{width: "200px", height: "100px", fontSize: "20pt", background: "red", color: "white"}} onClick={stopBot}>Stop Bot</button>
+            }
+        </div>
+    )
+};
+
+export default Home;
