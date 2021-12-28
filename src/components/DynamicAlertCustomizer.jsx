@@ -3,6 +3,7 @@ import Animation from '../elements/Animation';
 
 import ApiHelper from '../utils/ApiHelper';
 import config from '../config/config';
+import SpriteStrip from '../elements/SpriteStrip';
 
 const readFileAsDataUri = (file) => {
     return new Promise(function(resolve,reject){
@@ -39,7 +40,6 @@ const RaidAlertCustomizer = (props) => {
             dynamicAlert.sprites.forEach((sprite) => {
                 sprite.isStored = true;
                 sprite.frames = sprite.cellCount;
-                sprite.endFrame -= 1;
             });
 
             dynamicAlert.music.isStored = true;
@@ -170,19 +170,43 @@ const RaidAlertCustomizer = (props) => {
                         <div key={`sprite-${index}`} style={{border: "1px solid black"}}>
                             <h3>Sprite {index}</h3>
                             <div style={{marginLeft: "10px"}}>
-                                <Animation 
-                                    url={sprite.file}
-                                    frameCount={sprite.frames}
-                                    speed={sprite.frameRate}
-                                    startFrame={sprite.startFrame}
-                                    endFrame={sprite.endFrame}
-                                    onLoaded={(frameWidth, frameHeight) => {
-                                        const temp = [...sprites];
-                                        sprite.frameWidth = Math.floor(frameWidth);
-                                        sprite.frameHeight = Math.floor(frameHeight);
-                                        temp[index] = sprite;
-                                        setSprites(temp);
-                                    }} />
+                                <div style={{width: "100%", overflowX: "scroll"}}>
+                                    <Animation 
+                                        url={sprite.file}
+                                        frameCount={sprite.frames}
+                                        speed={sprite.frameRate}
+                                        startFrame={sprite.startFrame}
+                                        endFrame={sprite.endFrame}
+                                        onLoaded={(frameWidth, frameHeight) => {
+                                            const temp = [...sprites];
+                                            sprite.frameWidth = Math.floor(frameWidth);
+                                            sprite.frameHeight = Math.floor(frameHeight);
+                                            temp[index] = sprite;
+                                            setSprites(temp);
+                                        }} />
+                                </div>
+                                <div style={{width: "100%", overflowX: "scroll", whiteSpace: "nowrap"}}>
+                                    <SpriteStrip
+                                        url={sprite.file}
+                                        frameCount={sprite.frames}
+                                        startFrame={sprite.startFrame}
+                                        endFrame={sprite.endFrame} 
+                                        onFrameClick={(frame) => {
+                                            console.log("FRAME CLICKED: " + frame);
+
+                                            if (frame < sprite.startFrame) {
+                                                const temp = [...sprites];
+                                                sprite.startFrame = frame;
+                                                temp[index] = sprite;
+                                                setSprites(temp);
+                                            } else if (frame > sprite.endFrame) {
+                                                const temp = [...sprites];
+                                                sprite.endFrame = frame;
+                                                temp[index] = sprite;
+                                                setSprites(temp);
+                                            }
+                                        }} />
+                                </div>
                                 <table>
                                     <tbody>
                                         <tr>
