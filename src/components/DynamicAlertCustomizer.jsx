@@ -185,7 +185,7 @@ const RaidAlertCustomizer = (props) => {
                                             setSprites(temp);
                                         }} />
                                 </div>
-                                <div style={{width: "100%", overflowX: "scroll", whiteSpace: "nowrap"}}>
+                                <div style={{width: "100%", backgroundColor: "white", overflowX: "scroll", whiteSpace: "nowrap"}}>
                                     <SpriteStrip
                                         url={sprite.file}
                                         frameCount={sprite.frames}
