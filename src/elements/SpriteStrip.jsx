@@ -28,9 +28,14 @@ export default (props) => {
                 let aspectRatioV = height/frameWidth;
                 canvas.width = previewSize * aspectRatioH;
                 canvas.height = previewSize * aspectRatioV;
-                canvas.onclick = () => {
-                    props.onFrameClick(i);
+                canvas.onclick = (e) => {
+                    props.onStartFrameClick(i);
+                    e.preventDefault();
                 };
+                canvas.oncontextmenu = (e) => {
+                    props.onEndFrameClick(i);
+                    e.preventDefault();
+                }
                 framesDiv.current.append(canvas);
 
                 let ctx = canvas.getContext("2d");

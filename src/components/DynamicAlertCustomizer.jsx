@@ -191,15 +191,16 @@ const RaidAlertCustomizer = (props) => {
                                         frameCount={sprite.frames}
                                         startFrame={sprite.startFrame}
                                         endFrame={sprite.endFrame} 
-                                        onFrameClick={(frame) => {
-                                            console.log("FRAME CLICKED: " + frame);
-
-                                            if (frame < sprite.startFrame) {
+                                        onStartFrameClick={(frame) => {
+                                            if (frame < sprite.endFrame) {
                                                 const temp = [...sprites];
                                                 sprite.startFrame = frame;
                                                 temp[index] = sprite;
                                                 setSprites(temp);
-                                            } else if (frame > sprite.endFrame) {
+                                            }
+                                        }}
+                                        onEndFrameClick={(frame) => {
+                                            if (sprite.startFrame < frame) {
                                                 const temp = [...sprites];
                                                 sprite.endFrame = frame;
                                                 temp[index] = sprite;
