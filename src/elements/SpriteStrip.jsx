@@ -54,7 +54,7 @@ export default (props) => {
 
                 // If this element is the startIndex, scroll into view.
                 if (i === props.endFrame) {
-                    canvas.scrollIntoView();
+                    canvas.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
                 }
             }
         }, false);
