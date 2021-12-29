@@ -95,13 +95,13 @@ const Bot = (props) => {
     }
 
     return (
-        <div style={{width: "80%", margin: "auto"}}>
+        <div style={{textAlign: "center"}}>
             <div style={{textAlign: "center"}}>
                 <img style={{width: "300px"}} src={`${process.env.PUBLIC_URL}/streamcrab.png`} />
             </div>
             <h2>Bot Configuration</h2>
             <div>
-                <b>Twitch Channel Id:</b>{props.channel}
+                <b>Twitch Channel Id:&nbsp;</b>{props.channel}
             </div>
             <div>
                 <b>Config:</b>
