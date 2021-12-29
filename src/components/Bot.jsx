@@ -105,7 +105,7 @@ const Bot = (props) => {
             </div>
             <div>
                 <b>Config:</b>
-                <div style={{marginLeft: "10px"}}>
+                <div style={{marginLeft: "10px", width: "200px",  margin: "auto", textAlign: "left"}}>
                 { Object.keys(configElementDescriptions).map((configElement) => {
                     let configElementValue = featureConfig[configElement];
                     let configElementDescription = configElementDescriptions[configElement];
