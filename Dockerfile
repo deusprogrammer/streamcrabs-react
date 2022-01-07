@@ -3,6 +3,7 @@ FROM node:12.2.0-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 ENV REACT_APP_TWITCH_CLIENT_ID $REACT_APP_TWITCH_CLIENT_ID
+ENV REACT_APP_API_DOMAIN $REACT_APP_API_DOMAIN
 COPY package.json /app/package.json
 RUN npm install --silent
 RUN npm install react-scripts@3.4.1 -g --silent
