@@ -251,6 +251,19 @@ const updateAdminConfigs = async (newConfig) => {
     return update.data;
 }
 
+const createChannelPointReward = async (channel, title, cost, botConfig) => {
+    let {data: {data: rewards}} = await axios.post(`https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=${channel}`, {
+        title,
+        cost
+    }, {
+        headers: {
+            'content-type': 'application/json',
+            'client-id': process.env.REACT_APP_TWITCH_CLIENT_ID,
+            'authorization': `Bearer ${botConfig.accessToken}`
+        }
+    })
+}
+
 export default {
     storeDynamicAlert,
     updateDynamicAlert,
