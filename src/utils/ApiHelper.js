@@ -287,5 +287,6 @@ export default {
     getBotConfig,
     updateBotMediaPool,
     getAdminConfigs,
-    updateAdminConfigs
+    updateAdminConfigs,
+    createChannelPointReward
 }
