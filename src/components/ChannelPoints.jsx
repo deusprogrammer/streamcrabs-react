@@ -11,8 +11,8 @@ const rewardParams = {
 }
 
 export default (props) => {
-    const [rewards, setRewards] = useState([]);
-    const [config, setConfig] = useState({});
+    const [rewards, setRewards] = useState(null);
+    const [config, setConfig] = useState(null);
     useEffect(() => {
         (async () => {
             let config = await ApiHelper.getBot(props.channel);
@@ -35,6 +35,14 @@ export default (props) => {
         let rewards = await ApiHelper.getChannelPointRewards(config.twitchChannelId, config);
         rewards = rewards.filter(reward => rewardNames.includes(reward.title.toLowerCase()))
         setRewards(rewards);
+    }
+
+    if (!rewards || !config) {
+        return (
+            <div style={{position: "absolute", width: "100vw", top: "50%", left: "0px", transform: "translateY(-50%)", textAlign: "center"}}>
+                Loading Config...
+            </div>
+        )
     }
 
     return (
