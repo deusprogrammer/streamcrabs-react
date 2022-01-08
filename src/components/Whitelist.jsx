@@ -3,9 +3,10 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
 import ApiHelper from '../utils/ApiHelper';
+import config from '../config/config';
 
 const TWITCH_GET_USERS_URI = 'https://api.twitch.tv/helix/users';
-const TWITCH_CLIENT_ID = 'uczfktv6o7vvdeqxnafizuq672r5od';
+const TWITCH_CLIENT_ID = config.TWITCH_CLIENT_ID;
 
 const getTwitchUserDetailsById = async (userIds, clientId, accessToken) => {
     let sep = '?';

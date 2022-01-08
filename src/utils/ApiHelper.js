@@ -261,7 +261,33 @@ const createChannelPointReward = async (channel, title, cost, botConfig) => {
             'client-id': process.env.REACT_APP_TWITCH_CLIENT_ID,
             'authorization': `Bearer ${botConfig.accessToken}`
         }
-    })
+    });
+
+    return rewards;
+}
+
+const removeChannelPointReward = async (channel, id, botConfig) => {
+    let {data: {data: rewards}} = await axios.delete(`https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=${channel}&id=${id}`, {
+        headers: {
+            'content-type': 'application/json',
+            'client-id': process.env.REACT_APP_TWITCH_CLIENT_ID,
+            'authorization': `Bearer ${botConfig.accessToken}`
+        }
+    });
+
+    return rewards;
+}
+
+const getChannelPointRewards = async (channel, botConfig) => {
+    let {data: {data: rewards}} = await axios.get(`https://api.twitch.tv/helix/channel_points/custom_rewards?broadcaster_id=${channel}`, {
+        headers: {
+            'content-type': 'application/json',
+            'client-id': process.env.REACT_APP_TWITCH_CLIENT_ID,
+            'authorization': `Bearer ${botConfig.accessToken}`
+        }
+    });
+
+    return rewards;
 }
 
 export default {
@@ -288,5 +314,7 @@ export default {
     updateBotMediaPool,
     getAdminConfigs,
     updateAdminConfigs,
-    createChannelPointReward
+    createChannelPointReward,
+    getChannelPointRewards,
+    removeChannelPointReward
 }
