@@ -48,6 +48,8 @@ export default (props) => {
     return (
         <div>
             <h1>Channel Point Rewards</h1>
+            <p>With this section you can add some premade channel point rewards to your channel that will trigger some neat things.  Eventually we will have custom rewards you can create yourself for anything from custom gagues to custom video/sound content.</p>
+            <p>Random video and sound is sourced from your media pool.  Any item in your media pool that is checked will be included in the random selections of these rewards.</p>
             <h2>Standard Rewards</h2>
             <div style={{marginLeft: "20px"}}>
             {rewardNames.map((rewardName) => {
