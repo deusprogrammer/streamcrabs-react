@@ -33,7 +33,7 @@ const RaidAlertManager = (props) => {
                     })}
                 </tbody>
             </table>
-            <Link to={`${process.env.PUBLIC_URL}/configs/raid-alert`}><button>Create New Dynamic Alert</button></Link>
+            <Link to={`${process.env.PUBLIC_URL}/configs/dynamic-alert`}><button>Create New Dynamic Alert</button></Link>
         </div>
     )
 }
