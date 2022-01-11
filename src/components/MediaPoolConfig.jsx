@@ -9,22 +9,30 @@ export default class MediaPoolConfig extends React.Component {
 
         this.audioDataRef = React.createRef();
         this.videoDataRef = React.createRef();
+        this.imageDataRef = React.createRef();
 
         this.state = {
             videoPool: [],
             audioPool: [],
+            imagePool: [],
             uploadVideoData: "",
             uploadAudioData: "",
+            uploadImageData: "",
             uploadVideoDataUrl: "",
             uploadAudioDataUrl: "",
+            uploadImageDataUrl: "",
             addVideoUrl: "",
             addAudioUrl: "",
+            addImageUrl: "",
             uploadVideoFileName: "",
             uploadAudioFileName: "",
+            uploadImageFileName: "",
             selectedAudioIndex: -1,
             selectedVideoIndex: -1,
+            selectedImageIndex: -1,
             videoPreview: {},
             audioPreview: {},
+            imagePreview: {},
             saving: false
         }
     }
@@ -38,8 +46,8 @@ export default class MediaPoolConfig extends React.Component {
     }
 
     loadMediaData = async () => {
-        let {videoPool, audioPool} = await ApiHelper.getBot(this.props.channel);
-        this.setState({videoPool, audioPool});
+        let {videoPool, audioPool, imagePool} = await ApiHelper.getBot(this.props.channel);
+        this.setState({videoPool, audioPool, imagePool});
     }
 
     onFileLoaded = (e) => {
@@ -57,6 +65,8 @@ export default class MediaPoolConfig extends React.Component {
                 this.setState({uploadVideoData: base64Media, uploadVideoDataUrl: fr.result, uploadVideoFileName: uploadFileName});
             } else if (ext === "mp3") {
                 this.setState({uploadAudioData: base64Media, uploadAudioDataUrl: fr.result, uploadAudioFileName: uploadFileName});
+            } else if (ext === "gif") {
+                this.setState({uploadImageData: base64Media, uploadImageDataUrl: fr.result, uploadImageFileName: uploadFileName});
             }
         }
 
@@ -69,6 +79,8 @@ export default class MediaPoolConfig extends React.Component {
             mediaPool = [...this.state.audioPool];
         } else if (type === "video") {
             mediaPool = [...this.state.videoPool];
+        } else if (type === "image") {
+            mediaPool = [...this.state.imagePool];
         } else {
             return;
         }
@@ -82,7 +94,10 @@ export default class MediaPoolConfig extends React.Component {
             } else if (type === "video") {
                 this.setState({videoPool: mediaPool, saving: true});
                 await ApiHelper.updateBotMediaPool(this.props.channel, "video", mediaPool);
-            } else {
+            } else if (type === "image") {
+                this.setState({imagePool: mediaPool, saving: true});
+                await ApiHelper.updateBotMediaPool(this.props.channel, "image", mediaPool);
+            }  else {
                 return;
             }
             toast(`Disabled media`, {type: "info"});
@@ -100,7 +115,9 @@ export default class MediaPoolConfig extends React.Component {
             mediaPool = [...this.state.audioPool];
         } else if (type === "video") {
             mediaPool = [...this.state.videoPool];
-        } else {
+        } else if (type === "image") {
+            mediaPool = [...this.state.imagePool];
+        }  else {
             return;
         }
 
@@ -113,7 +130,10 @@ export default class MediaPoolConfig extends React.Component {
             } else if (type === "video") {
                 this.setState({videoPool: mediaPool, saving: true});
                 await ApiHelper.updateBotMediaPool(this.props.channel, "video", mediaPool);
-            } else {
+            } else if (type === "image") {
+                this.setState({imagePool: mediaPool, saving: true});
+                await ApiHelper.updateBotMediaPool(this.props.channel, "image", mediaPool);
+            }  else {
                 return;
             }
             toast(`Deleted media`, {type: "info"});
@@ -141,12 +161,18 @@ export default class MediaPoolConfig extends React.Component {
             mediaData.title = this.state.uploadVideoFileName;
             mediaPool = [...this.state.videoPool];
             mediaUrl = this.state.addVideoUrl;
+        } else if (type === "image") {
+            mediaData.mimeType = "image/gif";
+            mediaData.imagePayload = this.state.uploadImageData;
+            mediaData.title = this.state.uploadImageFileName;
+            mediaPool = [...this.state.imagePool];
+            mediaUrl = this.state.addImageUrl;
         } else {
             return;
         }
 
         this.setState({saving: true});
-        if (!this.state.addAudioUrl && !this.state.addVideoUrl) {
+        if (!this.state.addAudioUrl && !this.state.addVideoUrl && !this.state.addImageUrl) {
             try {
                 let {_id} = await ApiHelper.storeMedia(mediaData);
                 mediaPool.push({
@@ -177,8 +203,9 @@ export default class MediaPoolConfig extends React.Component {
 
         this.audioDataRef.current.value = null;
         this.videoDataRef.current.value = null;
+        this.imageDataRef.current.value = null;
 
-        this.setState({uploadAudioData: "", uploadAudioDataUrl: "", uploadAudioFileName: "", uploadVideoData: "", uploadVideoDataUrl: "", uploadVideoFileName: ""});
+        this.setState({uploadAudioData: "", uploadAudioDataUrl: "", uploadAudioFileName: "", uploadVideoData: "", uploadVideoDataUrl: "", uploadVideoFileName: "", uploadImageData: "", uploadImageDataUrl: "", uploadImageFileName: ""});
         this.loadMediaData();
     }
 
@@ -189,7 +216,9 @@ export default class MediaPoolConfig extends React.Component {
             mediaPool = [...this.state.audioPool];
         } else if (type === "video") {
             mediaPool = [...this.state.videoPool];
-        } else {
+        } else if (type === "image") {
+            mediaPool = [...this.state.imagePool];
+        }  else {
             return;
         }
 
@@ -199,6 +228,8 @@ export default class MediaPoolConfig extends React.Component {
             this.setState({audioPool: mediaPool});
         } else if (type === "video") {
             this.setState({videoPool: mediaPool});
+        } else if (type === "image") {
+            this.setState({imagePool: mediaPool});
         } else {
             return;
         }
@@ -277,6 +308,8 @@ export default class MediaPoolConfig extends React.Component {
             mediaPool = [...this.state.audioPool];
         } else if (type === "video") {
             mediaPool = [...this.state.videoPool];
+        } else if (type === "image") {
+            mediaPool = [...this.state.imagePool];
         } else {
             return;
         }
@@ -393,6 +426,41 @@ export default class MediaPoolConfig extends React.Component {
                         </div>
                         <div style={{display: "table-cell"}}>
                             {this.state.uploadVideoDataUrl ? <video src={this.state.uploadVideoDataUrl} width="300px" controls /> : null}
+                        </div>
+                    </div>
+                </div>
+                <div style={{display: "table"}}>
+                    <div style={{display: "table-cell"}}>
+                        <h3>My Animated Gifs</h3>
+                        <ul>
+                            { this.state.imagePool.map((element, index) => {
+                                return (<li>
+                                            <button onClick={() => {this.onDeleteMedia("image", index)}}>X</button>
+                                            <span className={this.state.imagePreview === element.url  ? "selected" : ""} style={{cursor: "pointer"}}>
+                                                <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "image")}} onBlur={() => {this.saveMediaConfig("image")}} disabled={this.state.saving} />
+                                                <button onClick={() => {this.setState({imagePreview: element.url, selectedImageIndex: index });}}>Preview</button>
+                                            </span>
+                                        </li>)
+                            })}                        
+                        </ul>
+                    </div>
+                    <div style={{display: "table-cell", visibility: this.state.selectedImageIndex >= 0 && this.state.selectedImageIndex < this.state.imagePool.length ? "visible" : "hidden", verticalAlign: "middle"}}>
+                        <h3>Preview</h3>
+                        <img 
+                            id="img-preview"
+                            src={this.state.imagePreview} 
+                            width="300px" />
+                    </div>
+                </div>
+                <div style={{border: "1px solid black"}}>
+                    <h3>Add New Gif</h3>
+                    <div style={{display: "table"}}>
+                        <div style={{display: "table-cell", verticalAlign: "middle"}}>
+                            <input ref={this.imageDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".gif" type="file" /><br/>
+                            <button onClick={() => {this.storeMedia("image")}} disabled={this.state.uploadImageData || this.state.saving ? false : true}>Store Gif</button>
+                        </div>
+                        <div style={{display: "table-cell"}}>
+                            {this.state.uploadImageDataUrl ? <img src={this.state.uploadImageDataUrl} width="300px" /> : null}
                         </div>
                     </div>
                 </div>

@@ -42,6 +42,24 @@ const AlertConfigElement = (props) => {
                 </td>
             </React.Fragment>);
             break;
+        case "IMAGE":
+            mediaSelector = (<React.Fragment>
+                <td>Gif:</td>
+                <td>
+                    <select value={props.alertConfig.id} onChange={
+                        ({target}) => {
+                            props.alertConfig.id = target.value;
+                            props.onChange(props.alertConfig);
+                        }
+                    }>
+                        <option value="null">Choose Gif...</option>
+                        {props.botConfig.imagePool.map((image) => {
+                            return <option value={image._id}>{image.name}</option>
+                        })}
+                    </select>
+                </td>
+            </React.Fragment>);
+            break;
         case "DYNAMIC":
             mediaSelector = (<React.Fragment>
                 <td>Dynamic:</td>
@@ -85,6 +103,7 @@ const AlertConfigElement = (props) => {
                                 }
                             }>
                                 <option value="VIDEO">Video</option>
+                                <option value="IMAGE">Animated Gif</option>
                                 <option value="AUDIO">Audio</option>
                                 <option value="DYNAMIC">Dynamic</option>
                             </select>
@@ -93,11 +112,36 @@ const AlertConfigElement = (props) => {
                     <tr>
                         {mediaSelector}
                     </tr>
+                    {["VIDEO", "IMAGE"].includes(props.alertConfig.type) ? <tr>
+                        <td>Custom Audio:</td>
+                        <td>
+                            <select value={props.alertConfig.soundId} onChange={
+                                ({target}) => {
+                                    props.alertConfig.soundId = target.value;
+                                    props.onChange(props.alertConfig);
+                                }
+                            }>
+                                <option value="null">None</option>
+                                {props.botConfig.audioPool.map((audio) => {
+                                    return <option value={audio._id}>{audio.name}</option>
+                                })}
+                            </select>
+                        </td>
+                    </tr> : null}
                     <tr>
                         <td>Message Template:</td>
                         <td>
                             <input style={{width: "300px"}} type="text" value={props.alertConfig.messageTemplate} onChange={({target}) => {
                                 props.alertConfig.messageTemplate = target.value;
+                                props.onChange(props.alertConfig);
+                            }} />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sub Panel:</td>
+                        <td>
+                            <input style={{width: "300px"}} type="text" value={props.alertConfig.panel} onChange={({target}) => {
+                                props.alertConfig.panel = target.value;
                                 props.onChange(props.alertConfig);
                             }} />
                         </td>
@@ -110,7 +154,7 @@ const AlertConfigElement = (props) => {
 
 const AlertConfig = (props) => {
     const [botConfig, setBotConfig] = useState({alertConfigs: {cheerAlert: {}, subAlert: {}, raidAlert: {}, followAlert:{}}});
-    const [dynamicAlerts, setDynamicAlerts] = useState([]);
+    const [dynamicAlerts, setDynamicAlerts] = useState(null);
 
     let getConfigs = async () => {
         let botConfig = await ApiHelper.getBot(props.channel);
@@ -122,6 +166,14 @@ const AlertConfig = (props) => {
     useEffect(() => {
         getConfigs();
     }, []);
+
+    if (!botConfig || !dynamicAlerts) {
+        return (
+            <div style={{position: "absolute", width: "100vw", top: "50%", left: "0px", transform: "translateY(-50%)", textAlign: "center"}}>
+                Loading...
+            </div>
+        );
+    }
 
     return (
         <div>
