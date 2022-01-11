@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import ApiHelper from '../utils/ApiHelper';
+import {toast} from 'react-toastify';
 
 const AlertConfigElement = (props) => {
     let mediaSelector = null;
@@ -15,7 +16,7 @@ const AlertConfigElement = (props) => {
                                 props.alertConfig.id = target.value;
                                 props.onChange(props.alertConfig);
                             }
-                        }>
+                        } disabled={props.saving}>
                             <option value="null">Choose Video...</option>
                             {props.botConfig.videoPool.map((video) => {
                                 return <option value={video._id}>{video.name}</option>
@@ -33,7 +34,7 @@ const AlertConfigElement = (props) => {
                             props.alertConfig.id = target.value;
                             props.onChange(props.alertConfig);
                         }
-                    }>
+                    } disabled={props.saving}>
                         <option value="null">Choose Audio...</option>
                         {props.botConfig.audioPool.map((audio) => {
                             return <option value={audio._id}>{audio.name}</option>
@@ -51,7 +52,7 @@ const AlertConfigElement = (props) => {
                             props.alertConfig.id = target.value;
                             props.onChange(props.alertConfig);
                         }
-                    }>
+                    } disabled={props.saving}>
                         <option value="null">Choose Gif...</option>
                         {props.botConfig.imagePool.map((image) => {
                             return <option value={image._id}>{image.name}</option>
@@ -69,7 +70,7 @@ const AlertConfigElement = (props) => {
                             props.alertConfig.id = target.value;
                             props.onChange(props.alertConfig);
                         }
-                    }>
+                    } disabled={props.saving}>
                         <option value="null">Choose Dynamic...</option>
                         {props.dynamicAlerts.map((alert) => {
                             return <option value={alert._id}>{alert.name}</option>
@@ -91,7 +92,7 @@ const AlertConfigElement = (props) => {
                                 props.alertConfig.enabled = target.checked;
                                 props.onChange(props.alertConfig);
                             }
-                        } /></td>
+                        } disabled={props.saving}/></td>
                     </tr>
                     <tr>
                         <td>Alert Type:</td>
@@ -101,7 +102,7 @@ const AlertConfigElement = (props) => {
                                     props.alertConfig.type = target.value;
                                     props.onChange(props.alertConfig);
                                 }
-                            }>
+                            } disabled={props.saving}>
                                 <option value="VIDEO">Video</option>
                                 <option value="IMAGE">Animated Gif</option>
                                 <option value="AUDIO">Audio</option>
@@ -120,7 +121,7 @@ const AlertConfigElement = (props) => {
                                     props.alertConfig.soundId = target.value;
                                     props.onChange(props.alertConfig);
                                 }
-                            }>
+                            } disabled={props.saving}>
                                 <option value="null">None</option>
                                 {props.botConfig.audioPool.map((audio) => {
                                     return <option value={audio._id}>{audio.name}</option>
@@ -134,7 +135,7 @@ const AlertConfigElement = (props) => {
                             <input style={{width: "300px"}} type="text" value={props.alertConfig.messageTemplate} onChange={({target}) => {
                                 props.alertConfig.messageTemplate = target.value;
                                 props.onChange(props.alertConfig);
-                            }} />
+                            }} disabled={props.saving}/>
                         </td>
                     </tr>
                     <tr>
@@ -143,7 +144,7 @@ const AlertConfigElement = (props) => {
                             <input style={{width: "300px"}} type="text" value={props.alertConfig.panel} onChange={({target}) => {
                                 props.alertConfig.panel = target.value;
                                 props.onChange(props.alertConfig);
-                            }} />
+                            }} disabled={props.saving}/>
                         </td>
                     </tr>
                 </tbody>
@@ -155,6 +156,7 @@ const AlertConfigElement = (props) => {
 const AlertConfig = (props) => {
     const [botConfig, setBotConfig] = useState({alertConfigs: {cheerAlert: {}, subAlert: {}, raidAlert: {}, followAlert:{}}});
     const [dynamicAlerts, setDynamicAlerts] = useState(null);
+    const [saving, setSaving] = useState(false);
 
     let getConfigs = async () => {
         let botConfig = await ApiHelper.getBot(props.channel);
@@ -185,6 +187,7 @@ const AlertConfig = (props) => {
                     alertConfig={botConfig.alertConfigs.cheerAlert}
                     botConfig={botConfig}
                     dynamicAlerts={dynamicAlerts}
+                    disabled={saving}
                     onChange={
                         async (config) => {
                             let updatedAlertConfig = {...botConfig.alertConfigs, cheerAlert: config};
@@ -197,6 +200,7 @@ const AlertConfig = (props) => {
                     alertConfig={botConfig.alertConfigs.subAlert}
                     botConfig={botConfig}
                     dynamicAlerts={dynamicAlerts}
+                    disabled={saving}
                     onChange={
                         async (config) => {
                             let updatedAlertConfig = {...botConfig.alertConfigs, subAlert: config};
@@ -209,6 +213,7 @@ const AlertConfig = (props) => {
                     alertConfig={botConfig.alertConfigs.followAlert}
                     botConfig={botConfig}
                     dynamicAlerts={dynamicAlerts}
+                    disabled={saving}
                     onChange={
                         async (config) => {
                             let updatedAlertConfig = {...botConfig.alertConfigs, followAlert: config};
@@ -221,6 +226,7 @@ const AlertConfig = (props) => {
                     alertConfig={botConfig.alertConfigs.raidAlert}
                     botConfig={botConfig}
                     dynamicAlerts={dynamicAlerts}
+                    disabled={saving}
                     onChange={
                         async (config) => {
                             let updatedAlertConfig = {...botConfig.alertConfigs, raidAlert: config};
@@ -228,8 +234,11 @@ const AlertConfig = (props) => {
                         }
                     } />
                 <button onClick={async () => {
+                    setSaving(true);
                     await ApiHelper.updateAlertConfig(props.channel, botConfig.alertConfigs);
-                }}>Save</button>
+                    setSaving(false);
+                    toast.info("Saved successfully");
+                }} disabled={saving}>Save</button>
             </div>
             <div>
                 <h2>Message Format Values</h2>
