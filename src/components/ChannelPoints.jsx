@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+import { toast } from 'react-toastify';
+import MediaPoolSelector from '../elements/MediaPoolSelector';
 import ApiHelper from '../utils/ApiHelper';
 
 const rewardNames =  ["random sound", "random video", "bad apple", "bird up", "be a big shot"];
@@ -13,11 +15,12 @@ const rewardParams = {
 export default (props) => {
     const [rewards, setRewards] = useState(null);
     const [config, setConfig] = useState(null);
+    const [newRedemption, setNewRedemption] = useState({type: "VIDEO", panel: "default"});
     useEffect(() => {
         (async () => {
             let config = await ApiHelper.getBot(props.channel);
             let rewards = await ApiHelper.getChannelPointRewards(config.twitchChannelId, config);
-            rewards = rewards.filter(reward => rewardNames.includes(reward.title.toLowerCase()))
+            rewards = rewards.filter(reward => rewardNames.includes(reward.title.toLowerCase()));
             setRewards(rewards);
             setConfig(config);
         })();
@@ -35,6 +38,37 @@ export default (props) => {
         let rewards = await ApiHelper.getChannelPointRewards(config.twitchChannelId, config);
         rewards = rewards.filter(reward => rewardNames.includes(reward.title.toLowerCase()))
         setRewards(rewards);
+    }
+
+    const updateRedemption = (key, field, value) => {
+        let config = {...config};
+        let redemptions = {...config.redemptions};
+        let redemption = {...redemptions[key]};
+        redemption[field] = value;
+        redemptions[key] = redemption;
+        config.redemptions = redemptions;
+        setConfig(config);
+    }
+
+    const updateNewRedemption = (field, value) => {
+        let redemption = {...newRedemption};
+        redemption[field] = value;
+        setNewRedemption(redemption);
+    }
+
+    const addRedemption = async () => {
+        let redemptions = {...config.redemptions};
+        let rewards = null;
+        try {
+            rewards = await ApiHelper.createChannelPointReward(config.twitchChannelId, newRedemption.name, 1, config);
+        } catch (error) {
+            toast.error("Failed to create reward on Twitch, please check name for banned words");
+            return;
+        }
+        redemptions[rewards[0].id] = newRedemption;
+        setConfig({...config, redemptions});
+        setNewRedemption({name: "", type: "VIDEO", panel: "default"});
+        await ApiHelper.updateRedemptions(config.twitchChannelId, redemptions);
     }
 
     if (!rewards || !config) {
@@ -63,7 +97,136 @@ export default (props) => {
             </div>
             <h2>Custom Rewards</h2>
             <div style={{marginLeft: "20px"}}>
-                Coming Soon
+                <table className="config-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Action Type</th>
+                            <th>Media</th>
+                            <th>Audio</th>
+                            <th>Sub Panel</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Object.keys(config.redemptions).map((key) => {
+                            let redemption = config.redemptions[key];
+
+                            return (
+                                <tr>
+                                    <td>
+                                        <input 
+                                            type="text" 
+                                            value={redemption.name}
+                                            disabled={true}
+                                            onChange={({target: {value}}) => {
+                                                updateRedemption(key, "name", value);
+                                            }}
+                                             />
+                                    </td>
+                                    <td>
+                                        <select  
+                                            value={redemption.type}
+                                            disabled={true}
+                                            onChange={({target: {value}}) => {
+                                                updateRedemption(key, "type", value);
+                                            }}>
+                                                <option value="VIDEO">Video</option>
+                                                <option value="IMAGE">Gif</option>
+                                                <option value="AUDIO">Audio</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <MediaPoolSelector 
+                                            type={redemption.type} 
+                                            config={config} 
+                                            keySuffix={key}
+                                            value={redemption.id}
+                                            disabled={true}
+                                            onChange={({target: {value}}) => {
+                                                updateRedemption(key, "id", value);
+                                            }} />
+                                    </td>
+                                    <td>
+                                        {["IMAGE"].includes(redemption.type) ? 
+                                            <MediaPoolSelector 
+                                                type="AUDIO" 
+                                                config={config} 
+                                                keySuffix={`${key}-gif`} 
+                                                value={redemption.soundId}
+                                                disabled={true}
+                                                onChange={({target: {value}}) => {
+                                                    updateRedemption(key, "soundId", value);
+                                                }}/> : null }
+                                    </td>
+                                    <td>
+                                        <input 
+                                            type="text" 
+                                            value={redemption.panel}
+                                            disabled={true}
+                                            onChange={({target: {value}}) => {
+                                                updateRedemption(key, "panel", value);
+                                            }} />
+                                    </td>
+                                    <td><button>Delete</button></td>
+                                </tr>
+                            )
+                        })}
+                        <tr>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    value={newRedemption.name}
+                                    onChange={({target: {value}}) => {
+                                        updateNewRedemption("name", value);
+                                    }}
+                                        />
+                            </td>
+                            <td>
+                                <select  
+                                    value={newRedemption.type}
+                                    onChange={({target: {value}}) => {
+                                        updateNewRedemption("type", value);
+                                    }}>
+                                        <option value="VIDEO">Video</option>
+                                        <option value="IMAGE">Gif</option>
+                                        <option value="AUDIO">Audio</option>
+                                </select>
+                            </td>
+                            <td>
+                                <MediaPoolSelector 
+                                    type={newRedemption.type} 
+                                    config={config} 
+                                    keySuffix={`new`}
+                                    value={newRedemption.id}
+                                    onChange={({target: {value}}) => {
+                                        updateNewRedemption("id", value);
+                                    }} />
+                            </td>
+                            <td>
+                                {["IMAGE"].includes(newRedemption.type) ? 
+                                    <MediaPoolSelector 
+                                        type="AUDIO" 
+                                        config={config} 
+                                        keySuffix={`new-gif`}
+                                        value={newRedemption.id}
+                                        onChange={({target: {value}}) => {
+                                            updateNewRedemption("soundId", value);
+                                        }} /> : null}
+                            </td>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    value={newRedemption.panel}
+                                    onChange={({target: {value}}) => {
+                                        updateNewRedemption("panel", value);
+                                    }} />
+                            </td>
+                            <td><button onClick={() => {addRedemption()}}>Add</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button>Save</button>
             </div>
         </div>
     )

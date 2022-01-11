@@ -4,7 +4,7 @@ import config from '../config/config';
 
 import axios from 'axios';
 
-const twitchAuthUrl = config.TWITCH_AUTH_URL;
+const twitchAuthUrl = config.TWITCH_REAUTH_URL;
 
 const configElementDescriptions = {
     cbd: "Chat Battle Dungeon",
