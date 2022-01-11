@@ -114,7 +114,7 @@ const AlertConfigElement = (props) => {
                         {mediaSelector}
                     </tr>
                     {["IMAGE"].includes(props.alertConfig.type) ? <tr>
-                        <td>Custom Audio:</td>
+                        <td>Audio:</td>
                         <td>
                             <select value={props.alertConfig.soundId} onChange={
                                 ({target}) => {
