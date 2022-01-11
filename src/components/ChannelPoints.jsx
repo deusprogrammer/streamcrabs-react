@@ -41,7 +41,6 @@ export default (props) => {
     }
 
     const updateRedemption = (key, field, value) => {
-        let config = {...config};
         let redemptions = {...config.redemptions};
         let redemption = {...redemptions[key]};
         redemption[field] = value;
@@ -69,6 +68,16 @@ export default (props) => {
         setConfig({...config, redemptions});
         setNewRedemption({name: "", type: "VIDEO", panel: "default"});
         await ApiHelper.updateRedemptions(config.twitchChannelId, redemptions);
+    }
+
+    const removeRedemption = async (id) => {
+        let newConfig = {...config}
+        let redemptions = {...newConfig.redemptions};
+        delete redemptions[id];
+        newConfig.redemptions = redemptions;
+        setConfig(newConfig);
+        await ApiHelper.updateRedemptions(config.twitchChannelId, redemptions);
+        await ApiHelper.removeChannelPointReward(config.twitchChannelId, id, config);
     }
 
     if (!rewards || !config) {
@@ -113,7 +122,7 @@ export default (props) => {
                             let redemption = config.redemptions[key];
 
                             return (
-                                <tr>
+                                <tr key={`redemption-${key}`}>
                                     <td>
                                         <input 
                                             type="text" 
@@ -168,7 +177,7 @@ export default (props) => {
                                                 updateRedemption(key, "panel", value);
                                             }} />
                                     </td>
-                                    <td><button>Delete</button></td>
+                                    <td><button onClick={() => {removeRedemption(key)}}>Delete</button></td>
                                 </tr>
                             )
                         })}
@@ -209,7 +218,7 @@ export default (props) => {
                                         type="AUDIO" 
                                         config={config} 
                                         keySuffix={`new-gif`}
-                                        value={newRedemption.id}
+                                        value={newRedemption.soundId}
                                         onChange={({target: {value}}) => {
                                             updateNewRedemption("soundId", value);
                                         }} /> : null}
