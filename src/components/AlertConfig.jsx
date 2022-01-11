@@ -113,7 +113,7 @@ const AlertConfigElement = (props) => {
                     <tr>
                         {mediaSelector}
                     </tr>
-                    {["VIDEO", "IMAGE"].includes(props.alertConfig.type) ? <tr>
+                    {["IMAGE"].includes(props.alertConfig.type) ? <tr>
                         <td>Custom Audio:</td>
                         <td>
                             <select value={props.alertConfig.soundId} onChange={
@@ -122,7 +122,7 @@ const AlertConfigElement = (props) => {
                                     props.onChange(props.alertConfig);
                                 }
                             } disabled={props.saving}>
-                                <option value="null">None</option>
+                                <option value={null}>Choose Audio...</option>
                                 {props.botConfig.audioPool.map((audio) => {
                                     return <option value={audio._id}>{audio.name}</option>
                                 })}
