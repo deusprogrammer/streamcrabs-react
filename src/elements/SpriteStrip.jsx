@@ -19,8 +19,8 @@ export default (props) => {
         let img = new Image();
         img.src = props.url;
         removeAllChildren(framesDiv.current);
-        img.addEventListener('load', (e) => {
-            let {width, height} = e.path[0];
+        img.addEventListener('load', function (e) {
+            let {width, height} = e.target;
             let frameWidth = width/props.frameCount;
             for (let i = 0; i < props.frameCount; i++) {
                 let canvas = document.createElement('canvas');
@@ -61,7 +61,7 @@ export default (props) => {
     }
 
     return (
-        <div style={{width: "100%", height: previewSize, overflowX: "scroll"}} ref={framesDiv}>
+        <div style={{width: "100%", overflowX: "scroll"}} ref={framesDiv}>
         </div>
     )
 }

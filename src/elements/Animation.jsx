@@ -57,8 +57,8 @@ const Animation = (props) => {
     const updateImage = () => {
         let img = new Image();
         img.src = props.url;
-        img.addEventListener('load', (e) => {
-            let {width, height} = e.path[0];
+        img.addEventListener('load', function (e) {
+            let {width, height} = e.target;
             setDimensions({w: width, h: height});
             let updater = new CanvasUpdater(width, height, canvas, img);
             updater.updateCanvas(parseInt(props.frameCount), parseInt(props.speed), parseInt(props.startFrame), parseInt(props.endFrame));
