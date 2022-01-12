@@ -25,6 +25,7 @@ import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dev from './devComponents/Dev';
+import Gauges from './components/Gauges';
 
 class App extends React.Component {
     state = {
@@ -89,7 +90,7 @@ class App extends React.Component {
             menu = (
                 <React.Fragment>
                     <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link><br/>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/dynamic-alerts`}>Dynamic Alerts</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/points`}>Channel Points</Link><br/>
+                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/dynamic-alerts`}>Dynamic Alerts</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/points`}>Channel Points</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/gauges`}>Gauges</Link><br/>
                     <Link to={`${process.env.PUBLIC_URL}/admin/whitelist`}>Whitelist</Link>
                 </React.Fragment>
             );
@@ -97,7 +98,7 @@ class App extends React.Component {
             menu = (
                 <React.Fragment>
                     <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link> | <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link><br/>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/dynamic-alerts`}>Dynamic Alerts</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/points`}>Channel Points</Link>
+                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/dynamic-alerts`}>Dynamic Alerts</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/points`}>Channel Points</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/gauges`}>Gauges</Link>
                 </React.Fragment>
             );
         } else {
@@ -153,6 +154,7 @@ class App extends React.Component {
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/overlays`} render={(props) => {return <Bot {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/alerts`} render={(props) => {return <AlertConfig {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/points`} render={(props) => {return <ChannelPoints {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/gauges`} render={(props) => {return <Gauges {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/commands`} render={(props) => {return <CommandConfig {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/media`} render={(props) => {return <MediaPoolConfig {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/dynamic-alert`} render={(props) => {return <DynamicAlertCustomizer {...props} channel={this.state.channel} />}} />

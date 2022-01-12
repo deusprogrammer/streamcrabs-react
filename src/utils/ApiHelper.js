@@ -241,6 +241,16 @@ const updateRedemptions = async (channel, redemptions) => {
     return update.data;
 }
 
+const updateGauges = async (channel, gauges) => {
+    let update = await axios.put(`${config.BASE_URL}/bots/${channel}/gauges`, gauges, {
+        headers: {
+            "X-Access-Token": localStorage.getItem("accessToken")
+        }
+    });
+
+    return update.data;
+}
+
 const getAdminConfigs = async () => {
     let found = await axios.get(`${config.BASE_URL}/configs`, {
         headers: {
@@ -306,6 +316,7 @@ export default {
     updateAlertConfig,
     updateCommands,
     updateRedemptions,
+    updateGauges,
     getDynamicAlerts,
     getDynamicAlert,
     updateRaidAlertConfig,
