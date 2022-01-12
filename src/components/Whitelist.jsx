@@ -6,7 +6,7 @@ import ApiHelper from '../utils/ApiHelper';
 import config from '../config/config';
 
 const TWITCH_GET_USERS_URI = 'https://api.twitch.tv/helix/users';
-const TWITCH_CLIENT_ID = config.TWITCH_CLIENT_ID;
+const TWITCH_CLIENT_ID = config.CLIENT_ID;
 
 const getTwitchUserDetailsById = async (userIds, clientId, accessToken) => {
     let sep = '?';
