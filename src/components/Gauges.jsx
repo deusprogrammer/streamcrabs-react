@@ -120,7 +120,7 @@ export default (props) => {
                                             disabled={true}/>
                                     </td>
                                     <td>
-                                        <button onClick={() => {navigator.clipboard.writeText(`${process.env.PUBLIC_URL}/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Overlay</button>
+                                        <button onClick={() => {navigator.clipboard.writeText(`${process.env.PUBLIC_URL}/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Copy</button>
                                         <button onClick={() => {removeGauge(key)}}>Delete</button>
                                     </td>
                                 </tr>
