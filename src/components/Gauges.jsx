@@ -7,10 +7,15 @@ import {toast} from 'react-toastify';
 export default (props) => {
     const [config, setConfig] = useState(null);
     const [newGauge, setNewGauge] = useState({});
+    const [selected, setSelected] = useState(null);
+    const [delta, setDelta] = useState(1);
+
     useEffect(() => {
         (async () => {
             let config = await ApiHelper.getBot(props.channel);
+            let keys = Object.keys(config.gauges);
             setConfig(config);
+            setSelected(keys.length > 0 ? keys[0]: null);
         })();
     }, []);
 
@@ -51,6 +56,7 @@ export default (props) => {
     return (
         <div>
             <h1>Gauges</h1>
+            <h2>Manage Gauges</h2>
             <p>With this section you can create gauges that can be triggered by channel point redemptions.  The overlay for this is still in development.</p>
             <div style={{marginLeft: "20px"}}>
                 <table className="config-table">
@@ -114,7 +120,7 @@ export default (props) => {
                                             disabled={true}/>
                                     </td>
                                     <td>
-                                    <button onClick={() => {navigator.clipboard.writeText(`${process.env.PUBLIC_URL}/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Overlay</button>
+                                        <button onClick={() => {navigator.clipboard.writeText(`${process.env.PUBLIC_URL}/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Overlay</button>
                                         <button onClick={() => {removeGauge(key)}}>Delete</button>
                                     </td>
                                 </tr>
@@ -179,7 +185,44 @@ export default (props) => {
                         </tr>
                     </tbody>
                 </table>
-                <button>Save</button>
+            </div>
+            <h2>Create Command Block</h2>
+            <div style={{marginLeft: "20px"}}>
+                <p>To have a channel point reward trigger a change in a gauge you have to add a command block to the reward description on Twitch.  Use the tool below to create a command block.</p>
+                <table>
+                    <thead style={{textAlign: "center"}}>
+                        <th>Gauge</th>
+                        <th>Amount</th>
+                        <th>Command Block</th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select 
+                                    value={selected}
+                                    onChange={({target: {value}}) => {
+                                        setSelected(value);
+                                    }}>
+                                        <option value={null}>Select Gauge</option>
+                                        {Object.keys(config.gauges).map((key) => {
+                                            let gauge = config.gauges[key];
+                                            return (
+                                                <option value={key}>{gauge.label}</option>
+                                            )
+                                        })}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" value={delta} onChange={({target: {value}}) => {setDelta(value)}} />
+                            </td>
+                            <td style={{width: "300px", textAlign: "center"}}>
+                                <preformatted>{`[GAUGE:${selected}:ADD:${delta}]`}</preformatted>
+                            </td>
+                            <td><button onClick={() => {navigator.clipboard.writeText(`[GAUGE:${selected}:ADD:${delta}]`).then(() => {toast.info("Copied Command Block")})}}>Copy</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     )
