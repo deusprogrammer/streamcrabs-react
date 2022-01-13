@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import MediaPoolSelector from '../elements/MediaPoolSelector';
 import ApiHelper from '../utils/ApiHelper';
 
+import {toast} from 'react-toastify';
+
 export default (props) => {
     const [config, setConfig] = useState(null);
     const [newGauge, setNewGauge] = useState({});
@@ -111,7 +113,10 @@ export default (props) => {
                                             value={gauge.completeSound}
                                             disabled={true}/>
                                     </td>
-                                    <td><button onClick={() => {removeGauge(key)}}>Delete</button></td>
+                                    <td>
+                                    <button onClick={() => {navigator.clipboard.writeText(`${process.env.PUBLIC_URL}/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Overlay</button>
+                                        <button onClick={() => {removeGauge(key)}}>Delete</button>
+                                    </td>
                                 </tr>
                             )
                         })}

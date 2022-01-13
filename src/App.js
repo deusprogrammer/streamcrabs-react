@@ -110,7 +110,7 @@ class App extends React.Component {
         }
 
         return (
-            <div style={{margin: "auto", width: "80%"}}>
+            <div style={{margin: "auto", width: "90%"}}>
                 <ToastContainer />
                 <Router>
                     <div style={{textAlign: "right"}}>
