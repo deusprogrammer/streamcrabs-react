@@ -21,12 +21,20 @@ const readFileAsDataUri = (file) => {
     });
 }
 
+let variantMap = {
+    "CHARGE_RIGHT": "Charge Right",
+    "CHARGE_LEFT": "Charge Left",
+    "CHARGE_UP": "Charge Up",
+    "CHARGE_DOWN": "Charge Down"
+}
+
 const RaidAlertCustomizer = (props) => {
     const [sprites, setSprites] = useState([]);
     const [sfx, setSFX] = useState({});
     const [bgm, setBGM] = useState({});
     const [name, setName] = useState("Sprite");
     const [message, setMessage] = useState("Incoming raid of size ${raidSize} from ${raider}");
+    const [variant, setVariant] = useState("CHARGE_RIGHT");
     const [saving, setSaving] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const fileInput = useRef();
@@ -46,6 +54,7 @@ const RaidAlertCustomizer = (props) => {
             dynamicAlert.leavingSound.isStored = true;
 
             setName(dynamicAlert.name);
+            setVariant(dynamicAlert.variant);
             setMessage(dynamicAlert.message);
             setSprites(dynamicAlert.sprites);
             setBGM(dynamicAlert.music);
@@ -106,6 +115,7 @@ const RaidAlertCustomizer = (props) => {
         let config = {
             twitchChannel: props.channel,
             name,
+            variant,
             message,
             sprites: sprites.map((sprite) => {
                 return {
@@ -157,6 +167,25 @@ const RaidAlertCustomizer = (props) => {
                                     onChange={(e) => {
                                         setName(e.target.value);
                                     }} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Variant:</td>
+                            <td>
+                                <select
+                                    style={{width: "400px"}}
+                                    value={variant}
+                                    disabled={saving}
+                                    onChange={(e) => {
+                                        setVariant(e.target.value);
+                                    }}>
+                                        {Object.keys(variantMap).map((key) => {
+                                            let variantName = variantMap[key];
+                                            return (
+                                                <option value={key}>{variantName}</option>
+                                            )
+                                        })}
+                                </select>
                             </td>
                         </tr>
                     </tbody>
