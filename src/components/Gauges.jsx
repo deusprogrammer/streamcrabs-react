@@ -64,6 +64,7 @@ export default (props) => {
                         <tr>
                             <th>Name</th>
                             <th>Label</th>
+                            <th>Type</th>
                             <th>Maximum Value</th>
                             <th>Increase Sound</th>
                             <th>Decrease Sound</th>
@@ -88,6 +89,15 @@ export default (props) => {
                                             type="text" 
                                             value={gauge.label}
                                             disabled={true}/>
+                                    </td>
+                                    <td>
+                                        <select 
+                                            value={gauge.type}
+                                            disabled={true}>
+                                                <option value="SUB">Sub</option>
+                                                <option value="CHEER">Cheer</option>
+                                                <option value="CUSTOM">Custom</option>
+                                        </select>
                                     </td>
                                     <td>
                                         <input 
@@ -142,6 +152,18 @@ export default (props) => {
                                     onChange={({target: {value}}) => {
                                         updateNewGauge("label", value);
                                     }} />
+                            </td>
+                            <td>
+                                <select 
+                                    value={newGauge.type}
+                                    onChange={({target: {value}}) => {
+                                        updateNewGauge("type", value);
+                                    }}>
+                                        <option value={null}>Choose a Type...</option>
+                                        <option value="SUB">Sub</option>
+                                        <option value="CHEER">Cheer</option>
+                                        <option value="CUSTOM">Custom</option>
+                                </select>
                             </td>
                             <td>
                                 <input  
