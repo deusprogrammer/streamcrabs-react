@@ -11,13 +11,18 @@ export default (props) => {
     const [delta, setDelta] = useState(1);
 
     useEffect(() => {
-        (async () => {
-            let config = await ApiHelper.getBot(props.channel);
-            let keys = Object.keys(config.gauges);
-            setConfig(config);
-            setSelected(keys.length > 0 ? keys[0]: null);
-        })();
+        refreshGauges();
     }, []);
+
+    const refreshGauges = async () => {
+        let config = await ApiHelper.getBot(props.channel);
+        let keys = Object.keys(config.gauges);
+        if (!config.gauges["_SUBMETER"]) {
+            config.gauges["_SUBMETER"] = {type: "SUB"};
+        }
+        setConfig(config);
+        setSelected(keys.length > 0 ? keys[0]: null);
+    }
 
     const updateNewGauge = (field, value) => {
         let gauge = {...newGauge};
@@ -28,12 +33,18 @@ export default (props) => {
     const addGauge = async () => {
         let gauges = {...config.gauges};
 
+        if (newGauge.key.startsWith("_")) {
+            newGauge.key = newGauge.key.subString(1);
+        }
+
         newGauge.currentValue = 0;
         newGauge.maxValue = parseInt(newGauge.maxValue);
         gauges[newGauge.key] = newGauge;
-        setConfig({...config, gauges});
-        setNewGauge({key: "", label: "", maxValue: null, increaseSound: null, decreaseSound: null, completeSound: null});
+        setNewGauge({key: "", label: "", maxValue: null, increaseSound: '', decreaseSound: '', completeSound: ''});
+        console.log(`ADDED GAUGE: ${JSON.stringify(newGauge)}`);
         await ApiHelper.updateGauges(config.twitchChannelId, gauges);
+        toast.info("Added Gauge");
+        refreshGauges();
     }
 
     const removeGauge = async (id) => {
@@ -41,8 +52,23 @@ export default (props) => {
         let gauges = {...newConfig.gauges};
         delete gauges[id];
         newConfig.gauges = gauges;
-        setConfig(newConfig);
         await ApiHelper.updateGauges(config.twitchChannelId, gauges);
+        toast.info("Removed Gauge");
+        refreshGauges();
+    }
+
+    const updateGoalGauge = async (type, field, value) => {
+        let gauges = {...config.gauges};
+        if (field === "maxValue") {
+            value = parseInt(value);
+        }
+        gauges[`_${type}METER`][field] = value;
+        setConfig({...config, gauges});
+    }
+
+    const saveGauges = async () => {
+        await ApiHelper.updateGauges(config.twitchChannelId, config.gauges);
+        toast.info("Saved Gauges");
     }
 
     if (!config) {
@@ -56,87 +82,164 @@ export default (props) => {
     return (
         <div>
             <h1>Gauges</h1>
-            <h2>Manage Gauges</h2>
+            <h2>Goal Gauges</h2>
+            <p>Set Your Goal Gauges Here</p>
+            <div style={{marginLeft: "20px"}}>
+                <h3>Sub Gauge</h3>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Label</td>
+                            <td><input 
+                                type="text" 
+                                value={config.gauges["_SUBMETER"].label} 
+                                placeholder="Label"
+                                onChange={({target: {value}}) => {
+                                    updateGoalGauge("SUB", "label", value);
+                                }}
+                                 /></td>
+                        </tr>
+                        <tr>
+                            <td>Goal</td>
+                            <td><input 
+                                type="number" 
+                                value={config.gauges["_SUBMETER"].maxValue} 
+                                placeholder="Goal"
+                                onChange={({target: {value}}) => {
+                                    updateGoalGauge("SUB", "maxValue", value);
+                                }}
+                                 /></td>
+                        </tr>
+                        <tr>
+                            <td>Increase Sound</td>
+                            <td>
+                                <MediaPoolSelector 
+                                    type={"AUDIO"} 
+                                    config={config} 
+                                    keySuffix={"new"}
+                                    value={config.gauges["_SUBMETER"].increaseSound}
+                                    onChange={({target: {value}}) => {
+                                        updateGoalGauge("SUB", "increaseSound", value);
+                                    }} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Decrease Sound</td>
+                            <td>
+                                <MediaPoolSelector 
+                                    type={"AUDIO"} 
+                                    config={config} 
+                                    keySuffix={"new"}
+                                    value={config.gauges["_SUBMETER"].decreaseSound}
+                                    onChange={({target: {value}}) => {
+                                        updateGoalGauge("SUB", "decreaseSound", value);
+                                    }} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Complete Sound</td>
+                            <td>
+                                <MediaPoolSelector 
+                                    type={"AUDIO"} 
+                                    config={config} 
+                                    keySuffix={"new"}
+                                    value={config.gauges["_SUBMETER"].completeSound}
+                                    onChange={({target: {value}}) => {
+                                        updateGoalGauge("SUB", "completeSound", value);
+                                    }} />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button onClick={() => {navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/util/twitch-tools/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(config.gauges["_SUBMETER"].label)}&subPanel=_SUBMETER`).then(() => {toast.info("Copied Overlay Url")})}}>Copy URL</button>
+                <button type="button" onClick={saveGauges}>Save</button>
+            </div>
+            <h2>Custom Gauges</h2>
             <p>With this section you can create gauges that can be triggered by channel point redemptions.  The overlay for this is still in development.</p>
             <div style={{marginLeft: "20px"}}>
-                <table className="config-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Label</th>
-                            <th>Type</th>
-                            <th>Maximum Value</th>
-                            <th>Increase Sound</th>
-                            <th>Decrease Sound</th>
-                            <th>Complete Sound</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {Object.keys(config.gauges).map((key) => {
-                            let gauge = config.gauges[key];
+                {Object.keys(config.gauges).map((key) => {
+                    let gauge = config.gauges[key];
 
-                            return (
-                                <tr key={`gauge-${key}`}>
-                                    <td>
-                                        <input 
-                                            type="text" 
-                                            value={key}
-                                            disabled={true}/>
-                                    </td>
-                                    <td>
-                                        <input 
-                                            type="text" 
-                                            value={gauge.label}
-                                            disabled={true}/>
-                                    </td>
-                                    <td>
-                                        <select 
-                                            value={gauge.type}
-                                            disabled={true}>
-                                                <option value="SUB">Sub</option>
-                                                <option value="CHEER">Cheer</option>
-                                                <option value="CUSTOM">Custom</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input 
-                                            type="number" 
-                                            value={gauge.maxValue}
-                                            disabled={true}/>
-                                    </td>
-                                    <td>
-                                        <MediaPoolSelector 
-                                            type={"AUDIO"} 
-                                            config={config} 
-                                            keySuffix={key}
-                                            value={gauge.increaseSound}
-                                            disabled={true}/>
-                                    </td>
-                                    <td>
-                                        <MediaPoolSelector 
-                                            type={"AUDIO"} 
-                                            config={config} 
-                                            keySuffix={key}
-                                            value={gauge.decreaseSound}
-                                            disabled={true}/>
-                                    </td>
-                                    <td>
-                                        <MediaPoolSelector 
-                                            type={"AUDIO"} 
-                                            config={config} 
-                                            keySuffix={key}
-                                            value={gauge.completeSound}
-                                            disabled={true}/>
-                                    </td>
-                                    <td>
-                                        <button onClick={() => {navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/util/twitch-tools/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Copy</button>
-                                        <button onClick={() => {removeGauge(key)}}>Delete</button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                    if (gauge.type !== "CUSTOM") {
+                        return null;
+                    }
+
+                    return (
+                        <>
+                            <table key={`gauge-${key}`}>
+                                <tbody>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>
+                                            <input 
+                                                type="text" 
+                                                value={key}
+                                                disabled={true}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Label</td>
+                                        <td>
+                                            <input 
+                                                type="text" 
+                                                value={gauge.label}
+                                                disabled={true}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Max Value</td>
+                                        <td>
+                                            <input 
+                                                type="number" 
+                                                value={gauge.maxValue}
+                                                disabled={true}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Increase Sound</td>
+                                        <td>
+                                            <MediaPoolSelector 
+                                                type={"AUDIO"} 
+                                                config={config} 
+                                                keySuffix={key}
+                                                value={gauge.increaseSound}
+                                                disabled={true}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Decrease Sound</td>
+                                        <td>
+                                            <MediaPoolSelector 
+                                                type={"AUDIO"} 
+                                                config={config} 
+                                                keySuffix={key}
+                                                value={gauge.decreaseSound}
+                                                disabled={true}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Complete Sound</td>
+                                        <td>
+                                            <MediaPoolSelector 
+                                                type={"AUDIO"} 
+                                                config={config} 
+                                                keySuffix={key}
+                                                value={gauge.completeSound}
+                                                disabled={true}/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button onClick={() => {navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/util/twitch-tools/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Copy URL</button>
+                            <button onClick={() => {removeGauge(key)}}>Delete</button>
+                        </>
+                    )
+                })}
+                <hr/>
+                <table>
+                    <tbody>
                         <tr>
+                            <td>Name</td>
                             <td>
                                 <input 
                                     type="text" 
@@ -145,6 +248,9 @@ export default (props) => {
                                         updateNewGauge("key", value);
                                     }} />
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Label</td>
                             <td>
                                 <input  
                                     type="text" 
@@ -153,18 +259,9 @@ export default (props) => {
                                         updateNewGauge("label", value);
                                     }} />
                             </td>
-                            <td>
-                                <select 
-                                    value={newGauge.type}
-                                    onChange={({target: {value}}) => {
-                                        updateNewGauge("type", value);
-                                    }}>
-                                        <option value={null}>Choose a Type...</option>
-                                        <option value="SUB">Sub</option>
-                                        <option value="CHEER">Cheer</option>
-                                        <option value="CUSTOM">Custom</option>
-                                </select>
-                            </td>
+                        </tr>
+                        <tr>
+                            <td>Max Value</td>
                             <td>
                                 <input  
                                     type="number" 
@@ -173,6 +270,9 @@ export default (props) => {
                                         updateNewGauge("maxValue", value);
                                     }} />
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Increase Sound</td>
                             <td>
                                 <MediaPoolSelector 
                                     type={"AUDIO"} 
@@ -183,6 +283,9 @@ export default (props) => {
                                         updateNewGauge("increaseSound", value);
                                     }} />
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Decrease Sound</td>
                             <td>
                                 <MediaPoolSelector 
                                     type={"AUDIO"} 
@@ -193,6 +296,9 @@ export default (props) => {
                                         updateNewGauge("decreaseSound", value);
                                     }} />
                             </td>
+                        </tr>
+                        <tr>
+                            <td>Complete Sound</td>
                             <td>
                                 <MediaPoolSelector 
                                     type={"AUDIO"} 
@@ -203,20 +309,22 @@ export default (props) => {
                                         updateNewGauge("completeSound", value);
                                     }} />
                             </td>
-                            <td><button onClick={() => {addGauge()}}>Add</button></td>
                         </tr>
                     </tbody>
                 </table>
+                <button onClick={() => {addGauge()}}>Add</button>
             </div>
             <h2>Create Command Block</h2>
             <div style={{marginLeft: "20px"}}>
                 <p>To have a channel point reward trigger a change in a gauge you have to add a command block to the reward description on Twitch.  Use the tool below to create a command block.</p>
                 <table>
                     <thead style={{textAlign: "center"}}>
-                        <th>Gauge</th>
-                        <th>Amount</th>
-                        <th>Command Block</th>
-                        <th></th>
+                        <tr>
+                            <th>Gauge</th>
+                            <th>Amount</th>
+                            <th>Command Block</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
