@@ -314,6 +314,11 @@ export default (props) => {
                 </table>
                 <button onClick={() => {addGauge()}}>Add</button>
             </div>
+            <h2>Get Multiblock Overlay</h2>
+            <div style={{marginLeft: "20px"}}>
+                <p>This will give you an overlay that will cycle through all of your gauges.</p>
+                <button onClick={() => {navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/util/twitch-tools/overlays/mgauge?channelId=${props.channel}&subPanels=${Object.keys(config.gauges).join(",")}`).then(() => {toast.info("Copied Multi Gauge Overlay Url")})}}>Copy URL</button>
+            </div>
             <h2>Create Command Block</h2>
             <div style={{marginLeft: "20px"}}>
                 <p>To have a channel point reward trigger a change in a gauge you have to add a command block to the reward description on Twitch.  Use the tool below to create a command block.</p>
