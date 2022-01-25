@@ -83,7 +83,7 @@ export default (props) => {
         <div>
             <h1>Gauges</h1>
             <h2>Goal Gauges</h2>
-            <p>Set Your Goal Gauges Here</p>
+            <p>Set your goal gauges here</p>
             <div style={{marginLeft: "20px"}}>
                 <h3>Sub Gauge</h3>
                 <table>
