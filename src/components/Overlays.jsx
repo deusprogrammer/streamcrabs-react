@@ -19,6 +19,10 @@ export default (props) => {
                     <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Animation Overlay:</div>
                     <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/twitch-tools/overlays/multi?channelId=${props.channel}`}</div>
                 </div>
+                <div style={{display: "table-row"}}>
+                    <div style={{display: "table-cell", padding: "10px", fontWeight: "bolder"}}>Gauge Overlay:</div>
+                    <div style={{display: "table-cell", padding: "10px", backgroundColor: "white", color: "black", border: "1px solid gray"}}>{`https://deusprogrammer.com/util/twitch-tools/overlays/mgauge?channelId=${props.channel}`}</div>
+                </div>
             </div>
             <h2>Stand Alone Panels</h2>
             <div style={{marginLeft: "10px"}}>

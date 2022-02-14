@@ -41,7 +41,6 @@ export default (props) => {
         newGauge.maxValue = parseInt(newGauge.maxValue);
         gauges[newGauge.key] = newGauge;
         setNewGauge({key: "", label: "", maxValue: null, increaseSound: '', decreaseSound: '', completeSound: ''});
-        console.log(`ADDED GAUGE: ${JSON.stringify(newGauge)}`);
         await ApiHelper.updateGauges(config.twitchChannelId, gauges);
         toast.info("Added Gauge");
         refreshGauges();
@@ -151,7 +150,6 @@ export default (props) => {
                         </tr>
                     </tbody>
                 </table>
-                <button onClick={() => {navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/util/twitch-tools/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(config.gauges["_SUBMETER"].label)}&subPanel=_SUBMETER`).then(() => {toast.info("Copied Overlay Url")})}}>Copy URL</button>
                 <button type="button" onClick={saveGauges}>Save</button>
             </div>
             <h2>Custom Gauges</h2>
@@ -160,7 +158,7 @@ export default (props) => {
                 {Object.keys(config.gauges).map((key) => {
                     let gauge = config.gauges[key];
 
-                    if (gauge.type !== "CUSTOM") {
+                    if (key.startsWith("_")) {
                         return null;
                     }
 
@@ -193,6 +191,19 @@ export default (props) => {
                                                 type="number" 
                                                 value={gauge.maxValue}
                                                 disabled={true}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Trigger Event</td>
+                                        <td>
+                                            <select 
+                                                value={gauge.type}
+                                                disabled={true}>
+                                                    <option>Choose Trigger...</option>
+                                                    <option value="SUB">Subscriptions</option>
+                                                    <option value="CHEER">Cheers</option>
+                                                    <option value="CUSTOM">Channel Points</option>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -230,7 +241,6 @@ export default (props) => {
                                     </tr>
                                 </tbody>
                             </table>
-                            <button onClick={() => {navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/util/twitch-tools/overlays/gauges?channelId=${props.channel}&label=${encodeURIComponent(gauge.label)}&subPanel=${key}`).then(() => {toast.info("Copied Overlay Url")})}}>Copy URL</button>
                             <button onClick={() => {removeGauge(key)}}>Delete</button>
                         </>
                     )
@@ -258,6 +268,21 @@ export default (props) => {
                                     onChange={({target: {value}}) => {
                                         updateNewGauge("label", value);
                                     }} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trigger Event</td>
+                            <td>
+                                <select 
+                                    value={newGauge.type}
+                                    onChange={({target: {value}}) => {
+                                        updateNewGauge("type", value);
+                                    }}>
+                                        <option>Choose Trigger...</option>
+                                        <option value="SUB">Subscriptions</option>
+                                        <option value="CHEER">Cheers</option>
+                                        <option value="CUSTOM">Channel Points</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -313,11 +338,6 @@ export default (props) => {
                     </tbody>
                 </table>
                 <button onClick={() => {addGauge()}}>Add</button>
-            </div>
-            <h2>Get Multiblock Overlay</h2>
-            <div style={{marginLeft: "20px"}}>
-                <p>This will give you an overlay that will cycle through all of your gauges.</p>
-                <button onClick={() => {navigator.clipboard.writeText(`${window.location.protocol}//${window.location.host}/util/twitch-tools/overlays/mgauge?channelId=${props.channel}&subPanels=${Object.keys(config.gauges).join(",")}`).then(() => {toast.info("Copied Multi Gauge Overlay Url")})}}>Copy URL</button>
             </div>
             <h2>Create Command Block</h2>
             <div style={{marginLeft: "20px"}}>
