@@ -10,7 +10,7 @@ export default class About extends React.Component {
                 <p>Streamcrabs is an open source Twitch bot and tool for setting up custom alerts and tools.</p>
                 <h2>What does Streamcrabs Currently Support?</h2>
                 <p>Streamcrabs currently supports the following:</p>
-                <ul>
+                <ul style={{textAlign: "left", width: "60%", margin: "auto", listStyleType: "circle"}}>
                     <li>Animated subscription, cheer, follow, and raid alerts utilizing animated gifs, mp4's, and mp3's.</li>
                     <li>Dynamic alerts where the size of the cheer, subscription or raid is reflected in a dynamically generated animation</li>
                     <li>Custom channel point rewards</li>
