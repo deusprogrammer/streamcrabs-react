@@ -32,6 +32,8 @@ const RaidAlertCustomizer = (props) => {
     const [sprites, setSprites] = useState([]);
     const [sfx, setSFX] = useState({});
     const [bgm, setBGM] = useState({});
+    const [sfxVolume, setSFXVolume] = useState(1.0);
+    const [bgmVolume, setBGMVolume] = useState(1.0);
     const [name, setName] = useState("Sprite");
     const [message, setMessage] = useState("Incoming raid of size ${raidSize} from ${raider}");
     const [variant, setVariant] = useState("CHARGE_RIGHT");
@@ -130,11 +132,11 @@ const RaidAlertCustomizer = (props) => {
             }),
             music: {
                 file: bgmFile,
-                volume: 1
+                volume: bgmVolume
             },
             leavingSound: {
                 file: sfxFile,
-                volume: 1
+                volume: sfxVolume
             }
         };
 
@@ -364,6 +366,13 @@ const RaidAlertCustomizer = (props) => {
                                     });
                                     fr.readAsDataURL(f);
                                 }}/>
+                            <input 
+                                type="range" 
+                                min={0} 
+                                max={1} 
+                                step={0.1} 
+                                value={bgmVolume} 
+                                onChange={(e) => {setBGMVolume(parseFloat(e.target.value))}} />
                         </td>
                         <td style={{verticalAlign: "middle"}}>
                             <audio 
@@ -388,6 +397,13 @@ const RaidAlertCustomizer = (props) => {
                                     });
                                     fr.readAsDataURL(f);
                                 }}/>
+                            <input 
+                                type="range" 
+                                min={0} 
+                                max={1} 
+                                step={0.1} 
+                                value={sfxVolume} 
+                                onChange={(e) => {setSFXVolume(parseFloat(e.target.value))}} />
                         </td><td style={{verticalAlign: "middle"}}>
                             <audio 
                                 src={sfx.file} 
