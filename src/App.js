@@ -18,6 +18,8 @@ import Whitelist from './components/Whitelist';
 import GettingStarted from './components/GettingStarted';
 import ChannelPoints from './components/ChannelPoints';
 
+import Menu from './elements/menu';
+
 import SecureRoute from './elements/SecureRoute';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -84,30 +86,63 @@ class App extends React.Component {
     }
     
     render() {
-        let menu;
-
-        if (this.state.isAdmin) {
-            menu = (
-                <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link><br/>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/dynamic-alerts`}>Dynamic Alerts</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/points`}>Channel Points</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/gauges`}>Gauges</Link><br/>
-                    <Link to={`${process.env.PUBLIC_URL}/admin/whitelist`}>Whitelist</Link>
-                </React.Fragment>
-            );
-        } else if (this.state.isBroadcaster) {
-            menu = (
-                <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/guide`}>Getting Started</Link> | <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link><br/>
-                    <Link to={`${process.env.PUBLIC_URL}/`}>Bot</Link> | <Link to={`${process.env.PUBLIC_URL}/overlays`}>Overlays</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/media`}>Media Pool</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/commands`}>Commands</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/alerts`}>Alert Config</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/dynamic-alerts`}>Dynamic Alerts</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/points`}>Channel Points</Link> | <Link to={`${process.env.PUBLIC_URL}/configs/gauges`}>Gauges</Link>
-                </React.Fragment>
-            );
-        } else {
-            menu = (
-                <React.Fragment>
-                    <Link to={`${process.env.PUBLIC_URL}/about`}>About</Link> | <Link to={`${process.env.PUBLIC_URL}/registration/start`}>Get a Bot</Link>
-                </React.Fragment>
-            );
-        }
+        let menu = (
+            <Menu
+                title="Streamcrabs Control Panel"
+                menu={{
+                    "Info": {
+                        items: [
+                            {
+                                label: "About",
+                                to: `${process.env.PUBLIC_URL}/about`
+                            }, {
+                                label: "Getting Started",
+                                to: `${process.env.PUBLIC_URL}/guide`
+                            }
+                        ],
+                        show: true
+                    }, 
+                    "Broadcaster": {
+                        items: [
+                            {
+                                label: "Bot",
+                                to: `${process.env.PUBLIC_URL}/`
+                            }, {
+                                label: "Overlays",
+                                to: `${process.env.PUBLIC_URL}/overlays`
+                            }, {
+                                label: "MediaPool",
+                                to: `${process.env.PUBLIC_URL}/configs/media`
+                            }, {
+                                label: "Commands",
+                                to: `${process.env.PUBLIC_URL}/configs/commands`
+                            }, {
+                                label: "Alert Config",
+                                to: `${process.env.PUBLIC_URL}/configs/alerts`
+                            }, {
+                                label: "Dynamic Alerts",
+                                to: `${process.env.PUBLIC_URL}/configs/dynamic-alerts`
+                            }, {
+                                label: "Channel Points",
+                                to: `${process.env.PUBLIC_URL}/configs/points`
+                            }, {
+                                label: "Gauges",
+                                to: `${process.env.PUBLIC_URL}/configs/gauges`
+                            },
+                        ],
+                        show: this.state.isBroadcaster
+                    },
+                    "Admin": {
+                        items: [
+                            {
+                                label: "Whitelist",
+                                to: `${process.env.PUBLIC_URL}/admin/whitelist`
+                            }
+                        ],
+                        show: this.state.isAdmin
+                    }
+                }} />
+        );
 
         return (
             <div style={{margin: "auto", width: "90%"}}>
