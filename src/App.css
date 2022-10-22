@@ -249,7 +249,6 @@ a {
   border-radius: 15px;
   color: white;
   align-self: center;
-  width: 100%;
 }
 
 button.destructive {
@@ -353,10 +352,6 @@ button {
     color: white;
     border-radius: 15px;
     padding: 15px;
-    width: 100%;
-  }
-
-  button {
     width: 100%;
   }
 }
