@@ -353,7 +353,7 @@ export default class MediaPoolConfig extends React.Component {
         return (
             <div id="media-pool">
                 <div id="audio-pool" className="media-pool-div">
-                    <h3 className="sticky">My Audio</h3>
+                    <h3 className="sticky">Media Pool Audio</h3>
                     <ul>
                         { this.state.audioPool.map((element, index) => {
                             if (!element.volume) {
@@ -400,7 +400,7 @@ export default class MediaPoolConfig extends React.Component {
                     </ul>
                 </div>
                 <div id="video-pool" className="media-pool-div">
-                    <h3 className="sticky">My Video</h3>
+                    <h3 className="sticky">Media Pool Videos</h3>
                     <ul>
                         { this.state.videoPool.map((element, index) => {
                             if (!element.volume) {
@@ -456,7 +456,7 @@ export default class MediaPoolConfig extends React.Component {
                     </ul>
                 </div>
                 <div id="image-pool" className="media-pool-div">
-                    <h3 className="sticky">My Animated Gifs</h3>
+                    <h3 className="sticky">Media Pool Animated Gifs</h3>
                     <ul>
                         { this.state.imagePool.map((element, index) => {
                             return (
@@ -477,7 +477,7 @@ export default class MediaPoolConfig extends React.Component {
                                 </li>)
                         })}
                         <li>
-                            <div className="video-preview" style={{width: "200px", height: "200px"}}>
+                            <div className="video-preview">
                                 <img src={this.state.uploadImageDataUrl} />
                             </div>
                             <div>

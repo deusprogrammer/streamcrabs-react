@@ -1,3 +1,23 @@
+header {
+  position: sticky;
+  top: 0;
+  height: 170px;
+  background-color: black;
+  z-index: 9999;
+}
+
+#channel-selector {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  justify-content: center;
+  text-align: center;
+}
+
+nav {
+  background-color: black;
+}
+
 #login-button {
   padding: 0.5em;
 }
@@ -279,7 +299,7 @@ button.primary {
 .video-preview {
   grid-column-start: 1;
   grid-column-end: 3;
-  justify-self: center;
+  align-self: center;
 }
 
 .video-preview img {
@@ -325,8 +345,8 @@ button {
 @media screen and (max-width: 900px) {
   .sticky {
     position: sticky; 
-    top: 0;
-    z-index: 9999;
+    top: 170px;
+    z-index: 9998;
   }
 
   h1.sticky, h2.sticky, h3.sticky {

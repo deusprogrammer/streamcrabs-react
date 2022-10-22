@@ -180,7 +180,7 @@ const AlertConfig = (props) => {
     return (
         <div>
             <div>
-                <h1>Alert Config</h1>
+                <h2 className="sticky">Alert Config</h2>
                 <h3>Cheer Alert</h3>
                 <AlertConfigElement 
                     type="cheer"

@@ -16,7 +16,7 @@ const RaidAlertManager = (props) => {
 
     return (
         <div>
-            <h1>Dynamic Alerts Manager</h1>
+            <h2 className="sticky">Dynamic Alerts</h2>
             <table className="dynamic-alerts-table">
                 <tbody>
                     {dynamicAlerts.map((dynamicAlert) => {
