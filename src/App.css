@@ -300,10 +300,16 @@ button.primary {
   align-self: center;
 }
 
-.video-preview img {
+.video-preview > *:first-child {
+  width: 100%;
+}
+
+.video-preview > audio {
+  width: 200px !important;
+}
+
+.video-preview > img {
   object-fit: contain;
-  width: 200px;
-  height: 200px;
 }
 
 button {
@@ -314,7 +320,11 @@ button {
   align-self: center;
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 900px) {
+  .video-preview > audio {
+    width: 100% !important;
+  }
+
   .media-pool-div ul {
     flex-direction: row;
     flex-wrap: wrap;
