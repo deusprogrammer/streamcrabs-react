@@ -390,7 +390,7 @@ export default class MediaPoolConfig extends React.Component {
                         })}
                         <li>
                             <div className="video-preview">
-                                <audio src={this.state.uploadAudioDataUrl} width="300px" controls />
+                                <audio src={this.state.uploadAudioDataUrl} width="200px" controls />
                             </div>
                             <input ref={this.audioDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp3" type="file" disabled={this.state.addAudioUrl ? true : false} />
                             <div className="button-bank">
@@ -446,7 +446,7 @@ export default class MediaPoolConfig extends React.Component {
                         })}
                         <li>
                             <div className="video-preview">
-                                <video src={this.state.uploadVideoDataUrl} width="300px" controls />
+                                <video src={this.state.uploadVideoDataUrl} width="200px" controls />
                             </div>
                             <input ref={this.videoDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp4" type="file" disabled={this.state.addVideoUrl ? true : false} />
                             <div className="button-bank">
@@ -465,7 +465,7 @@ export default class MediaPoolConfig extends React.Component {
                                         <img 
                                             id="img-preview"
                                             src={element.url} 
-                                            width="300px" />
+                                            width="200px" />
                                     </div>
                                     <label>Name</label>
                                     <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "image")}} disabled={this.state.saving} />
