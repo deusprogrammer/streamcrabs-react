@@ -216,6 +216,18 @@ a {
   background-color: gray;
 }
 
+.media-pool-div label {
+  font-weight: bolder;
+}
+
+.media-pool-div input[type=range] {
+  width: 100%;
+}
+
+.media-pool-div input[type=range] ~ div {
+  text-align: center;
+}
+
 .media-pool-div ul {
   display: flex;
   flex-direction: column;
@@ -227,8 +239,8 @@ a {
 }
 
 .media-pool-div li, .new-media-form {
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
+  flex-direction: column;
   padding: 15px;
   border-radius: 15px;
   width: 100%;
@@ -352,6 +364,10 @@ button {
     color: white;
     border-radius: 15px;
     padding: 15px;
+    width: 100%;
+  }
+
+  button {
     width: 100%;
   }
 }

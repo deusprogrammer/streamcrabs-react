@@ -431,7 +431,7 @@ export default class MediaPoolConfig extends React.Component {
                                     <label>Volume</label>
                                     <div className="volume-control">
                                         <input type="range" min={0} max={1} step={0.1} value={element.volume} onChange={(e) => {this.updateVolume(e, index, "video")}} />
-                                        <span style={{width: "50px"}}>{element.volume * 100}%</span>
+                                        <div>{element.volume * 100}%</div>
                                     </div>
                                     <div className="random-checkbox">
                                         <input type="checkbox" onChange={(e) => {this.onDisableMedia(e, "video", index)}} checked={element.enabled} disabled={this.state.saving}/>
