@@ -1,3 +1,7 @@
+* {
+  border: 1px solid red;
+}
+
 header {
   background-color: black;
   z-index: 9999;
@@ -7,6 +11,7 @@ header {
   display: flex;
   flex-direction: column;
   background-color: black;
+  color: white;
   justify-content: center;
   text-align: center;
 }
@@ -336,6 +341,11 @@ button {
     border-radius: 15px;
     background-color: rgb(0, 89, 255);
     color: white;
+  }
+
+  #channel-selector {
+    width: 25%;
+    margin: auto;
   }
 }
 
