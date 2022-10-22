@@ -477,7 +477,7 @@ export default class MediaPoolConfig extends React.Component {
                                 </li>)
                         })}
                         <li>
-                            <div className="video-preview" style={{width: "300px", height: "300px"}}>
+                            <div className="video-preview" style={{width: "200px", height: "200px"}}>
                                 <img src={this.state.uploadImageDataUrl} />
                             </div>
                             <div>
