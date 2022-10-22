@@ -301,8 +301,14 @@ button {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
     margin: 0;
     padding: 0;
+  }
+
+  .media-pool-div h3 {
+    text-align: center;
+    padding: 20px 0px;
   }
 
   .media-pool-div li, .new-media-form {
@@ -317,6 +323,17 @@ button {
 }
 
 @media screen and (max-width: 900px) {
+  .sticky {
+    position: sticky; 
+    top: 0;
+    z-index: 9999;
+  }
+
+  h1.sticky, h2.sticky, h3.sticky {
+    background-color: black;
+    width: 100%;
+  }
+
   table {
     width: 100%;
     margin: 0;

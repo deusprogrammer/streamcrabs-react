@@ -353,7 +353,7 @@ export default class MediaPoolConfig extends React.Component {
         return (
             <div id="media-pool">
                 <div id="audio-pool" className="media-pool-div">
-                    <h3>My Audio</h3>
+                    <h3 className="sticky">My Audio</h3>
                     <ul>
                         { this.state.audioPool.map((element, index) => {
                             if (!element.volume) {
@@ -400,7 +400,7 @@ export default class MediaPoolConfig extends React.Component {
                     </ul>
                 </div>
                 <div id="video-pool" className="media-pool-div">
-                    <h3>My Video</h3>
+                    <h3 className="sticky">My Video</h3>
                     <ul>
                         { this.state.videoPool.map((element, index) => {
                             if (!element.volume) {
@@ -456,7 +456,7 @@ export default class MediaPoolConfig extends React.Component {
                     </ul>
                 </div>
                 <div id="image-pool" className="media-pool-div">
-                    <h3>My Animated Gifs</h3>
+                    <h3 className="sticky">My Animated Gifs</h3>
                     <ul>
                         { this.state.imagePool.map((element, index) => {
                             return (
