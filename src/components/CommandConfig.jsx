@@ -86,7 +86,7 @@ const CommandConfig = (props) => {
         <div>
             <div>
                 <h1>Custom Command Configuration</h1>
-                <table className={"command-config-table"}>
+                <table className="command-config-table">
                     <tbody>
                         {Object.keys(commands).map((key) => {
                             let command = commands[key];
@@ -129,7 +129,7 @@ const CommandConfig = (props) => {
                                             {options}
                                         </select>
                                     </td>
-                                    <td><button onClick={() => {removeCommand(key)}}>Delete</button></td>
+                                    <td><button className="destructive" onClick={() => {removeCommand(key)}}>Delete</button></td>
                                 </tr>
                             );
                         })}
@@ -147,11 +147,11 @@ const CommandConfig = (props) => {
                                     {options}
                                 </select>
                             </td>
-                            <td><button onClick={addNewCommand}>Add Command</button></td>
+                            <td><button className="primary" onClick={addNewCommand}>Add Command</button></td>
                         </tr>
                     </tbody>
                 </table>
-                <button onClick={saveCommands}>Save</button>
+                <button className="primary" onClick={saveCommands}>Save</button>
             </div>
             <div>
                 <h2>Cooldown Time Format</h2>

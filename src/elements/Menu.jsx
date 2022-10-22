@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './menu.css';
+import './Menu.css';
 
 export const menu = ({title, menu, className}) => {
     let closeMenu = () => {
@@ -10,7 +10,7 @@ export const menu = ({title, menu, className}) => {
     return (
         <div className={className} id="menu">
             <input id="menu-checkbox" type="checkbox" />
-            <label id="menu-checkbox-label" for="menu-checkbox">
+            <label id="menu-checkbox-label" htmlFor="menu-checkbox">
                 <div id="menu-burger">
                     <div></div>
                     <div></div>

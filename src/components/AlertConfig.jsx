@@ -83,7 +83,7 @@ const AlertConfigElement = (props) => {
 
     return (
         <div>
-            <table>
+            <table className="alert-config-table">
                 <tbody>
                     <tr>
                         <td>Enabled:</td>
@@ -132,7 +132,7 @@ const AlertConfigElement = (props) => {
                     <tr>
                         <td>Message Template:</td>
                         <td>
-                            <input style={{width: "300px"}} type="text" value={props.alertConfig.messageTemplate} onChange={({target}) => {
+                            <input type="text" value={props.alertConfig.messageTemplate} onChange={({target}) => {
                                 props.alertConfig.messageTemplate = target.value;
                                 props.onChange(props.alertConfig);
                             }} disabled={props.saving}/>
@@ -141,7 +141,7 @@ const AlertConfigElement = (props) => {
                     <tr>
                         <td>Sub Panel:</td>
                         <td>
-                            <input style={{width: "300px"}} type="text" value={props.alertConfig.panel} onChange={({target}) => {
+                            <input type="text" value={props.alertConfig.panel} onChange={({target}) => {
                                 props.alertConfig.panel = target.value;
                                 props.onChange(props.alertConfig);
                             }} disabled={props.saving}/>
@@ -233,7 +233,7 @@ const AlertConfig = (props) => {
                             setBotConfig({...botConfig, alertConfigs: updatedAlertConfig});
                         }
                     } />
-                <button onClick={async () => {
+                <button className="primary" onClick={async () => {
                     setSaving(true);
                     await ApiHelper.updateAlertConfig(props.channel, botConfig.alertConfigs);
                     setSaving(false);

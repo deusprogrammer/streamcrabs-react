@@ -33,7 +33,8 @@ export default class MediaPoolConfig extends React.Component {
             videoPreview: {},
             audioPreview: {},
             imagePreview: {},
-            saving: false
+            saving: false,
+            dirtyFlags: {}
         }
     }
 
@@ -224,6 +225,11 @@ export default class MediaPoolConfig extends React.Component {
 
         mediaPool[index].name = e.target.value;
 
+        console.log(`SETTING DIRTY ${type}${index}`);
+        let dirtyFlags = {...this.state.dirtyFlags};
+        dirtyFlags[`${type}${index}`] = true;
+        this.setState({dirtyFlags});
+
         if (type === "audio") {
             this.setState({audioPool: mediaPool});
         } else if (type === "video") {
@@ -248,6 +254,11 @@ export default class MediaPoolConfig extends React.Component {
 
         mediaPool[index].chromaKey = e.target.value;
 
+        console.log(`SETTING DIRTY ${type}${index}`);
+        let dirtyFlags = {...this.state.dirtyFlags};
+        dirtyFlags[`${type}${index}`] = true;
+        this.setState({dirtyFlags});
+
         if (type === "audio") {
             this.setState({audioPool: mediaPool});
         } else if (type === "video") {
@@ -269,6 +280,11 @@ export default class MediaPoolConfig extends React.Component {
         }
 
         mediaPool[index].volume = parseFloat(e.target.value);
+
+        console.log(`SETTING DIRTY ${type}${index}`);
+        let dirtyFlags = {...this.state.dirtyFlags};
+        dirtyFlags[`${type}${index}`] = true;
+        this.setState({dirtyFlags});
 
         if (type === "audio") {
             this.setState({audioPool: mediaPool});
@@ -292,6 +308,11 @@ export default class MediaPoolConfig extends React.Component {
 
         mediaPool[index][portion] = e.target.value;
 
+        console.log(`SETTING DIRTY ${type}${index}`);
+        let dirtyFlags = {...this.state.dirtyFlags};
+        dirtyFlags[`${type}${index}`] = true;
+        this.setState({dirtyFlags});
+
         if (type === "audio") {
             this.setState({audioPool: mediaPool});
         } else if (type === "video") {
@@ -314,6 +335,8 @@ export default class MediaPoolConfig extends React.Component {
             return;
         }
 
+        this.setState({dirtyFlags: {}});
+
         try {
             this.setState({saving: true});
             await ApiHelper.updateBotMediaPool(this.props.channel, type, mediaPool);
@@ -328,141 +351,143 @@ export default class MediaPoolConfig extends React.Component {
 
     render() {
         return (
-            <div>
-                <div style={{display: "table"}}>
-                    <div style={{display: "table-cell"}}>
-                        <h3>My Audio</h3>
-                        <ul>
-                            { this.state.audioPool.map((element, index) => {
-                                if (!element.volume) {
-                                    element.volume = 1.0;
-                                }
-                                
-                                return (
-                                    <li>
+            <div id="media-pool">
+                <div id="audio-pool" className="media-pool-div">
+                    <h3>My Audio</h3>
+                    <ul>
+                        { this.state.audioPool.map((element, index) => {
+                            if (!element.volume) {
+                                element.volume = 1.0;
+                            }
+                            
+                            return (
+                                <li key={`audio${index}`} style={{border: this.state.dirtyFlags[`audio${index}`] ? "2px solid red" : "none"}}>
+                                    <div className="video-preview">
+                                        <audio 
+                                            id="audio-preview"
+                                            src={element.url} 
+                                            width="300px" 
+                                            controls 
+                                            preload="none" />
+                                    </div>
+                                    <label>Name</label>
+                                    <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "audio")}} disabled={this.state.saving} />
+                                    <label>Volume</label>
+                                    <div className="volume-control">
+                                        <input type="range" min={0} max={1} step={0.1} value={element.volume} onChange={(e) => {this.updateVolume(e, index, "audio")}} />
+                                        <span style={{width: "50px"}}>{element.volume * 100}%</span>
+                                    </div>
+                                    <div className="random-checkbox">
                                         <input type="checkbox" onChange={(e) => {this.onDisableMedia(e, "audio", index)}} checked={element.enabled} disabled={this.state.saving}/>
-                                        <button onClick={() => {this.onDeleteMedia("audio", index)}}>X</button>
-                                        <span className={this.state.audioPreview === element.url  ? "selected" : ""} style={{cursor: "pointer"}}>
-                                            <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "audio")}} onBlur={() => {this.saveMediaConfig("audio")}} disabled={this.state.saving} />
-                                            <input type="range" min={0} max={1} step={0.1} value={element.volume} onBlur={() => {this.saveMediaConfig("audio")}} onChange={(e) => {this.updateVolume(e, index, "audio")}} />
-                                            <span style={{width: "50px"}}>{element.volume * 100}%</span>
-                                            <button onClick={() => {this.setState({audioPreview: element.url, selectedAudioIndex: index }); document.getElementById("audio-preview").volume = element.volume;}}>Preview</button>
-                                        </span>
-                                    </li>)
-                            })}                       
-                        </ul>
-                    </div>
-                    <div style={{display: "table-cell", visibility: this.state.selectedAudioIndex >= 0 && this.state.selectedAudioIndex < this.state.audioPool.length ? "visible" : "hidden", verticalAlign: "middle"}}>
-                        <h3>Preview</h3>
-                        <audio 
-                            id="audio-preview"
-                            src={this.state.audioPreview} 
-                            width="300px" 
-                            controls 
-                            onBlur={() => {this.saveMediaConfig("video")}} />
-                    </div>
+                                        <label>Include in Random</label>
+                                    </div>
+                                    <div></div>
+                                    <div className="button-bank">
+                                        <button className="primary" onClick={(e) => {this.saveMediaConfig("audio")}} disabled={!this.state.dirtyFlags[`audio${index}`]}>Save</button>
+                                        <button className="destructive" onClick={() => {this.onDeleteMedia("audio", index)}}>Delete</button>
+                                    </div>
+                                </li>)
+                        })}
+                        <li>
+                            <div className="video-preview">
+                                <audio src={this.state.uploadAudioDataUrl} width="300px" controls />
+                            </div>
+                            <input ref={this.audioDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp3" type="file" disabled={this.state.addAudioUrl ? true : false} />
+                            <div className="button-bank">
+                                <button className="primary" onClick={() => {this.storeMedia("audio")}} disabled={this.state.uploadAudioData || this.state.addAudioUrl || this.state.saving ? false : true}>Store Audio</button>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div style={{border: "1px solid black"}}>
-                    <h3>Add New Audio</h3>
-                    <div style={{display: "table"}}>
-                        <div style={{display: "table-cell", verticalAlign: "middle"}}>
-                            <input ref={this.audioDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp3" type="file" disabled={this.state.addAudioUrl ? true : false} /><br/>
-                            <button onClick={() => {this.storeMedia("audio")}} disabled={this.state.uploadAudioData || this.state.addAudioUrl || this.state.saving ? false : true}>Store Audio</button>
-                        </div>
-                        <div style={{display: "table-cell"}}>
-                            {this.state.uploadAudioDataUrl ? <audio src={this.state.uploadAudioDataUrl} width="300px" controls /> : null}
-                        </div>
-                    </div>
-                </div>
-                <div style={{display: "table"}}>
-                    <div style={{display: "table-cell"}}>
-                        <h3>My Video</h3>
-                        <ul>
-                            { this.state.videoPool.map((element, index) => {
-                                if (!element.volume) {
-                                    element.volume = 1.0;
-                                }
+                <div id="video-pool" className="media-pool-div">
+                    <h3>My Video</h3>
+                    <ul>
+                        { this.state.videoPool.map((element, index) => {
+                            if (!element.volume) {
+                                element.volume = 1.0;
+                            }
 
-                                return (<li>
-                                            <input type="checkbox" onChange={(e) => {this.onDisableMedia(e, "video", index)}} checked={element.enabled} disabled={this.state.saving}/>
-                                            <button onClick={() => {this.onDeleteMedia("video", index)}}>X</button>
-                                            <select 
-                                                defaultValue="none" 
-                                                value={element.chromaKey}
-                                                onChange={(e) => {this.updateChromaKey(e, index, "video")}}
-                                                onBlur={(e) => {this.saveMediaConfig("video")}}>
-                                                    <option value="red">Red</option>
-                                                    <option value="green">Green</option>
-                                                    <option value="blue">Blue</option>
-                                                    <option value="black">Black</option>
-                                                    <option value="none">No Chroma</option>
-                                            </select>
-                                            <span className={this.state.videoPreview === element.url  ? "selected" : ""} style={{cursor: "pointer"}}>
-                                                <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "video")}} onBlur={() => {this.saveMediaConfig("video")}} disabled={this.state.saving} />
-                                                <input type="range" min={0} max={1} step={0.1} value={element.volume} onBlur={() => {this.saveMediaConfig("video")}} onChange={(e) => {this.updateVolume(e, index, "video")}} />
-                                                <span style={{width: "50px"}}>{element.volume * 100}%</span>
-                                                <button onClick={() => {this.setState({videoPreview: element.url, selectedVideoIndex: index }); document.getElementById("video-preview").volume = element.volume;}}>Preview</button>
-                                            </span>
-                                        </li>)
-                            })}                        
-                        </ul>
-                    </div>
-                    <div style={{display: "table-cell", visibility: this.state.selectedVideoIndex >= 0 && this.state.selectedVideoIndex < this.state.videoPool.length ? "visible" : "hidden", verticalAlign: "middle"}}>
-                        <h3>Preview</h3>
-                        <video 
-                            id="video-preview"
-                            src={this.state.videoPreview} 
-                            width="300px" 
-                            controls 
-                            onBlur={() => {this.saveMediaConfig("video")}} />
-                    </div>
+                            return (
+                                <li key={`video${index}`} style={{border: this.state.dirtyFlags[`video${index}`] ? "2px solid red" : "none"}}>
+                                    <div className="video-preview">
+                                        <video 
+                                            src={element.url} 
+                                            width="300px" 
+                                            controls 
+                                            preload="none" />
+                                    </div>
+                                    <label>Name</label>
+                                    <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "video")}} disabled={this.state.saving} />
+                                    <label>Chroma Key</label>
+                                    <select
+                                        value={element.chromaKey}
+                                        onChange={(e) => {this.updateChromaKey(e, index, "video")}}>
+                                            <option value="none">No Chroma</option>
+                                            <option value="red">Red</option>
+                                            <option value="green">Green</option>
+                                            <option value="blue">Blue</option>
+                                            <option value="black">Black</option>
+                                    </select>
+                                    <label>Volume</label>
+                                    <div className="volume-control">
+                                        <input type="range" min={0} max={1} step={0.1} value={element.volume} onChange={(e) => {this.updateVolume(e, index, "video")}} />
+                                        <span style={{width: "50px"}}>{element.volume * 100}%</span>
+                                    </div>
+                                    <div className="random-checkbox">
+                                        <input type="checkbox" onChange={(e) => {this.onDisableMedia(e, "video", index)}} checked={element.enabled} disabled={this.state.saving}/>
+                                        <label>Include in Random</label>
+                                    </div>
+                                    <div></div>
+                                    <div className="button-bank">
+                                        <button className="primary" onClick={() => {this.saveMediaConfig("video")}} disabled={!this.state.dirtyFlags[`video${index}`]}>Save</button>
+                                        <button className="destructive" onClick={() => {this.onDeleteMedia("video", index)}}>Delete</button>
+                                    </div>
+                                </li>)
+                        })}
+                        <li>
+                            <div className="video-preview">
+                                <video src={this.state.uploadVideoDataUrl} width="300px" controls />
+                            </div>
+                            <input ref={this.videoDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp4" type="file" disabled={this.state.addVideoUrl ? true : false} />
+                            <div className="button-bank">
+                                <button className="primary" onClick={() => {this.storeMedia("video")}} disabled={this.state.uploadVideoData || this.state.addVideoUrl || this.state.saving ? false : true}>Store Video</button>
+                            </div>
+                        </li>                      
+                    </ul>
                 </div>
-                <div style={{border: "1px solid black"}}>
-                    <h3>Add New Video</h3>
-                    <div style={{display: "table"}}>
-                        <div style={{display: "table-cell", verticalAlign: "middle"}}>
-                            <input ref={this.videoDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp4" type="file" disabled={this.state.addVideoUrl ? true : false} /><br/>
-                            <button onClick={() => {this.storeMedia("video")}} disabled={this.state.uploadVideoData || this.state.addVideoUrl || this.state.saving ? false : true}>Store Video</button>
-                        </div>
-                        <div style={{display: "table-cell"}}>
-                            {this.state.uploadVideoDataUrl ? <video src={this.state.uploadVideoDataUrl} width="300px" controls /> : null}
-                        </div>
-                    </div>
-                </div>
-                <div style={{display: "table"}}>
-                    <div style={{display: "table-cell"}}>
-                        <h3>My Animated Gifs</h3>
-                        <ul>
-                            { this.state.imagePool.map((element, index) => {
-                                return (<li>
-                                            <button onClick={() => {this.onDeleteMedia("image", index)}}>X</button>
-                                            <span className={this.state.imagePreview === element.url  ? "selected" : ""} style={{cursor: "pointer"}}>
-                                                <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "image")}} onBlur={() => {this.saveMediaConfig("image")}} disabled={this.state.saving} />
-                                                <button onClick={() => {this.setState({imagePreview: element.url, selectedImageIndex: index });}}>Preview</button>
-                                            </span>
-                                        </li>)
-                            })}                        
-                        </ul>
-                    </div>
-                    <div style={{display: "table-cell", visibility: this.state.selectedImageIndex >= 0 && this.state.selectedImageIndex < this.state.imagePool.length ? "visible" : "hidden", verticalAlign: "middle"}}>
-                        <h3>Preview</h3>
-                        <img 
-                            id="img-preview"
-                            src={this.state.imagePreview} 
-                            width="300px" />
-                    </div>
-                </div>
-                <div style={{border: "1px solid black"}}>
-                    <h3>Add New Gif</h3>
-                    <div style={{display: "table"}}>
-                        <div style={{display: "table-cell", verticalAlign: "middle"}}>
-                            <input ref={this.imageDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".gif" type="file" /><br/>
-                            <button onClick={() => {this.storeMedia("image")}} disabled={this.state.uploadImageData || this.state.saving ? false : true}>Store Gif</button>
-                        </div>
-                        <div style={{display: "table-cell"}}>
-                            {this.state.uploadImageDataUrl ? <img src={this.state.uploadImageDataUrl} width="300px" /> : null}
-                        </div>
-                    </div>
+                <div id="image-pool" className="media-pool-div">
+                    <h3>My Animated Gifs</h3>
+                    <ul>
+                        { this.state.imagePool.map((element, index) => {
+                            return (
+                                <li key={`image${index}`} style={{border: this.state.dirtyFlags[`image${index}`] ? "2px solid red" : "none"}}>
+                                    <div className="video-preview">
+                                        <img 
+                                            id="img-preview"
+                                            src={element.url} 
+                                            width="300px" />
+                                    </div>
+                                    <label>Name</label>
+                                    <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "image")}} disabled={this.state.saving} />
+                                    <div></div>
+                                    <div className="button-bank">
+                                        <button className="primary" onClick={() => {this.saveMediaConfig("image")}} disabled={!this.state.dirtyFlags[`image${index}`]}>Save</button>
+                                        <button className="destructive" onClick={() => {this.onDeleteMedia("image", index)}}>Delete</button>
+                                    </div>
+                                </li>)
+                        })}
+                        <li>
+                            <div className="video-preview" style={{width: "300px", height: "300px"}}>
+                                <img src={this.state.uploadImageDataUrl} />
+                            </div>
+                            <div>
+                                <input ref={this.imageDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".gif" type="file" /><br/>
+                                <div className="button-bank">
+                                    <button className="primary" onClick={() => {this.storeMedia("image")}} disabled={this.state.uploadImageData || this.state.saving ? false : true}>Store Gif</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         )

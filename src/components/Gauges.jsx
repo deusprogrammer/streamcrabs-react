@@ -85,7 +85,7 @@ export default (props) => {
             <p>Set your goal gauges here</p>
             <div style={{marginLeft: "20px"}}>
                 <h3>Sub Gauge</h3>
-                <table>
+                <table className="alert-config-table">
                     <tbody>
                         <tr>
                             <td>Label</td>
@@ -150,7 +150,7 @@ export default (props) => {
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" onClick={saveGauges}>Save</button>
+                <button className="primary" type="button" onClick={saveGauges}>Save</button>
             </div>
             <h2>Custom Gauges</h2>
             <p>With this section you can create gauges that can be triggered by channel point redemptions.  The overlay for this is still in development.</p>
@@ -164,7 +164,7 @@ export default (props) => {
 
                     return (
                         <>
-                            <table key={`gauge-${key}`}>
+                            <table className="alert-config-table" key={`gauge-${key}`}>
                                 <tbody>
                                     <tr>
                                         <td>Name</td>
@@ -241,12 +241,12 @@ export default (props) => {
                                     </tr>
                                 </tbody>
                             </table>
-                            <button onClick={() => {removeGauge(key)}}>Delete</button>
+                            <button className="destructive" onClick={() => {removeGauge(key)}}>Delete</button>
                         </>
                     )
                 })}
                 <hr/>
-                <table>
+                <table className="alert-config-table">
                     <tbody>
                         <tr>
                             <td>Name</td>
@@ -342,7 +342,7 @@ export default (props) => {
             <h2>Create Command Block</h2>
             <div style={{marginLeft: "20px"}}>
                 <p>To have a channel point reward trigger a change in a gauge you have to add a command block to the reward description on Twitch.  Use the tool below to create a command block.</p>
-                <table>
+                <table className="command-config-table">
                     <thead style={{textAlign: "center"}}>
                         <tr>
                             <th>Gauge</th>

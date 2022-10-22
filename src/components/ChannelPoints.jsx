@@ -106,7 +106,7 @@ export default (props) => {
             </div>
             <h2>Custom Rewards</h2>
             <div style={{marginLeft: "20px"}}>
-                <table className="config-table">
+                <table className="command-config-table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -177,7 +177,7 @@ export default (props) => {
                                                 updateRedemption(key, "panel", value);
                                             }} />
                                     </td>
-                                    <td><button onClick={() => {removeRedemption(key)}}>Delete</button></td>
+                                    <td><button className="destructive" onClick={() => {removeRedemption(key)}}>Delete</button></td>
                                 </tr>
                             )
                         })}
@@ -235,7 +235,7 @@ export default (props) => {
                         </tr>
                     </tbody>
                 </table>
-                <button>Save</button>
+                <button className="primary">Save</button>
             </div>
         </div>
     )

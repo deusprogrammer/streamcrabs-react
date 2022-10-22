@@ -18,7 +18,7 @@ import Whitelist from './components/Whitelist';
 import GettingStarted from './components/GettingStarted';
 import ChannelPoints from './components/ChannelPoints';
 
-import Menu from './elements/menu';
+import Menu from './elements/Menu';
 
 import SecureRoute from './elements/SecureRoute';
 
