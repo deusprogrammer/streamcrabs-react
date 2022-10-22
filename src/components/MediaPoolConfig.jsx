@@ -366,7 +366,7 @@ export default class MediaPoolConfig extends React.Component {
                                         <audio 
                                             id="audio-preview"
                                             src={element.url} 
-                                            width="300px" 
+                                            width="200px" 
                                             controls 
                                             preload="none" />
                                     </div>
@@ -412,7 +412,7 @@ export default class MediaPoolConfig extends React.Component {
                                     <div className="video-preview">
                                         <video 
                                             src={element.url} 
-                                            width="300px" 
+                                            width="200px" 
                                             controls 
                                             preload="none" />
                                     </div>
@@ -481,7 +481,7 @@ export default class MediaPoolConfig extends React.Component {
                                 <img src={this.state.uploadImageDataUrl} />
                             </div>
                             <div>
-                                <input ref={this.imageDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".gif" type="file" /><br/>
+                                <input ref={this.imageDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".gif" type="file" />
                                 <div className="button-bank">
                                     <button className="primary" onClick={() => {this.storeMedia("image")}} disabled={this.state.uploadImageData || this.state.saving ? false : true}>Store Gif</button>
                                 </div>
