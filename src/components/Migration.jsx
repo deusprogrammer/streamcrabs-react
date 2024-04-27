@@ -6,7 +6,7 @@ const Migration = () => {
     const [migrationCode, setMigrationCode] = useState();
 
     const generateMigrationCode = async () => {
-        let found = await axios.post(`${config.BASE_URL}/one-time-keys`, {
+        let found = await axios.post(`${config.BASE_URL}/one-time-keys`, {}, {
             headers: {
                 "X-Access-Token": localStorage.getItem("accessToken")
             }
