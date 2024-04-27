@@ -28,6 +28,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dev from './devComponents/Dev';
 import Gauges from './components/Gauges';
+import Migration from './components/Migration';
 
 class App extends React.Component {
     state = {
@@ -128,6 +129,9 @@ class App extends React.Component {
                             }, {
                                 label: "Gauges",
                                 to: `${process.env.PUBLIC_URL}/configs/gauges`
+                            }, {
+                                label: "Migrations",
+                                to: `${process.env.PUBLIC_URL}/migrations`
                             },
                         ],
                         show: this.state.isBroadcaster
@@ -195,6 +199,7 @@ class App extends React.Component {
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/dynamic-alert`} render={(props) => {return <DynamicAlertCustomizer {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/dynamic-alert/:id`} render={(props) => {return <DynamicAlertCustomizer {...props} channel={this.state.channel} />}} />
                         <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/configs/dynamic-alerts`} render={(props) => {return <DynamicAlertManager {...props} channel={this.state.channel} />}} />
+                        <SecureRoute isAuthenticated={this.state.isBroadcaster} exact path={`${process.env.PUBLIC_URL}/migrations`} render={(props) => {return <Migration {...props} channel={this.state.channel} />}} />
                         
                         <SecureRoute isAuthenticated={this.state.isAdmin} exact path={`${process.env.PUBLIC_URL}/admin/whitelist`} render={() => {return <Whitelist channel={this.state.channel} />}} />
                     
