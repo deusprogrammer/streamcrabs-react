@@ -85,7 +85,7 @@ const CommandConfig = (props) => {
     return (
         <div>
             <div>
-                <h1>Custom Command Configuration</h1>
+                <h2 className="sticky">Custom Command Configuration</h2>
                 <table className="command-config-table">
                     <tbody>
                         {Object.keys(commands).map((key) => {

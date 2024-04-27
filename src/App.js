@@ -89,7 +89,7 @@ class App extends React.Component {
     render() {
         let menu = (
             <Menu
-                title="Streamcrabs Control Panel"
+                title="Streamcrabs"
                 menu={{
                     "Info": {
                         items: [
@@ -152,32 +152,34 @@ class App extends React.Component {
             <div style={{margin: "auto", width: "90%"}}>
                 <ToastContainer />
                 <Router>
-                    <div style={{textAlign: "right"}}>
-                        {!this.state.isLoggedIn ? 
-                            <button onClick={this.login}>Login</button> : <span>Logged in as {this.state.profile.username}{this.state.isAdmin ? "[ADMIN]" : null}</span>
-                        }
-                    </div>
-                    <div style={{textAlign: "center"}}>
-                        {menu}
-                    </div>
-                    {this.state.isBroadcaster ?
+                    <header>
+                        <div style={{textAlign: "right"}}>
+                            {!this.state.isLoggedIn ? 
+                                <button onClick={this.login}>Login</button> : <span>Logged in as {this.state.profile.username}{this.state.isAdmin ? "[ADMIN]" : null}</span>
+                            }
+                        </div>
                         <div style={{textAlign: "center"}}>
-                            <label>Channel:</label>
-                            <select 
-                                value={this.state.channel}
-                                onChange={(evt) => {
-                                    this.setState({channel: evt.target.value});
-                                    window.localStorage.setItem("channel", evt.target.value);
-                                    window.location.reload();
-                                }}>
-                                { this.state.profile.connected.twitch.channels.map((channel) => {
-                                    return (
-                                        <option key={channel} value={channel}>{channel}</option>
-                                    );
-                                })}
-                            </select>
-                        </div> : null
-                    }
+                            {menu}
+                        </div>
+                        {this.state.isBroadcaster ?
+                            <div id="channel-selector">
+                                <label>Channel</label>
+                                <select 
+                                    value={this.state.channel}
+                                    onChange={(evt) => {
+                                        this.setState({channel: evt.target.value});
+                                        window.localStorage.setItem("channel", evt.target.value);
+                                        window.location.reload();
+                                    }}>
+                                    { this.state.profile.connected.twitch.channels.map((channel) => {
+                                        return (
+                                            <option key={channel} value={channel}>{channel}</option>
+                                        );
+                                    })}
+                                </select>
+                            </div> : null
+                        }
+                    </header>
                     <Switch>
                         { this.state.isLoggedIn ?
                             <Route exact path={`${process.env.PUBLIC_URL}/`} render={(props) => {return <Home {...props} channel={this.state.channel} />}} /> :

@@ -353,7 +353,7 @@ export default class MediaPoolConfig extends React.Component {
         return (
             <div id="media-pool">
                 <div id="audio-pool" className="media-pool-div">
-                    <h3>My Audio</h3>
+                    <h3 className="sticky">Media Pool Audio</h3>
                     <ul>
                         { this.state.audioPool.map((element, index) => {
                             if (!element.volume) {
@@ -365,8 +365,7 @@ export default class MediaPoolConfig extends React.Component {
                                     <div className="video-preview">
                                         <audio 
                                             id="audio-preview"
-                                            src={element.url} 
-                                            width="300px" 
+                                            src={element.url}
                                             controls 
                                             preload="none" />
                                     </div>
@@ -390,7 +389,7 @@ export default class MediaPoolConfig extends React.Component {
                         })}
                         <li>
                             <div className="video-preview">
-                                <audio src={this.state.uploadAudioDataUrl} width="300px" controls />
+                                <audio src={this.state.uploadAudioDataUrl} width="200px" controls />
                             </div>
                             <input ref={this.audioDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp3" type="file" disabled={this.state.addAudioUrl ? true : false} />
                             <div className="button-bank">
@@ -400,7 +399,7 @@ export default class MediaPoolConfig extends React.Component {
                     </ul>
                 </div>
                 <div id="video-pool" className="media-pool-div">
-                    <h3>My Video</h3>
+                    <h3 className="sticky">Media Pool Videos</h3>
                     <ul>
                         { this.state.videoPool.map((element, index) => {
                             if (!element.volume) {
@@ -412,7 +411,7 @@ export default class MediaPoolConfig extends React.Component {
                                     <div className="video-preview">
                                         <video 
                                             src={element.url} 
-                                            width="300px" 
+                                            width="200px" 
                                             controls 
                                             preload="none" />
                                     </div>
@@ -431,7 +430,7 @@ export default class MediaPoolConfig extends React.Component {
                                     <label>Volume</label>
                                     <div className="volume-control">
                                         <input type="range" min={0} max={1} step={0.1} value={element.volume} onChange={(e) => {this.updateVolume(e, index, "video")}} />
-                                        <span style={{width: "50px"}}>{element.volume * 100}%</span>
+                                        <div>{element.volume * 100}%</div>
                                     </div>
                                     <div className="random-checkbox">
                                         <input type="checkbox" onChange={(e) => {this.onDisableMedia(e, "video", index)}} checked={element.enabled} disabled={this.state.saving}/>
@@ -446,7 +445,7 @@ export default class MediaPoolConfig extends React.Component {
                         })}
                         <li>
                             <div className="video-preview">
-                                <video src={this.state.uploadVideoDataUrl} width="300px" controls />
+                                <video src={this.state.uploadVideoDataUrl} controls />
                             </div>
                             <input ref={this.videoDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".mp4" type="file" disabled={this.state.addVideoUrl ? true : false} />
                             <div className="button-bank">
@@ -456,7 +455,7 @@ export default class MediaPoolConfig extends React.Component {
                     </ul>
                 </div>
                 <div id="image-pool" className="media-pool-div">
-                    <h3>My Animated Gifs</h3>
+                    <h3 className="sticky">Media Pool Animated Gifs</h3>
                     <ul>
                         { this.state.imagePool.map((element, index) => {
                             return (
@@ -464,8 +463,7 @@ export default class MediaPoolConfig extends React.Component {
                                     <div className="video-preview">
                                         <img 
                                             id="img-preview"
-                                            src={element.url} 
-                                            width="300px" />
+                                            src={element.url} />
                                     </div>
                                     <label>Name</label>
                                     <input type="text" value={element.name} onChange={(e) => {this.updateMedia(e, index, "image")}} disabled={this.state.saving} />
@@ -477,14 +475,12 @@ export default class MediaPoolConfig extends React.Component {
                                 </li>)
                         })}
                         <li>
-                            <div className="video-preview" style={{width: "300px", height: "300px"}}>
+                            <div className="video-preview">
                                 <img src={this.state.uploadImageDataUrl} />
                             </div>
-                            <div>
-                                <input ref={this.imageDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".gif" type="file" /><br/>
-                                <div className="button-bank">
-                                    <button className="primary" onClick={() => {this.storeMedia("image")}} disabled={this.state.uploadImageData || this.state.saving ? false : true}>Store Gif</button>
-                                </div>
+                            <input ref={this.imageDataRef} onChange={(e) => {this.onFileLoaded(e)}} accept=".gif" type="file" />
+                            <div className="button-bank">
+                                <button className="primary" onClick={() => {this.storeMedia("image")}} disabled={this.state.uploadImageData || this.state.saving ? false : true}>Store Gif</button>
                             </div>
                         </li>
                     </ul>

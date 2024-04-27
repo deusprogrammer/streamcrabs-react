@@ -80,11 +80,9 @@ export default (props) => {
 
     return (
         <div>
-            <h1>Gauges</h1>
-            <h2>Goal Gauges</h2>
-            <p>Set your goal gauges here</p>
+            <h2 className="sticky">Gauges</h2>
+            <h3>Sub Gauge</h3>
             <div style={{marginLeft: "20px"}}>
-                <h3>Sub Gauge</h3>
                 <table className="alert-config-table">
                     <tbody>
                         <tr>
@@ -152,7 +150,7 @@ export default (props) => {
                 </table>
                 <button className="primary" type="button" onClick={saveGauges}>Save</button>
             </div>
-            <h2>Custom Gauges</h2>
+            <h3>Custom Gauges</h3>
             <p>With this section you can create gauges that can be triggered by channel point redemptions.  The overlay for this is still in development.</p>
             <div style={{marginLeft: "20px"}}>
                 {Object.keys(config.gauges).map((key) => {
@@ -339,7 +337,7 @@ export default (props) => {
                 </table>
                 <button onClick={() => {addGauge()}}>Add</button>
             </div>
-            <h2>Create Command Block</h2>
+            <h3>Create Command Block</h3>
             <div style={{marginLeft: "20px"}}>
                 <p>To have a channel point reward trigger a change in a gauge you have to add a command block to the reward description on Twitch.  Use the tool below to create a command block.</p>
                 <table className="command-config-table">

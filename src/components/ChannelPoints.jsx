@@ -90,10 +90,10 @@ export default (props) => {
 
     return (
         <div>
-            <h1>Channel Point Rewards</h1>
+            <h2 className="sticky">Channel Point Rewards</h2>
             <p>With this section you can add some premade channel point rewards to your channel that will trigger some neat things.  Eventually we will have custom rewards you can create yourself for anything from custom gagues to custom video/sound content.</p>
             <p>Random video and sound is sourced from your media pool.  Any item in your media pool that is checked will be included in the random selections of these rewards.</p>
-            <h2>Standard Rewards</h2>
+            <h3>Standard Rewards</h3>
             <div style={{marginLeft: "20px"}}>
             {rewardNames.map((rewardName) => {
                 let reward = rewards.find(reward => reward.title.toLowerCase() === rewardName)
@@ -104,7 +104,7 @@ export default (props) => {
                 }
             })}
             </div>
-            <h2>Custom Rewards</h2>
+            <h3>Custom Rewards</h3>
             <div style={{marginLeft: "20px"}}>
                 <table className="command-config-table">
                     <thead>

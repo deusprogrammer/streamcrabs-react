@@ -1,3 +1,21 @@
+header {
+  background-color: black;
+  z-index: 9999;
+}
+
+#channel-selector {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+  justify-content: center;
+  text-align: center;
+}
+
+nav {
+  background-color: black;
+}
+
 #login-button {
   padding: 0.5em;
 }
@@ -216,6 +234,18 @@ a {
   background-color: gray;
 }
 
+.media-pool-div label {
+  font-weight: bolder;
+}
+
+.media-pool-div input[type=range] {
+  width: 100%;
+}
+
+.media-pool-div input[type=range] ~ div {
+  text-align: center;
+}
+
 .media-pool-div ul {
   display: flex;
   flex-direction: column;
@@ -227,8 +257,8 @@ a {
 }
 
 .media-pool-div li, .new-media-form {
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
+  flex-direction: column;
   padding: 15px;
   border-radius: 15px;
   width: 100%;
@@ -267,13 +297,19 @@ button.primary {
 .video-preview {
   grid-column-start: 1;
   grid-column-end: 3;
-  justify-self: center;
+  align-self: center;
 }
 
-.video-preview img {
+.video-preview > *:first-child {
+  width: 100%;
+}
+
+.video-preview > audio {
+  width: 200px !important;
+}
+
+.video-preview > img {
   object-fit: contain;
-  width: 300px;
-  height: 300px;
 }
 
 button {
@@ -284,13 +320,23 @@ button {
   align-self: center;
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 900px) {
+  .video-preview > audio {
+    width: 100% !important;
+  }
+
   .media-pool-div ul {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
     margin: 0;
     padding: 0;
+  }
+
+  .media-pool-div h3 {
+    text-align: center;
+    padding: 20px 0px;
   }
 
   .media-pool-div li, .new-media-form {
@@ -302,9 +348,25 @@ button {
     background-color: rgb(0, 89, 255);
     color: white;
   }
+
+  #channel-selector {
+    width: 25%;
+    margin: auto;
+  }
 }
 
 @media screen and (max-width: 900px) {
+  .sticky {
+    position: sticky; 
+    top: 0;
+    z-index: 9998;
+  }
+
+  h1.sticky, h2.sticky, h3.sticky {
+    background-color: black;
+    width: 100%;
+  }
+
   table {
     width: 100%;
     margin: 0;
@@ -352,6 +414,10 @@ button {
     color: white;
     border-radius: 15px;
     padding: 15px;
+    width: 100%;
+  }
+
+  button {
     width: 100%;
   }
 }
